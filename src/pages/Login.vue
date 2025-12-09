@@ -6,8 +6,8 @@ import WellfedLogoVue from "../components/WellfedLogo.vue";
 const email: string = "";
 const password: string = "";
 
-function login(email: string, password: string){
-    fetch(import.meta.env.VITE_BACKEND_URL + "/login", {
+function login(email: string, password: string) {
+    fetch(import.meta.env.VITE_BACKEND_URL_API + "/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
