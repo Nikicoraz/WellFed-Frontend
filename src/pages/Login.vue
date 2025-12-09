@@ -32,7 +32,7 @@
     }
 </script>
 <template>
-    <div class="h-screen flex" @keypress.enter.native="login()">
+    <div class="h-screen flex bg-[url('/sfondo.png')] bg-size-[10%]" @keypress.enter.native="login()">
         <div class="m-auto flex flex-col gap-2 max-w-sm items-center rounded-xl bg-white p-12 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
             <WellfedLogoVue></WellfedLogoVue>
             <p>{{ $t("login.credenziali") }}</p>

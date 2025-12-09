@@ -85,7 +85,7 @@
 </script>
 
 <template>
-    <div class="h-screen flex">
+    <div class="h-screen flex bg-[url('/sfondo.png')] bg-size-[10%]">
         <div class="m-auto flex flex-col gap-2 max-w-sm items-center rounded-xl bg-white p-12 shadow-lg outline outline-black/5">
             <div class="relative w-full">
                 <span class="absolute -top-4 -left-4 p-4 border border-black rounded-full cursor-pointer" @click="router.push('/login')"><</span>
