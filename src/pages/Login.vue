@@ -3,7 +3,9 @@
     import { router } from "../extensions/router";
     import WellfedLogoVue from "../components/WellfedLogo.vue";
     import { ref } from "vue";
+    import { useI18n } from "vue-i18n";
 
+    const {t} = useI18n();
     const email = ref("");
     const password = ref("");
 
@@ -19,7 +21,7 @@
             })
         }).then(async e => {
             if(e.status == 401) {
-                alert("Authentication failed");
+                alert(t("alerts.autenticazioneFallita"));
                 return;
             }
             const data = await e.json();
@@ -27,7 +29,7 @@
             router.push(e.headers.get("Location") ?? "/");
         }).catch(e => {
             console.log(e);
-            alert("Authentication failed");
+            alert(t("alerts.autenticazioneFallita"));
         });
     }
 </script>

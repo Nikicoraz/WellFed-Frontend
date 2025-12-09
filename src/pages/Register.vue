@@ -5,6 +5,9 @@
     import UserSelection from "../components/UserSelection.vue";
     import clientImage from "../assets/user.svg"
     import shopImage from "../assets/shop.svg"
+    import { useI18n } from "vue-i18n";
+
+    const {t} = useI18n();
     let isClient = ref(true)
 
     const username = ref("");
@@ -26,29 +29,31 @@
                 password: password.value
             })
         }).then(e => {
-            if (e.status == 400) {
-                alert("Invalid data entered!");
-                return;
-            }
-
-            if (e.status == 409) {
-                alert("The email is already in use!");
-                return;
-            }
-
-            if (e.status == 201) {
-                alert("The account has been created");
-                router.push("/login");
-                return;
+            switch (e.status) {
+                case 400:
+                    alert(t("alerts.datiNonValidi"));
+                    break;
+                case 409:
+                    alert(t("alerts.emailInUso"));
+                    break;
+                case 201:
+                    alert(t("register.creato"));
+                    router.push("/login");
+                    break;
             }
         }).catch((e) => {
             console.error(e);
-            alert("Error during account creation");
+            alert(t("alerts.erroreAccount"));
         });
     }
 
     function registerMerchant(){
-        const file = image.value!.files![0];
+        if(!image.value || !image.value.files) {
+            alert(t("alerts.noimage"));
+            return;
+        }
+
+        const file = image.value.files[0];
 
         const formData = new FormData();
         formData.append("image", file!);
@@ -64,22 +69,22 @@
         }).then(e => {
             switch (e.status) {
                 case 400:
-                    alert("Invalid data inserted!");
+                    alert(t("alerts.datiNonValidi"));
                     break;
                 case 403:
-                    alert("Partita IVA validation failed");
+                    alert(t("alerts.partitaIVAInvalida"));
                     break;
                 case 409:
-                    alert("Email is already in use!");
+                    alert(t("alerts.emailInUso"));
                     break;
                 case 202:
-                    alert("Account taken into processing");
+                    alert(t("register.processando"));
                     router.push("/login");
                     break;
             }
         }).catch((e) => {
             console.error(e);
-            alert("Error during account creation");
+            alert(t("alerts.erroreAccount"));
         });
     }
 </script>
