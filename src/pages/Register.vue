@@ -80,7 +80,7 @@
     }
 
     function registerMerchant(){
-        if(!image.value || !image.value.files) {
+        if(!image.value || !image.value.files || image.value.files.length == 0) {
             errorMessage.value = t("alerts.noimage");
             showError(errorVisibility, 5000);
             return;

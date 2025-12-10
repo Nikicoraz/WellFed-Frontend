@@ -21,6 +21,7 @@ export default {
         partitaIVAInvalida: "La validazione della partita IVA è fallita",
         emailInUso: "L'email inserita ha già un account registrato",
         erroreAccount: "Errore durante la creazione dell'account",
-        autenticazioneFallita: "Autenticazione fallita"
+        autenticazioneFallita: "Autenticazione fallita",
+        noimage: "Occorre inserire un'immagine!"
     }
 };
