@@ -8,6 +8,7 @@
     import backArrow from "../assets/back.svg";
     import { useI18n } from "vue-i18n";
     import Alert, { AlertType, showError } from "../components/Alert.vue";
+    import { GoogleLogin } from "vue3-google-login";
 
     const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-_]).{8,40}$/;
     const simpleEmailRegex = /.+(\..+)?@.+\..{2,3}/;
@@ -126,6 +127,40 @@
             showError(errorVisibility, 5000);
         });
     }
+
+    function googleClientRegister(response: any) {
+        const token: string = response.credential;
+        // TODO: cambia url
+        fetch(import.meta.env.VITE_BACKEND_URL + "/register/client/SSO", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: token
+            })
+        }).then(e => {
+            switch (e.status) {
+                case 400:
+                    errorMessage.value = t("alerts.datiNonValidi")
+                    break;
+                case 401:
+                    errorMessage.value = t("alerts.googleTokenInvalido");
+                    break;
+                case 409:
+                    errorMessage.value = t("alerts.emailInUsoSSO");
+                    break;
+                case 422:
+                    errorMessage.value = t("alerts.emailInUsoLocale");
+                    break;
+                case 201:
+                    alert(t("register.creato"));
+                    router.push("/login");
+                    break;
+            }
+            showError(errorVisibility, 5000);
+        })
+    }
 </script>
 
 <template>
@@ -147,6 +182,7 @@
                 <input required type="email" class="input-1" placeholder="Email" v-model="email">
                 <input required type="password" class="input-1" placeholder="Password" v-model="password">
                 <input required type="submit" :value="$t('login.registrati')" @click="registerClient" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
+                <GoogleLogin :callback="googleClientRegister" :button-config="{text: 'signup_with'}" />
             </div>
     
             <!-- The merchant registration form -->
