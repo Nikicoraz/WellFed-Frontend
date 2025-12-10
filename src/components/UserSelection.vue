@@ -11,25 +11,17 @@
 </script>
 
 <template>
-    <div class="hover-3d cursor-pointer" @click="props.callback!">
-        <div class="text-center h-20 outline px-4 outline-black/10 shadow-lg rounded-2xl">
-            {{ $t(props.name!) }}
-            <div class="w-full">
-                <figure class="w-full">
-                    <img :src="props.image" alt="" class="aspect-square w-full h-10">
-                </figure>
-    
-            </div>
-        </div>
+    <div class="text-center h-20 scale-100 outline px-4 outline-black/20 hover:outline-lime-900 duration-400 transition-all rounded-xl cursor-pointer hover:scale-105" @click="props.callback!">
+        {{ $t(props.name!) }}
+        <div class="w-full">
+            <figure class="w-full">
+                <img :src="props.image" alt="" class="aspect-square w-full h-10">
+            </figure>
 
-        <!-- 8 empty divs needed for the 3D effect -->
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        </div>
     </div>
 </template>
+
+<style scoped>
+
+</style>

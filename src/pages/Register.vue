@@ -5,6 +5,7 @@
     import UserSelection from "../components/UserSelection.vue";
     import clientImage from "../assets/user.svg"
     import shopImage from "../assets/shop.svg"
+    import backArrow from "../assets/back.svg";
     import { useI18n } from "vue-i18n";
 
     const {t} = useI18n();
@@ -93,11 +94,11 @@
     <div class="h-screen flex bg-[url('/sfondo.png')] bg-size-[10%]">
         <div class="m-auto flex flex-col gap-2 max-w-sm items-center rounded-xl bg-white p-12 shadow-lg outline outline-black/5">
             <div class="relative w-full">
-                <span class="absolute -top-4 -left-4 border border-black rounded-full cursor-pointer size-8 inline-flex items-center justify-center" @click="router.push('/login')"><</span>
+                <img class="absolute -top-4 -left-4 border border-black rounded-full cursor-pointer size-8 inline-flex items-center justify-center" :src="backArrow" @click="router.push('/login')"></img>
             </div>
             <WellfedLogo/>
             <p>{{ $t("register.informazioni") }}</p>
-            <div class="flex gap-2">
+            <div class="flex gap-4">
                 <UserSelection name="register.cliente" :image="clientImage" :callback="() => {isClient = true}"></UserSelection>
                 <UserSelection name="register.commerciante" :image="shopImage" :callback="() => {isClient = false}"></UserSelection>
             </div>
