@@ -12,7 +12,9 @@ export default {
         cliente: "Cliente",
         commerciante: "Commerciante",
         processando: "L'account sta venendo processato",
-        creato: "L'account è stato creato"
+        creato: "L'account è stato creato",
+        reqPassword: "La password non rispetta i requisiti minimi di sicurezza, deve essere lunga almeno 8 caratteri e contenere: una lettera minuscola, una lettera maiuscola, un numero e un carattere speciale",
+        reqEmail: "L'email inserita non è valida!",
     },
     alerts: {
         datiNonValidi: "Sono stati inseriti dati non validi!",

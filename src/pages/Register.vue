@@ -7,9 +7,15 @@
     import shopImage from "../assets/shop.svg"
     import backArrow from "../assets/back.svg";
     import { useI18n } from "vue-i18n";
+    import Alert, { AlertType, showError } from "../components/Alert.vue";
 
+    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-_]).{8,40}$/;
+    const simpleEmailRegex = /.+(\..+)?@.+\..{2,3}/;
     const {t} = useI18n();
     let isClient = ref(true)
+
+    const errorMessage = ref("");
+    const errorVisibility = ref(false);
 
     const username = ref("");
     const email = ref("");
@@ -18,7 +24,28 @@
     const indirizzo = ref("");
     const image = ref<HTMLInputElement | null>(null)
 
+
+    function commonValidations(): boolean {
+        if(!email.value.match(simpleEmailRegex)) {
+            errorMessage.value = t("register.reqEmail");
+            showError(errorVisibility, 5000);
+            return false;
+        }
+
+        if(!password.value.match(passwordRegex)) {
+            errorMessage.value = t("register.reqPassword");
+            showError(errorVisibility, 5000);
+            return false;
+        }
+
+        return true;
+    }        
+
     function registerClient(){
+        if(!commonValidations()) {
+            return;
+        }
+
         fetch(import.meta.env.VITE_BACKEND_URL + "/register/client", {
             method: "POST",
             headers: {
@@ -32,25 +59,34 @@
         }).then(e => {
             switch (e.status) {
                 case 400:
-                    alert(t("alerts.datiNonValidi"));
+                    errorMessage.value = t("alerts.datiNonValidi")
+                    showError(errorVisibility, 5000);
                     break;
                 case 409:
-                    alert(t("alerts.emailInUso"));
+                    errorMessage.value = t("alerts.emailInUso");
+                    showError(errorVisibility, 5000);
                     break;
                 case 201:
+                    // Lasciato un alert siccome subito dopo c'è un redirect
                     alert(t("register.creato"));
                     router.push("/login");
                     break;
             }
         }).catch((e) => {
             console.error(e);
-            alert(t("alerts.erroreAccount"));
+            errorMessage.value = t("alerts.erroreAccount")
+            showError(errorVisibility, 5000);
         });
     }
 
     function registerMerchant(){
         if(!image.value || !image.value.files) {
-            alert(t("alerts.noimage"));
+            errorMessage.value = t("alerts.noimage");
+            showError(errorVisibility, 5000);
+            return;
+        }
+
+        if(!commonValidations()) {
             return;
         }
 
@@ -70,22 +106,24 @@
         }).then(e => {
             switch (e.status) {
                 case 400:
-                    alert(t("alerts.datiNonValidi"));
+                    errorMessage.value = t("alerts.datiNonValidi")
                     break;
                 case 403:
-                    alert(t("alerts.partitaIVAInvalida"));
+                    errorMessage.value = t("alerts.partitaIVAInvalida");
                     break;
                 case 409:
-                    alert(t("alerts.emailInUso"));
+                    errorMessage.value = t("alerts.emailInUso");
                     break;
                 case 202:
                     alert(t("register.processando"));
                     router.push("/login");
                     break;
             }
+            showError(errorVisibility, 5000);
         }).catch((e) => {
             console.error(e);
-            alert(t("alerts.erroreAccount"));
+            errorMessage.value = t("alerts.erroreAccount")
+            showError(errorVisibility, 5000);
         });
     }
 </script>
@@ -122,7 +160,10 @@
                 <input required type="submit" :value="$t('login.registrati')" @click="registerMerchant" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
             </div>
         </div>
-    </div>
+        <Transition>
+            <Alert :alert-type="AlertType.Error" :message="errorMessage" v-if="errorVisibility" />
+        </Transition>
+</div>
 </template>
 
 <style scoped >
