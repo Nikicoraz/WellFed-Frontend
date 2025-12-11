@@ -86,9 +86,41 @@
             errorMessage = t("alerts.noimage");
             return;
         }
+    }).catch(() => {
+        // TODO: error handling
+    });
+}
 
-        if (!commonValidations()) {
-            return;
+function registerCommerciante(){
+    const file = image.value!.files![0];
+
+
+    const formData = new FormData();
+    formData.append("image", file!);
+    formData.append("name", username.value);
+    formData.append("partitaIVA", partitaIVA.value);
+    formData.append("address", indirizzo.value);
+    formData.append("password", password.value);
+    formData.append("email", email.value);
+
+    fetch(import.meta.env.VITE_BACKEND_URL_API + "/register/merchant", {
+        method: "POST",
+        body: formData
+    }).then(e => {
+        switch (e.status) {
+            case 400:
+                alert("Invalid data inserted!");
+                break;
+            case 403:
+                alert("Partita IVA validation failed");
+                break;
+            case 409:
+                alert("Email is already in use!");
+                break;
+            case 202:
+                alert("Account taken into processing");
+                router.push("/login");
+                break;
         }
 
         const file = image.value.files[0];
@@ -201,7 +233,7 @@
     </div>
 </template>
 
-<style scoped >
+<style scoped>
     @reference "tailwindcss";
     .input-1 {
         @apply border border-black rounded-lg text-center
