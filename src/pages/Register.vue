@@ -25,13 +25,8 @@
 
     // Non ho idea di che tipo sia 
     const alertRef: Ref<any> = ref(null);
-    // Non so se si può fare in modo che triggerAlert e alertRef siano delle cose "importabili" in modo da non dover scriverle in ogni pagina
-    // Cmq secondo me è meglio così perché l'html dell'alert è pulito e basta chiamare una sola funzione
-    // Inoltre così possiamo fare diversi metodi 
-    // Alla fine per usare gli alert bisogna dare un ref ad alert e dove si vuole nel codice si fa alertRef.value.funz;
-    // Se pensi che vada bene così fai un commit dove togli sto commento e mergiamo
     function triggerErrorAlert(msg: String) {
-        alertRef.value?.showError(msg);
+        alertRef.value?.showError(AlertType.Error, msg);
     }
 
     function commonValidations(): boolean {
