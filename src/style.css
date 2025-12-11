@@ -5,3 +5,7 @@
 * {
   font-family: Belgrano;
 }
+
+@theme {
+  --color-fed-green: #879D68;
+}

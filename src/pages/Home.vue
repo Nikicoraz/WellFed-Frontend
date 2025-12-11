@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import cookies from 'vue-cookies';
 import { router } from '../extensions/router';
+import SearchBar from '../components/NavBar.vue';
 
     const token = (cookies as any).get("token");
     if(!token) {
@@ -9,5 +10,5 @@ import { router } from '../extensions/router';
 </script>
 
 <template>
-    <h1>Ciaoo</h1>
+    <SearchBar />
 </template>
