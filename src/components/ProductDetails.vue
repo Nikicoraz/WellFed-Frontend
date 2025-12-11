@@ -1,0 +1,51 @@
+<script setup>
+    import { ref, onMounted } from "vue";
+    import ProductsCustomer from "./ProductsCustomer.vue";
+    const props = defineProps({
+        shopId: String,
+        productId: String
+    });
+
+    const product = ref(null);
+    const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
+
+    onMounted(async () => {
+        product.value = await fetch(`${import.meta.env.VITE_BACKEND_URL_API}/shops/${props.shopId}/products/${props.productId}`)
+            .then((res) => { return res.json(); });
+    });
+
+    const dialog = ref(null)
+
+    function open() {
+        dialog.value?.showModal()
+    }
+
+    defineExpose({ open })
+</script>
+
+<template>
+    <dialog ref="dialog" class="modal">
+        <div v-if="product" class="modal-box">
+            <div class="flex my-4">
+                <div>
+                    <h2 class="text-2xl font-bold">{{ product.name }}</h2>
+                    <ul class="py-4">
+                        <li>Description: {{ product.description }}</li>
+                        <li>Origin: {{ product.origin }}</li>
+                        <li>Points: {{ product.points }}</li>
+                    </ul>
+                </div>
+                <img 
+                    class="float-right"
+                    :src="`${backendUrl}${product.image}`"
+                    :alt="product.name"
+                />
+            </div>
+            <div class="my-4 modal-action">
+                <form method="dialog">
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+</template>
