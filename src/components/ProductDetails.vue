@@ -9,18 +9,15 @@
     const product = ref(null);
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
 
-    onMounted(async () => {
+    const dialog = ref(null);
+
+    async function open() {
         product.value = await fetch(`${import.meta.env.VITE_BACKEND_URL_API}/shops/${props.shopId}/products/${props.productId}`)
             .then((res) => { return res.json(); });
-    });
-
-    const dialog = ref(null)
-
-    function open() {
         dialog.value?.showModal()
     }
 
-    defineExpose({ open })
+    defineExpose({ open });
 </script>
 
 <template>

@@ -14,10 +14,10 @@
     const detailsProductId = ref("");
     const modalRef: Ref<any> = ref(null);
 
-    function showDetails(productId: string) {
-        details.value = true;
+    async function showDetails(productId: string) {
         detailsProductId.value = productId;
         modalRef.value?.open();
+        details.value = true;
     }
 
     onMounted(async () => {
