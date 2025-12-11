@@ -12,7 +12,8 @@ export default {
         cliente: "Cliente",
         commerciante: "Commerciante",
         processando: "L'account sta venendo processato",
-        creato: "L'account è stato creato"
+        creato: "L'account è stato creato",
+        formatoPassword: "Almeno 8 caratteri, una lettera minuscola, una lettera maiuscola, un numero e un carattere speciale"
     },
     alerts: {
         datiNonValidi: "Sono stati inseriti dati non validi!",
