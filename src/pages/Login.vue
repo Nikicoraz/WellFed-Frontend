@@ -6,7 +6,7 @@
     import { useI18n } from "vue-i18n";
     import { GoogleLogin } from "vue3-google-login";
     import Alert from "../components/Alert.vue";
-import AlertType from "../types/alert";
+    import AlertType from "../types/alert";
 
 
     const {t} = useI18n();
@@ -20,7 +20,7 @@ import AlertType from "../types/alert";
     }
 
     function login(){
-        fetch(import.meta.env.VITE_BACKEND_URL + "/login", {
+        fetch(import.meta.env.VITE_BACKEND_URL_API + "/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -47,7 +47,7 @@ import AlertType from "../types/alert";
         const token: string = response.credential;
 
         // TODO: Cambia URL
-        fetch(import.meta.env.VITE_BACKEND_URL + "/login/SSO", {
+        fetch(import.meta.env.VITE_BACKEND_URL_API + "/login/SSO", {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json"
@@ -101,7 +101,5 @@ import AlertType from "../types/alert";
 
     .btn-1 {
         @apply p-4 border border-black bg-lime-700 text-white rounded-lg hover:bg-lime-800;
-    }
-
-    
+    }    
 </style>
