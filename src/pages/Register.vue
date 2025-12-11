@@ -12,8 +12,6 @@
     import Alert from "../components/Alert.vue";
     import AlertType from "../types/alert";
 
-    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-_]).{8,40}$/;
-    const simpleEmailRegex = /.+(\..+)?@.+\..{2,3}/;
     const {t} = useI18n();
     let isClient = ref(true);
 
@@ -42,21 +40,7 @@
     const alertRef: Ref<any> = ref(null);
     function triggerErrorAlert(msg: String) {
         alertRef.value?.showError(AlertType.Error, msg);
-    }
-
-    function commonValidations(): boolean {
-        if(!email.value.match(simpleEmailRegex)) {
-            triggerErrorAlert(t("register.reqEmail"));
-            return false;
-        }
-
-        if(!password.value.match(passwordRegex)) {
-            triggerErrorAlert(t("register.reqPassword"));
-            return false;
-        }
-
-        return true;
-    }        
+    }   
 
     function registerClient(){
         if(!validateInputs(clientForm.value!)) {
@@ -117,6 +101,8 @@
             method: "POST",
             body: formData
         }).then(e => {
+            let errorMessage = "";
+
             switch (e.status) {
                 case 400:
                     errorMessage = t("alerts.datiNonValidi");
@@ -142,7 +128,6 @@
 
     function googleClientRegister(response: any) {
         const token: string = response.credential;
-        // TODO: cambia url
         fetch(import.meta.env.VITE_BACKEND_URL_API + "/register/client/SSO", {
             method: "POST",
             headers: {
