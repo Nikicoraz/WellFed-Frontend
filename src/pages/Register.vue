@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import { ref } from "vue";
+    import type { Ref } from "vue";
     import WellfedLogo from "../components/WellfedLogo.vue";
     import { router } from "../extensions/router";
     import UserSelection from "../components/UserSelection.vue";
@@ -7,9 +8,13 @@
     import shopImage from "../assets/shop.svg"
     import backArrow from "../assets/back.svg";
     import { useI18n } from "vue-i18n";
+    import Alert from "../components/Alert.vue";
+    import AlertType from "../types/alert";
 
+    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-_]).{8,40}$/;
+    const simpleEmailRegex = /.+(\..+)?@.+\..{2,3}/;
     const {t} = useI18n();
-    let isClient = ref(true)
+    let isClient = ref(true);
 
     const username = ref("");
     const email = ref("");
@@ -18,7 +23,31 @@
     const indirizzo = ref("");
     const image = ref<HTMLInputElement | null>(null)
 
+    // Non ho idea di che tipo sia 
+    const alertRef: Ref<any> = ref(null);
+    function triggerErrorAlert(msg: String) {
+        alertRef.value?.showError(AlertType.Error, msg);
+    }
+
+    function commonValidations(): boolean {
+        if(!email.value.match(simpleEmailRegex)) {
+            triggerErrorAlert(t("register.reqEmail"));
+            return false;
+        }
+
+        if(!password.value.match(passwordRegex)) {
+            triggerErrorAlert(t("register.reqPassword"));
+            return false;
+        }
+
+        return true;
+    }        
+
     function registerClient(){
+        if(!commonValidations()) {
+            return;
+        }
+
         fetch(import.meta.env.VITE_BACKEND_URL + "/register/client", {
             method: "POST",
             headers: {
@@ -32,25 +61,32 @@
         }).then(e => {
             switch (e.status) {
                 case 400:
-                    alert(t("alerts.datiNonValidi"));
+                    triggerErrorAlert(t("alerts.datiNonValidi"));
                     break;
                 case 409:
-                    alert(t("alerts.emailInUso"));
+                    triggerErrorAlert(t("alerts.emailInUso"));
                     break;
                 case 201:
+                    // Lasciato un alert siccome subito dopo c'è un redirect
                     alert(t("register.creato"));
                     router.push("/login");
                     break;
             }
         }).catch((e) => {
             console.error(e);
-            alert(t("alerts.erroreAccount"));
+            triggerErrorAlert(t("alerts.erroreAccount"));
         });
     }
 
-    function registerMerchant(){
-        if(!image.value || !image.value.files) {
-            alert(t("alerts.noimage"));
+    function registerMerchant() {
+        let errorMessage: string = "";
+        
+        if (!image.value || !image.value.files || image.value.files.length == 0) {
+            errorMessage = t("alerts.noimage");
+            return;
+        }
+
+        if (!commonValidations()) {
             return;
         }
 
@@ -70,22 +106,24 @@
         }).then(e => {
             switch (e.status) {
                 case 400:
-                    alert(t("alerts.datiNonValidi"));
+                    errorMessage = t("alerts.datiNonValidi");
                     break;
                 case 403:
-                    alert(t("alerts.partitaIVAInvalida"));
+                    errorMessage = t("alerts.partitaIVAInvalida");
                     break;
                 case 409:
-                    alert(t("alerts.emailInUso"));
+                    errorMessage = t("alerts.emailInUso");
                     break;
                 case 202:
                     alert(t("register.processando"));
                     router.push("/login");
                     break;
             }
+            triggerErrorAlert( errorMessage);
+
         }).catch((e) => {
             console.error(e);
-            alert(t("alerts.erroreAccount"));
+            triggerErrorAlert(t("alerts.erroreAccount"));
         });
     }
 </script>
@@ -122,6 +160,7 @@
                 <input required type="submit" :value="$t('login.registrati')" @click="registerMerchant" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
             </div>
         </div>
+        <Alert ref="alertRef"/>
     </div>
 </template>
 
