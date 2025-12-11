@@ -63,7 +63,7 @@
             return;
         }
 
-        fetch(import.meta.env.VITE_BACKEND_URL + "/register/client", {
+        fetch(import.meta.env.VITE_BACKEND_URL_API + "/register/client", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -113,7 +113,7 @@
         formData.append("password", password.value);
         formData.append("email", email.value);
 
-        fetch(import.meta.env.VITE_BACKEND_URL + "/register/merchant", {
+        fetch(import.meta.env.VITE_BACKEND_URL_API + "/register/merchant", {
             method: "POST",
             body: formData
         }).then(e => {
@@ -143,7 +143,7 @@
     function googleClientRegister(response: any) {
         const token: string = response.credential;
         // TODO: cambia url
-        fetch(import.meta.env.VITE_BACKEND_URL + "/register/client/SSO", {
+        fetch(import.meta.env.VITE_BACKEND_URL_API + "/register/client/SSO", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
