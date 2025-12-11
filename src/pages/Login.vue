@@ -5,16 +5,19 @@
     import { ref } from "vue";
     import { useI18n } from "vue-i18n";
     import { GoogleLogin } from "vue3-google-login";
-    import Alert, { showError } from "../components/Alert.vue";
-    import { AlertType } from "../components/Alert.vue";
+    import Alert from "../components/Alert.vue";
+import AlertType from "../types/alert";
+
 
     const {t} = useI18n();
 
-    const errorMessage = ref("");
-    const errorVisibility = ref(false);
-
     const email = ref("");
     const password = ref("");
+    const alertRef = ref<any>(null);
+    
+    function triggerErrorAlert(msg: string) {
+        alertRef.value.showError(AlertType.Error, msg);
+    }
 
     function login(){
         fetch(import.meta.env.VITE_BACKEND_URL + "/login", {
@@ -28,8 +31,7 @@
             })
         }).then(async e => {
             if(e.status == 401) {
-                errorMessage.value = t("alerts.autenticazioneFallita")
-                showError(errorVisibility, 5000);
+                triggerErrorAlert(t("alerts.autenticazioneFallita"))
                 return;
             }
             const data = await e.json();
@@ -37,8 +39,7 @@
             router.push(e.headers.get("Location") ?? "/");
         }).catch(e => {
             console.log(e);
-            errorMessage.value = t("alerts.autenticazioneFallita")
-            showError(errorVisibility, 5000);
+            triggerErrorAlert(t("alerts.autenticazioneFallita"))
         });
     }
 
@@ -55,12 +56,13 @@
                 token: token
             })
         }).then(async e => {
+            let errorMessage = "";
             switch (e.status) {
                 case 400:
-                    errorMessage.value = t("alerts.datiNonValidi")
+                    errorMessage = t("alerts.datiNonValidi")
                     break;
                 case 401:
-                    errorMessage.value = t("alerts.googleTokenInvalido");
+                    errorMessage = t("alerts.googleTokenInvalido");
                     break;
                 case 200:
                     const data = await e.json();
@@ -69,7 +71,7 @@
                     break;
             }
 
-            showError(errorVisibility, 5000);
+            triggerErrorAlert(errorMessage);
         })
     }
 </script>
@@ -87,9 +89,7 @@
                 <input type="submit" @click="router.push('/register')" :value="$t('login.registrati')" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
             </div>
         </div>
-        <Transition>
-            <Alert :alert-type="AlertType.Error" :message="errorMessage" v-if="errorVisibility" />
-        </Transition>
+        <Alert ref="alertRef" />
     </div>
 </template>
 
