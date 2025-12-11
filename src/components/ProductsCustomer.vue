@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import ProductCard from "../components/ProductCard.vue";
     import ProductDetails from "../components/ProductDetails.vue";
-    import { ref, onMounted } from "vue";
+    import { ref, onMounted, nextTick } from "vue";
     import type { Ref } from "vue";
     const props = defineProps({
         shopId: String,
@@ -16,8 +16,9 @@
 
     async function showDetails(productId: string) {
         detailsProductId.value = productId;
-        modalRef.value?.open();
         details.value = true;
+        await nextTick();
+        modalRef.value?.open();
     }
 
     onMounted(async () => {
