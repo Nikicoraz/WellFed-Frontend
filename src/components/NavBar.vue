@@ -1,21 +1,4 @@
 <script lang="ts">
-    export interface SearchResults {
-        shops: [{
-            id: String,
-            name: String,
-            address: String,
-            image: String
-        }],
-        products: [{
-            id: String,
-            name: String,
-            description: String,
-            origin: String,
-            image: String,
-            points: Number
-        }]
-    };
-
     enum SearchFilter {
         None = "Filters",
         Shops = "Shops only",
@@ -59,22 +42,27 @@
 
     function search() {
         // Solo redirect alla pagina di search
-        router.push("/search?query=" + searchQuery.value + "&filter=" + getFilterAPITranslation(filter.value));
+        router.push({
+            path: "/search",
+            query: {
+                query: searchQuery.value,
+                filter: getFilterAPITranslation(filter.value)
+            }
+        });
 
-        // fetch(import.meta.env.VITE_BACKEND_URL + "/search?query=" + searchQuery.value).then(e => e.json()).then(data => {
-        //     const results = data as SearchResults;
-        //     console.log(results.products);
-        // })
+ 
     }
 </script>
 
 <template>
     <div class="navbar bg-fed-green shadow-sm">
-        <div class="navbar-start">
-            <WellfedLogo />
+        <div class="navbar-start z-0">
+            <span class="cursor-pointer z-10 flex items-center" @click="router.push('/')">
+                <WellfedLogo />
+            </span>
         </div>
         <div class="navbar-center">
-            <input type="text" class="input w-3xl" placeholder="Search" @keypress.enter="search" v-model="searchQuery">
+            <input type="text" class="input w-[40dvw]" placeholder="Search" @keypress.enter="search" v-model="searchQuery">
             <div class="dropdown">
                 <div tabindex="0" role="button" class="btn m-1">{{ filter.toString() }}</div>
                 <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">

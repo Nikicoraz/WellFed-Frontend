@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import cookies from 'vue-cookies';
 import { router } from '../extensions/router';
-import SearchBar from '../components/NavBar.vue';
+import NavBar from '../components/NavBar.vue';
 
     const token = (cookies as any).get("token");
     if(!token) {
@@ -10,5 +10,7 @@ import SearchBar from '../components/NavBar.vue';
 </script>
 
 <template>
-    <SearchBar />
+    <div class="bg-fed-bg min-h-screen">
+        <NavBar />
+    </div>
 </template>
