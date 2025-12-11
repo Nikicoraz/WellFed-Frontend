@@ -2,7 +2,8 @@
     import { useRoute } from 'vue-router';
     import { onMounted, ref } from 'vue';
     import type { Ref } from 'vue';
-    import ProductsCustomer from '../components/ProductsCustomer.vue';
+    import ProductsCustomer from '../components/ProductListCustomer.vue';
+    import ShopDetails from '../components/ShopDetails.vue';
 
     const shopId = ref(useRoute().params.shopId as string);
 
@@ -14,8 +15,8 @@
 </script>
 
 <template>
-    <div class="w-3/4 p-8 mx-auto" v-if="shop">
-        <h1 class="text-3xl">{{ shop.name }}</h1>
+    <div v-if="shop" class="w-3/4 p-8 mx-auto">
+        <ShopDetails :shopId="shopId"/>
         <ProductsCustomer :shopId="shopId"/>
     </div>
     <div v-else class="flex items-center justify-center h-screen">

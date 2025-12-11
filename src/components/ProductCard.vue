@@ -23,13 +23,20 @@
         <div class="card card-border cursor-pointer shadow rounded-xl">
             <div class="card-body">
                 <figure>
-                    <img class="aspect-square"
-                        :src="`${backendUrl}${product.image}`"
-                        :alt="product.name"
-                    />
+                    <div class="aspect-square overflow-hidden rounded-xl">
+                        <img
+                            class="w-full h-full object-cover"
+                            :src="`${backendUrl}${product.image}`"
+                            :alt="product.name"
+                        />
+                    </div>
                 </figure>
-                <h1 class="card-title">{{ product.name }}</h1>
-                <p>{{ product.points }}</p>
+                <div class="flex justify-between mt-6">
+                    <div class="flex">
+                        <h1 class="text-2xl card-title">{{ product.name }}</h1>
+                    </div>
+                    <div class="bg-lime-700 text-white border rounded-lg btn"> {{ product.points }} </div>
+                </div>
             </div>
         </div>
     </div>

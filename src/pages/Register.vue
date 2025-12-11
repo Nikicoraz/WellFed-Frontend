@@ -116,7 +116,7 @@ function registerCommerciante(){
     </div>
 </template>
 
-<style scoped >
+<style scoped>
     @reference "tailwindcss";
     .input {
         @apply border border-black rounded-lg text-center
