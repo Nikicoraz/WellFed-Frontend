@@ -20,5 +20,9 @@ export default {
         emailInUso: "L'email inserita ha già un account registrato",
         erroreAccount: "Errore durante la creazione dell'account",
         autenticazioneFallita: "Autenticazione fallita"
+    },
+    ricerca: {
+        origine: "Origin",
+        punti: "Punti"
     }
 };

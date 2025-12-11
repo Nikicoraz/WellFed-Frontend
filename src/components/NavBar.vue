@@ -34,7 +34,7 @@
     searchHistory.value = JSON.parse(localStorage.getItem("searchHistory") ?? "[]");
 
     // Get the client username to display
-    fetch(import.meta.env.VITE_BACKEND_URL + "/client", {
+    fetch(import.meta.env.VITE_BACKEND_URL_API + "/client", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + (VueCookies as any).get("token")

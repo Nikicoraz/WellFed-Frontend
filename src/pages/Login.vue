@@ -10,7 +10,7 @@
     const password = ref("");
 
     function login(){
-        fetch(import.meta.env.VITE_BACKEND_URL + "/login", {
+        fetch(import.meta.env.VITE_BACKEND_URL_API + "/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
