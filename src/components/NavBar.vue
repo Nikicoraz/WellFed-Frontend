@@ -18,7 +18,7 @@
 </script>
 
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { ref, type Ref } from 'vue';
     import VueCookies from 'vue-cookies';
     import WellfedLogo from './WellfedLogo.vue';
     import { router } from '../extensions/router';
@@ -26,7 +26,14 @@
     const username = ref("");
     const searchQuery = ref("");
     const filter = ref(SearchFilter.None);
+    const searchHistory: Ref<string[]> = ref([]);
+    const searchBar = ref<HTMLInputElement | null>(null);
+    let showHistory = ref(false);
 
+    // Get the client search history
+    searchHistory.value = JSON.parse(localStorage.getItem("searchHistory") ?? "[]");
+
+    // Get the client username to display
     fetch(import.meta.env.VITE_BACKEND_URL + "/client", {
         method: "GET",
         headers: {
@@ -41,7 +48,20 @@
     });
 
     function search() {
-        // Solo redirect alla pagina di search
+        if(searchQuery.value == ""){
+            return;
+        }
+
+        if(searchHistory.value.length > 10) {
+            searchHistory.value.splice(0, 1);
+        }
+
+        if(!searchHistory.value.includes(searchQuery.value)){
+            searchHistory.value.push(searchQuery.value);
+            localStorage.setItem("searchHistory", JSON.stringify(searchHistory.value));
+        }
+
+        // Solo redirect alla pagina di search + salvataggio nella cronologia
         router.push({
             path: "/search",
             query: {
@@ -49,9 +69,8 @@
                 filter: getFilterAPITranslation(filter.value)
             }
         });
-
- 
     }
+
 </script>
 
 <template>
@@ -62,7 +81,15 @@
             </span>
         </div>
         <div class="navbar-center">
-            <input type="text" class="input w-[40dvw]" placeholder="Search" @keypress.enter="search" v-model="searchQuery">
+            <!-- Search bar -->
+            <div class="search-wrapper" @focusin="showHistory = true" @focusout="showHistory = false">
+                <input type="text" class="input w-[40dvw]" placeholder="Search" @keypress.enter="showHistory = false; search()" @input="showHistory = true" v-model="searchQuery" ref="searchBar">
+                <ul class="menu bg-base-200 fixed top-16 z-20 w-[40dvw] shadow-lg rounded-xl rounded-t-none" v-if="showHistory && searchHistory.length > 0">
+                    <li @mousedown.prevent="" v-for="search in searchHistory" @click="searchQuery = search; showHistory = false; searchBar?.focus()"><a>{{ search }}</a></li>
+                </ul>
+            </div>
+
+            <!-- Filters -->
             <div class="dropdown">
                 <div tabindex="0" role="button" class="btn m-1">{{ filter.toString() }}</div>
                 <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
