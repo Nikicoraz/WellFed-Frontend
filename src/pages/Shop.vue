@@ -18,4 +18,9 @@
         <h1 class="text-3xl">{{ shop.name }}</h1>
         <ProductsCustomer :shopId="shopId"/>
     </div>
+    <div v-else class="flex items-center justify-center h-screen">
+        <div>
+            No shop was found :(
+        </div>
+    </div>
 </template>

@@ -35,12 +35,5 @@
             <ProductCard v-for="product in products" :shopId="shopId" :productId="product.id" @showDetails="showDetails"/>
         </div> 
     </div>
-    <!-- 
-    <div v-else class="flex items-center justify-center h-screen">
-        <div>
-            No shop was found :(
-        </div>
-    </div>
-    -->
     <ProductDetails ref="modalRef" v-if="details" :shopId="shopId" :productId="detailsProductId"/>
 </template>
