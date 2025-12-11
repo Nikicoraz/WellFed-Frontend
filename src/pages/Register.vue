@@ -22,7 +22,21 @@
     const password = ref("");
     const partitaIVA = ref("");
     const indirizzo = ref("");
-    const image = ref<HTMLInputElement | null>(null)
+    const image = ref<HTMLInputElement | null>(null);
+    const clientForm = ref<HTMLDivElement | null>(null);
+    const merchantForm = ref<HTMLDivElement | null>(null);
+
+    function validateInputs(form: HTMLDivElement): boolean {
+        for(const child of form.children) {
+            if (child.classList.contains("input") || child.classList.contains("file-input")) {
+                if(!(child as HTMLInputElement).reportValidity()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 
     // Non ho idea di che tipo sia 
     const alertRef: Ref<any> = ref(null);
@@ -45,7 +59,7 @@
     }        
 
     function registerClient(){
-        if(!commonValidations()) {
+        if(!validateInputs(clientForm.value!)) {
             return;
         }
 
@@ -79,15 +93,13 @@
         });
     }
 
-    function registerMerchant() {
-        let errorMessage: string = "";
-        
-        if (!image.value || !image.value.files || image.value.files.length == 0) {
-            errorMessage = t("alerts.noimage");
+    function registerMerchant(){
+        if(!validateInputs(merchantForm.value!)) {
             return;
         }
 
-        if (!commonValidations()) {
+        if(!image.value || !image.value.files) {
+            triggerErrorAlert(t("alerts.noimage"));
             return;
         }
 
@@ -178,21 +190,21 @@
             </div>
     
             <!-- The client registration form -->
-            <div v-if="isClient" class="flex flex-col gap-2" @keypress.enter.native="registerClient">
-                <input required ref="utest" type="text" class="input-1" placeholder="Username" v-model="username">
-                <input required type="email" class="input-1" placeholder="Email" v-model="email">
-                <input required type="password" class="input-1" placeholder="Password" v-model="password">
+            <div ref="clientForm" v-if="isClient" class="flex flex-col gap-2" @keypress.enter.native="registerClient">
+                <input class="input validator" type="text" required placeholder="Username" v-model="username" />
+                <input class="input validator" type="email" required placeholder="Email" v-model="email" />
+                <input class="input validator" type="password" required placeholder="Password" v-model="password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-_]).{8,40}$" :title="$t('register.formatoPassword')" />
                 <input required type="submit" :value="$t('login.registrati')" @click="registerClient" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
                 <GoogleLogin :callback="googleClientRegister" :button-config="{text: 'signup_with'}" />
             </div>
     
             <!-- The merchant registration form -->
-            <div v-else class="flex flex-col gap-2" @keypress.enter.native="registerMerchant">
-                <input required type="text" class="input-1" :placeholder="$t('register.nomeNegozio')" v-model="username">
-                <input required type="text" class="input-1" :placeholder="$t('register.indirizzoNegozio')" v-model="indirizzo">
-                <input required type="text" class="input-1" placeholder="Partita IVA" v-model="partitaIVA">
-                <input required type="email" class="input-1" placeholder="Email" v-model="email">
-                <input required type="password" class="input-1" placeholder="Password" v-model="password">
+            <div ref="merchantForm" v-else class="flex flex-col gap-2" @keypress.enter.native="registerMerchant">
+                <input required type="text" class="input validator" :placeholder="$t('register.nomeNegozio')" v-model="username">
+                <input required type="text" class="input validator" :placeholder="$t('register.indirizzoNegozio')" v-model="indirizzo">
+                <input required type="text" class="input validator" placeholder="Partita IVA" v-model="partitaIVA">
+                <input required type="email" class="input validator" placeholder="Email" v-model="email">
+                <input required type="password" class="input validator" placeholder="Password" v-model="password">
                 <input required type="file" ref="image" class="file-input">
                 <input required type="submit" :value="$t('login.registrati')" @click="registerMerchant" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
             </div>
@@ -200,14 +212,3 @@
         <Alert ref="alertRef"/>
     </div>
 </template>
-
-<style scoped>
-    @reference "tailwindcss";
-    .input-1 {
-        @apply border border-black rounded-lg text-center
-    }
-
-    .btn-1 {
-        @apply p-4 border border-black bg-lime-700 text-white rounded-lg hover:bg-lime-800;
-    }
-</style>
