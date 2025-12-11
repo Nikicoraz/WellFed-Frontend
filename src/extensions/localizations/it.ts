@@ -22,6 +22,9 @@ export default {
         emailInUso: "L'email inserita ha già un account registrato",
         erroreAccount: "Errore durante la creazione dell'account",
         autenticazioneFallita: "Autenticazione fallita",
-        noimage: "Occorre inserire un'immagine!"
+        noimage: "Occorre inserire un'immagine!",
+        googleTokenInvalido: "Errore durante l'autenticazione SSO",
+        emailInUsoSSO: "L'email associata con l'account Google è già registrata nel sistema. Si prega di utilizzare la pagina di login",
+        emailInUsoLocale: "L'email associata con l'account Google è già registrata nel sistema. Si prega di autenticarsi con le credenziali locali"
     }
 };

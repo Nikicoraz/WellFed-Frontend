@@ -4,10 +4,20 @@
     import WellfedLogoVue from "../components/WellfedLogo.vue";
     import { ref } from "vue";
     import { useI18n } from "vue-i18n";
+    import { GoogleLogin } from "vue3-google-login";
+    import Alert from "../components/Alert.vue";
+import AlertType from "../types/alert";
+
 
     const {t} = useI18n();
+
     const email = ref("");
     const password = ref("");
+    const alertRef = ref<any>(null);
+    
+    function triggerErrorAlert(msg: string) {
+        alertRef.value.showError(AlertType.Error, msg);
+    }
 
     function login(){
         fetch(import.meta.env.VITE_BACKEND_URL + "/login", {
@@ -21,7 +31,7 @@
             })
         }).then(async e => {
             if(e.status == 401) {
-                alert(t("alerts.autenticazioneFallita"));
+                triggerErrorAlert(t("alerts.autenticazioneFallita"))
                 return;
             }
             const data = await e.json();
@@ -29,8 +39,40 @@
             router.push(e.headers.get("Location") ?? "/");
         }).catch(e => {
             console.log(e);
-            alert(t("alerts.autenticazioneFallita"));
+            triggerErrorAlert(t("alerts.autenticazioneFallita"))
         });
+    }
+
+    function googleLogin(response: any) {
+        const token: string = response.credential;
+
+        // TODO: Cambia URL
+        fetch(import.meta.env.VITE_BACKEND_URL + "/login/SSO", {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: token
+            })
+        }).then(async e => {
+            let errorMessage = "";
+            switch (e.status) {
+                case 400:
+                    errorMessage = t("alerts.datiNonValidi")
+                    break;
+                case 401:
+                    errorMessage = t("alerts.googleTokenInvalido");
+                    break;
+                case 200:
+                    const data = await e.json();
+                    (VueCookies as any).set("token", data.token, 86400);
+                    router.push(e.headers.get("Location") ?? "/");
+                    break;
+            }
+
+            triggerErrorAlert(errorMessage);
+        })
     }
 </script>
 <template>
@@ -42,11 +84,12 @@
                 <input type="email" v-model="email" placeholder="Email" class="input-1">
                 <input type="password" v-model="password" placeholder="Password" class="input-1">
                 <input type="submit" @click="login" :value="$t('login.accedi')" class="btn-1">
-                <input type="submit" value="Accedi con google" class="btn-1">
+                <GoogleLogin :callback="googleLogin" :button-config="{text: 'signin'}" />
                 <p class="text-center"> {{ $t("login.oppure") }} </p>
                 <input type="submit" @click="router.push('/register')" :value="$t('login.registrati')" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
             </div>
         </div>
+        <Alert ref="alertRef" />
     </div>
 </template>
 

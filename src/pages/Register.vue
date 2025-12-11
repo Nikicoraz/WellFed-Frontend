@@ -8,6 +8,7 @@
     import shopImage from "../assets/shop.svg"
     import backArrow from "../assets/back.svg";
     import { useI18n } from "vue-i18n";
+    import { GoogleLogin } from "vue3-google-login";
     import Alert from "../components/Alert.vue";
     import AlertType from "../types/alert";
 
@@ -119,12 +120,47 @@
                     router.push("/login");
                     break;
             }
-            triggerErrorAlert( errorMessage);
+            triggerErrorAlert(errorMessage);
 
         }).catch((e) => {
             console.error(e);
             triggerErrorAlert(t("alerts.erroreAccount"));
         });
+    }
+
+    function googleClientRegister(response: any) {
+        const token: string = response.credential;
+        // TODO: cambia url
+        fetch(import.meta.env.VITE_BACKEND_URL + "/register/client/SSO", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: token
+            })
+        }).then(e => {
+            let errorMessage = "";
+            switch (e.status) {
+                case 400:
+                    errorMessage = t("alerts.datiNonValidi")
+                    break;
+                case 401:
+                    errorMessage = t("alerts.googleTokenInvalido");
+                    break;
+                case 409:
+                    errorMessage = t("alerts.emailInUsoSSO");
+                    break;
+                case 422:
+                    errorMessage = t("alerts.emailInUsoLocale");
+                    break;
+                case 201:
+                    alert(t("register.creato"));
+                    router.push("/login");
+                    break;
+            }
+            triggerErrorAlert(errorMessage);
+        })
     }
 </script>
 
@@ -147,6 +183,7 @@
                 <input required type="email" class="input-1" placeholder="Email" v-model="email">
                 <input required type="password" class="input-1" placeholder="Password" v-model="password">
                 <input required type="submit" :value="$t('login.registrati')" @click="registerClient" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
+                <GoogleLogin :callback="googleClientRegister" :button-config="{text: 'signup_with'}" />
             </div>
     
             <!-- The merchant registration form -->
