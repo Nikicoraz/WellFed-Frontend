@@ -1,42 +1,42 @@
-<script lang="ts">
-    export enum AlertType {
-        Success = 'alert-success',
-        Info = 'alert-info',
-        Warning = 'alert-warning',
-        Error = 'alert-error'
-    }
-
-    export function showError(visibility: Ref<boolean, boolean>, duration: number){
-        visibility.value = true;
-
-        setTimeout(() =>{
-            visibility.value = false;
-        }, duration);
-    }
-</script>
-
 <script setup lang="ts">
-    import type { PropType, Ref } from 'vue';
+import AlertType from "../types/alert";
+import { ref } from 'vue';
 
-    const props = defineProps({
-        alertType: String as PropType<AlertType>,
-        message: String
-    });
+const visible = ref(false);
+const duration = 5000;
+const alertType = ref(AlertType.Info);
+const message = ref("");
+
+function showError(type: AlertType, msg: string) {
+    visible.value = true;
+    alertType.value = type;
+    message.value = msg;
+
+    setTimeout(() => {
+        visible.value = false;
+    }, duration);
+}
+
+defineExpose({ showError });
 </script>
 
 <template>
-    <div class="fixed left-1/2 -translate-x-1/2 bottom-10 alert alert-soft transition-all duration-300" :class="alertType?.toString()">{{ message }}</div>
+    <Transition>
+        <div v-if="visible">
+            <div class="fixed left-1/2 -translate-x-1/2 bottom-10 alert alert-soft transition-all duration-300" :class="alertType?.toString()">{{ message }}</div>
+        </div>
+    </Transition>
 </template>
 
 <style scoped>
-    /* Se si wrappa l'alert in un <Transition></Transition> allora quando appare/scompare verranno applicate queste proprietà */
-    .v-enter-active,
-    .v-leave-active {
-        transition: opacity 0.5s ease;
-    }
+/* Se si wrappa l'alert in un <Transition></Transition> allora quando appare/scompare verranno applicate queste proprietà */
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
 
-    .v-enter-from,
-    .v-leave-to {
-        opacity: 0;
-    }
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}
 </style>

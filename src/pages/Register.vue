@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import { ref } from "vue";
+    import type { Ref } from "vue";
     import WellfedLogo from "../components/WellfedLogo.vue";
     import { router } from "../extensions/router";
     import UserSelection from "../components/UserSelection.vue";
@@ -7,15 +8,13 @@
     import shopImage from "../assets/shop.svg"
     import backArrow from "../assets/back.svg";
     import { useI18n } from "vue-i18n";
-    import Alert, { AlertType, showError } from "../components/Alert.vue";
+    import Alert from "../components/Alert.vue";
+    import AlertType from "../types/alert";
 
     const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-_]).{8,40}$/;
     const simpleEmailRegex = /.+(\..+)?@.+\..{2,3}/;
     const {t} = useI18n();
-    let isClient = ref(true)
-
-    const errorMessage = ref("");
-    const errorVisibility = ref(false);
+    let isClient = ref(true);
 
     const username = ref("");
     const email = ref("");
@@ -24,17 +23,25 @@
     const indirizzo = ref("");
     const image = ref<HTMLInputElement | null>(null)
 
+    // Non ho idea di che tipo sia 
+    const alertRef: Ref<any> = ref(null);
+    // Non so se si può fare in modo che triggerAlert e alertRef siano delle cose "importabili" in modo da non dover scriverle in ogni pagina
+    // Cmq secondo me è meglio così perché l'html dell'alert è pulito e basta chiamare una sola funzione
+    // Inoltre così possiamo fare diversi metodi 
+    // Alla fine per usare gli alert bisogna dare un ref ad alert e dove si vuole nel codice si fa alertRef.value.funz;
+    // Se pensi che vada bene così fai un commit dove togli sto commento e mergiamo
+    function triggerErrorAlert(msg: String) {
+        alertRef.value?.showError(msg);
+    }
 
     function commonValidations(): boolean {
         if(!email.value.match(simpleEmailRegex)) {
-            errorMessage.value = t("register.reqEmail");
-            showError(errorVisibility, 5000);
+            triggerErrorAlert(t("register.reqEmail"));
             return false;
         }
 
         if(!password.value.match(passwordRegex)) {
-            errorMessage.value = t("register.reqPassword");
-            showError(errorVisibility, 5000);
+            triggerErrorAlert(t("register.reqPassword"));
             return false;
         }
 
@@ -59,12 +66,10 @@
         }).then(e => {
             switch (e.status) {
                 case 400:
-                    errorMessage.value = t("alerts.datiNonValidi")
-                    showError(errorVisibility, 5000);
+                    triggerErrorAlert(t("alerts.datiNonValidi"));
                     break;
                 case 409:
-                    errorMessage.value = t("alerts.emailInUso");
-                    showError(errorVisibility, 5000);
+                    triggerErrorAlert(t("alerts.emailInUso"));
                     break;
                 case 201:
                     // Lasciato un alert siccome subito dopo c'è un redirect
@@ -74,19 +79,19 @@
             }
         }).catch((e) => {
             console.error(e);
-            errorMessage.value = t("alerts.erroreAccount")
-            showError(errorVisibility, 5000);
+            triggerErrorAlert(t("alerts.erroreAccount"));
         });
     }
 
-    function registerMerchant(){
-        if(!image.value || !image.value.files || image.value.files.length == 0) {
-            errorMessage.value = t("alerts.noimage");
-            showError(errorVisibility, 5000);
+    function registerMerchant() {
+        let errorMessage: string = "";
+        
+        if (!image.value || !image.value.files || image.value.files.length == 0) {
+            errorMessage = t("alerts.noimage");
             return;
         }
 
-        if(!commonValidations()) {
+        if (!commonValidations()) {
             return;
         }
 
@@ -106,24 +111,24 @@
         }).then(e => {
             switch (e.status) {
                 case 400:
-                    errorMessage.value = t("alerts.datiNonValidi")
+                    errorMessage = t("alerts.datiNonValidi");
                     break;
                 case 403:
-                    errorMessage.value = t("alerts.partitaIVAInvalida");
+                    errorMessage = t("alerts.partitaIVAInvalida");
                     break;
                 case 409:
-                    errorMessage.value = t("alerts.emailInUso");
+                    errorMessage = t("alerts.emailInUso");
                     break;
                 case 202:
                     alert(t("register.processando"));
                     router.push("/login");
                     break;
             }
-            showError(errorVisibility, 5000);
+            triggerErrorAlert( errorMessage);
+
         }).catch((e) => {
             console.error(e);
-            errorMessage.value = t("alerts.erroreAccount")
-            showError(errorVisibility, 5000);
+            triggerErrorAlert(t("alerts.erroreAccount"));
         });
     }
 </script>
@@ -160,10 +165,8 @@
                 <input required type="submit" :value="$t('login.registrati')" @click="registerMerchant" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
             </div>
         </div>
-        <Transition>
-            <Alert :alert-type="AlertType.Error" :message="errorMessage" v-if="errorVisibility" />
-        </Transition>
-</div>
+        <Alert ref="alertRef"/>
+    </div>
 </template>
 
 <style scoped >
