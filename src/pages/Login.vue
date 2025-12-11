@@ -6,7 +6,7 @@
     import { useI18n } from "vue-i18n";
     import { GoogleLogin } from "vue3-google-login";
     import Alert from "../components/Alert.vue";
-    import AlertType from "../types/alert";
+import AlertType from "../types/alert";
 
 
     const {t} = useI18n();
