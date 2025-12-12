@@ -8,7 +8,6 @@
     import Alert from "../components/Alert.vue";
     import AlertType from "../types/alert";
 
-
     const {t} = useI18n();
 
     const email = ref("");

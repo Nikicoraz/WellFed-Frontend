@@ -3,6 +3,10 @@
     import ProductDetails from "../components/ProductDetails.vue";
     import { ref, onMounted, nextTick } from "vue";
     import type { Ref } from "vue";
+    import { useI18n } from "vue-i18n";
+
+    const {t} = useI18n();
+
     const props = defineProps({
         shopId: String,
     });
@@ -30,7 +34,7 @@
 
 <template>
     <div v-if="shopFound" class="mx-auto">
-        <h1 class="text-3xl font-bold my-8">Prodotti</h1>
+        <h1 class="text-3xl font-bold my-8">{{ $t('shop.prodotti') }}</h1>
         <div class="grid grid-cols-4 gap-4">
             <ProductCard v-for="product in products" :shopId="shopId" :productId="product.id" @showDetails="showDetails"/>
         </div> 

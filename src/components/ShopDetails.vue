@@ -1,6 +1,9 @@
 <script setup lang="ts">
     import { ref, onMounted } from "vue";
     import type { Ref } from "vue";
+    import { useI18n } from "vue-i18n";
+
+    const {t} = useI18n();
 
     const props = defineProps({
         shopId: String
@@ -24,16 +27,14 @@
             <div class="flex-1 h-full flex">
                 <img
                     :src="`${backendUrl}${shop.image}`"
-                    alt="shop image"
+                    :alt="$t('shop.altImmagineNegozio')"
                     class="rounded-xl max-h-full object-contain mx-auto"
                 />
             </div>
 
             <div class="flex-1 h-full flex flex-col justify-around">
-                <div>
-                    <h1 class="text-3xl md:text-6xl text-center font-bold">{{ shop.name }}</h1>
-                    <p class="text-center py-4"> {{ shop.address }} </p>
-                </div>
+                <h1 class="text-3xl md:text-6xl text-center font-bold">{{ shop.name }}</h1>
+                <p class="text-center py-4"> {{ shop.address }} </p>
             </div>
 
         </div>

@@ -1,6 +1,9 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import type { Ref } from "vue";
+    import { useI18n } from "vue-i18n";
+
+    const {t} = useI18n();
 
     const props = defineProps({
         shopId: String,
@@ -35,15 +38,15 @@
                         :alt="product.name"
                     />
                     <ul class="py-4">
-                        <li class="text-xl">Description: {{ product.description }}</li>
-                        <li class="text-xl">Origin: {{ product.origin }}</li>
-                        <li class="text-xl">Points: {{ product.points }}</li>
+                        <li class="text-xl">{{ `${t('product.descrizione')}: ${product.description}` }}</li>
+                        <li class="text-xl">{{ `${t('product.origine')}: ${product.origin}` }}</li>
+                        <li class="text-xl">{{ `${t('product.punti')}: ${product.points}` }}</li>
                     </ul>
                 </div>
             </div>
             <div class="my-4 modal-action">
                 <form method="dialog">
-                    <button class="btn">Close</button>
+                    <button class="btn">{{ `${t('button.chiudi')}` }}</button>
                 </form>
             </div>
         </div>
