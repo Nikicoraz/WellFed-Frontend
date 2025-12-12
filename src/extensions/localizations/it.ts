@@ -27,5 +27,16 @@ export default {
         googleTokenInvalido: "Errore durante l'autenticazione SSO",
         emailInUsoSSO: "L'email associata con l'account Google è già registrata nel sistema. Si prega di utilizzare la pagina di login",
         emailInUsoLocale: "L'email associata con l'account Google è già registrata nel sistema. Si prega di autenticarsi con le credenziali locali"
+    },
+    ricerca: {
+        origine: "Origin",
+        punti: "Punti",
+        cerca: "Cerca",
+        filtri: {
+            nome: "Filtri",
+            nessuno: "Nessuno",
+            negozi: "Solo negozi",
+            prodotti: "Solo prodotti"
+        }        
     }
 };

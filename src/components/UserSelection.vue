@@ -17,11 +17,6 @@
             <figure class="w-full">
                 <img :src="props.image" alt="" class="aspect-square w-full h-10">
             </figure>
-
         </div>
     </div>
 </template>
-
-<style scoped>
-
-</style>
