@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import { ref } from "vue";
+    import type { Ref } from "vue";
     import WellfedLogo from "../components/WellfedLogo.vue";
     import { router } from "../extensions/router";
     import UserSelection from "../components/UserSelection.vue";
@@ -7,18 +8,45 @@
     import shopImage from "../assets/shop.svg"
     import backArrow from "../assets/back.svg";
     import { useI18n } from "vue-i18n";
+    import { GoogleLogin } from "vue3-google-login";
+    import Alert from "../components/Alert.vue";
+    import AlertType from "../types/alert";
 
     const {t} = useI18n();
-    let isClient = ref(true)
+    let isClient = ref(true);
 
     const username = ref("");
     const email = ref("");
     const password = ref("");
     const partitaIVA = ref("");
     const indirizzo = ref("");
-    const image = ref<HTMLInputElement | null>(null)
+    const image = ref<HTMLInputElement | null>(null);
+    const clientForm = ref<HTMLDivElement | null>(null);
+    const merchantForm = ref<HTMLDivElement | null>(null);
+
+    function validateInputs(form: HTMLDivElement): boolean {
+        for(const child of form.children) {
+            if (child.classList.contains("input") || child.classList.contains("file-input")) {
+                if(!(child as HTMLInputElement).reportValidity()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    // Non ho idea di che tipo sia 
+    const alertRef: Ref<any> = ref(null);
+    function triggerErrorAlert(msg: String) {
+        alertRef.value?.showError(AlertType.Error, msg);
+    }   
 
     function registerClient(){
+        if(!validateInputs(clientForm.value!)) {
+            return;
+        }
+
         fetch(import.meta.env.VITE_BACKEND_URL_API + "/register/client", {
             method: "POST",
             headers: {
@@ -32,25 +60,30 @@
         }).then(e => {
             switch (e.status) {
                 case 400:
-                    alert(t("alerts.datiNonValidi"));
+                    triggerErrorAlert(t("alerts.datiNonValidi"));
                     break;
                 case 409:
-                    alert(t("alerts.emailInUso"));
+                    triggerErrorAlert(t("alerts.emailInUso"));
                     break;
                 case 201:
+                    // Lasciato un alert siccome subito dopo c'è un redirect
                     alert(t("register.creato"));
                     router.push("/login");
                     break;
             }
         }).catch((e) => {
             console.error(e);
-            alert(t("alerts.erroreAccount"));
+            triggerErrorAlert(t("alerts.erroreAccount"));
         });
     }
 
     function registerMerchant(){
+        if(!validateInputs(merchantForm.value!)) {
+            return;
+        }
+
         if(!image.value || !image.value.files) {
-            alert(t("alerts.noimage"));
+            triggerErrorAlert(t("alerts.noimage"));
             return;
         }
 
@@ -68,25 +101,63 @@
             method: "POST",
             body: formData
         }).then(e => {
+            let errorMessage = "";
+
             switch (e.status) {
                 case 400:
-                    alert(t("alerts.datiNonValidi"));
+                    errorMessage = t("alerts.datiNonValidi");
                     break;
                 case 403:
-                    alert(t("alerts.partitaIVAInvalida"));
+                    errorMessage = t("alerts.partitaIVAInvalida");
                     break;
                 case 409:
-                    alert(t("alerts.emailInUso"));
+                    errorMessage = t("alerts.emailInUso");
                     break;
                 case 202:
                     alert(t("register.processando"));
                     router.push("/login");
                     break;
             }
+            triggerErrorAlert(errorMessage);
+
         }).catch((e) => {
             console.error(e);
-            alert(t("alerts.erroreAccount"));
+            triggerErrorAlert(t("alerts.erroreAccount"));
         });
+    }
+
+    function googleClientRegister(response: any) {
+        const token: string = response.credential;
+        fetch(import.meta.env.VITE_BACKEND_URL_API + "/register/client/SSO", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: token
+            })
+        }).then(e => {
+            let errorMessage = "";
+            switch (e.status) {
+                case 400:
+                    errorMessage = t("alerts.datiNonValidi")
+                    break;
+                case 401:
+                    errorMessage = t("alerts.googleTokenInvalido");
+                    break;
+                case 409:
+                    errorMessage = t("alerts.emailInUsoSSO");
+                    break;
+                case 422:
+                    errorMessage = t("alerts.emailInUsoLocale");
+                    break;
+                case 201:
+                    alert(t("register.creato"));
+                    router.push("/login");
+                    break;
+            }
+            triggerErrorAlert(errorMessage);
+        })
     }
 </script>
 
@@ -104,34 +175,25 @@
             </div>
     
             <!-- The client registration form -->
-            <div v-if="isClient" class="flex flex-col gap-2" @keypress.enter.native="registerClient">
-                <input required ref="utest" type="text" class="input-1" placeholder="Username" v-model="username">
-                <input required type="email" class="input-1" placeholder="Email" v-model="email">
-                <input required type="password" class="input-1" placeholder="Password" v-model="password">
+            <div ref="clientForm" v-if="isClient" class="flex flex-col gap-2" @keypress.enter.native="registerClient">
+                <input class="input validator" type="text" required placeholder="Username" v-model="username" />
+                <input class="input validator" type="email" required placeholder="Email" v-model="email" />
+                <input class="input validator" type="password" required placeholder="Password" v-model="password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-_]).{8,40}$" :title="$t('register.formatoPassword')" />
                 <input required type="submit" :value="$t('login.registrati')" @click="registerClient" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
+                <GoogleLogin :callback="googleClientRegister" :button-config="{text: 'signup_with'}" />
             </div>
     
             <!-- The merchant registration form -->
-            <div v-else class="flex flex-col gap-2" @keypress.enter.native="registerMerchant">
-                <input required type="text" class="input-1" :placeholder="$t('register.nomeNegozio')" v-model="username">
-                <input required type="text" class="input-1" :placeholder="$t('register.indirizzoNegozio')" v-model="indirizzo">
-                <input required type="text" class="input-1" placeholder="Partita IVA" v-model="partitaIVA">
-                <input required type="email" class="input-1" placeholder="Email" v-model="email">
-                <input required type="password" class="input-1" placeholder="Password" v-model="password">
+            <div ref="merchantForm" v-else class="flex flex-col gap-2" @keypress.enter.native="registerMerchant">
+                <input required type="text" class="input validator" :placeholder="$t('register.nomeNegozio')" v-model="username">
+                <input required type="text" class="input validator" :placeholder="$t('register.indirizzoNegozio')" v-model="indirizzo">
+                <input required type="text" class="input validator" placeholder="Partita IVA" v-model="partitaIVA">
+                <input required type="email" class="input validator" placeholder="Email" v-model="email">
+                <input required type="password" class="input validator" placeholder="Password" v-model="password">
                 <input required type="file" ref="image" class="file-input">
                 <input required type="submit" :value="$t('login.registrati')" @click="registerMerchant" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
             </div>
         </div>
+        <Alert ref="alertRef"/>
     </div>
 </template>
-
-<style scoped >
-    @reference "tailwindcss";
-    .input-1 {
-        @apply border border-black rounded-lg text-center
-    }
-
-    .btn-1 {
-        @apply p-4 border border-black bg-lime-700 text-white rounded-lg hover:bg-lime-800;
-    }
-</style>
