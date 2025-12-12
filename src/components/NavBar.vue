@@ -1,10 +1,11 @@
 <script lang="ts">
-    enum SearchFilter {
-        None = "Filters",
-        Shops = "Shops only",
-        Products = "Products only"
-    }
 
+    enum SearchFilter {
+        None,
+        Shops,
+        Products
+    }
+    
     function getFilterAPITranslation(filter: SearchFilter): string {
         switch (filter) {
             case SearchFilter.None:
@@ -18,10 +19,12 @@
 </script>
 
 <script setup lang="ts">
+    import { useI18n } from "vue-i18n";
     import { ref, type Ref } from 'vue';
     import VueCookies from 'vue-cookies';
     import WellfedLogo from './WellfedLogo.vue';
     import { router } from '../extensions/router';
+    const {t} = useI18n();
 
     const username = ref("");
     const searchQuery = ref("");
@@ -46,6 +49,17 @@
             })
         }
     });
+
+        function getFilterName(filter: SearchFilter): string {
+        switch (filter) {
+            case SearchFilter.None:
+                return t("ricerca.filtri.nome");
+            case SearchFilter.Products:
+                return t("ricerca.filtri.prodotti");
+            case SearchFilter.Shops:
+                return t("ricerca.filtri.negozi");
+        }
+    }
 
     function search() {
         if(searchQuery.value == ""){
@@ -83,19 +97,19 @@
         <div class="navbar-center">
             <!-- Search bar -->
             <div class="search-wrapper" @focusin="showHistory = true" @focusout="showHistory = false">
-                <input type="text" class="input w-[40dvw]" placeholder="Search" @keypress.enter="showHistory = false; search()" @input="showHistory = true" v-model="searchQuery" ref="searchBar">
+                <input type="text" class="input w-[40dvw]" :placeholder="$t('ricerca.cerca')" @keypress.enter="showHistory = false; search()" @input="showHistory = true" v-model="searchQuery" ref="searchBar">
                 <ul class="menu bg-base-200 fixed top-16 z-20 w-[40dvw] shadow-lg rounded-xl rounded-t-none" v-if="showHistory && searchHistory.length > 0">
-                    <li @mousedown.prevent="" v-for="search in searchHistory" @click="searchQuery = search; showHistory = false; searchBar?.focus()"><a>{{ search }}</a></li>
+                    <li @mousedown.prevent="" v-for="search in searchHistory.slice().reverse()" @click="searchQuery = search; showHistory = false; searchBar?.focus()"><a>{{ search }}</a></li>
                 </ul>
             </div>
 
             <!-- Filters -->
             <div class="dropdown">
-                <div tabindex="0" role="button" class="btn m-1">{{ filter.toString() }}</div>
+                <div tabindex="0" role="button" class="btn m-1">{{ getFilterName(filter) }}</div>
                 <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                    <li @click="filter = SearchFilter.None"><a>None</a></li>
-                    <li @click="filter = SearchFilter.Shops"><a>{{ SearchFilter.Shops }}</a></li>
-                    <li @click="filter = SearchFilter.Products"><a>{{ SearchFilter.Products }}</a></li>
+                    <li @click="filter = SearchFilter.None"><a>{{ $t("ricerca.filtri.nessuno") }}</a></li>
+                    <li @click="filter = SearchFilter.Shops"><a>{{ getFilterName(SearchFilter.Shops) }}</a></li>
+                    <li @click="filter = SearchFilter.Products"><a>{{ getFilterName(SearchFilter.Products) }}</a></li>
                 </ul>
                 </div>
             </div>

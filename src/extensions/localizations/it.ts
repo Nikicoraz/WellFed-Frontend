@@ -23,6 +23,13 @@ export default {
     },
     ricerca: {
         origine: "Origin",
-        punti: "Punti"
+        punti: "Punti",
+        cerca: "Cerca",
+        filtri: {
+            nome: "Filtri",
+            nessuno: "Nessuno",
+            negozi: "Solo negozi",
+            prodotti: "Solo prodotti"
+        }        
     }
 };

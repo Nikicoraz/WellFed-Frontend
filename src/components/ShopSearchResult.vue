@@ -26,8 +26,9 @@ import { router } from '../extensions/router';
             <img :src="getImageUrl(shop.image)" class="h-40 w-60 object-fill">
         </figure>
         <div class="card-body p-0">
-            <div class="bg-fed-green p-4">
+            <div class="bg-fed-green p-4 flex w-full justify-between">
                 <h2 class="card-title text-white text-2xl">{{ shop.name }}</h2>
+                <img src="../assets/shop.svg" class="h-10 fill-white" alt="">
             </div>
             <div class="py-2 px-4">
                 <p>{{ shop.address }}</p>
