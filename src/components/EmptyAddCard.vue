@@ -1,0 +1,22 @@
+<template>
+    <div
+        class="card card-border shadow rounded-xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
+    >
+        <div class="card-body">
+            <figure>
+                <div class="aspect-square overflow-hidden rounded-xl">
+                    <img
+                        class="w-full h-full object-cover"
+                        src="../assets/plus.svg"
+                        :alt="$t('shop.nuovoProdotto')"
+                    />
+                </div>
+            </figure>
+            <div class="flex justify-between mt-6">
+                <div class="flex">
+                    <h1 class="text-2xl card-title">Aggiungi un nuovo prodotto</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -45,7 +45,12 @@
                 return;
             }
             const data = await e.json();
-            (VueCookies as any).set("token", data.token, 86400);
+            (VueCookies as any).set("token", data.token, "1d");
+            if(e.headers.get("Location")?.includes("/shop/")) {
+                (VueCookies as any).set("merchantID", e.headers.get("Location")?.split("/shop/")[1], "1d");
+            } else {
+                (VueCookies as any).remove("merchantID");
+            }
             router.push(e.headers.get("Location") ?? "/");
         }).catch(e => {
             console.log(e);

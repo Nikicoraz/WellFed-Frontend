@@ -37,6 +37,9 @@ export default {
             nessuno: "Nessuno",
             negozi: "Solo negozi",
             prodotti: "Solo prodotti"
-        }        
+        }
+    },
+    shop: {
+        nuovoProdotto: "Aggiungi un nuovo prodotto"
     }
 };
