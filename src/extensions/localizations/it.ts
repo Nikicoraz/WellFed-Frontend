@@ -40,5 +40,16 @@ export default {
     },
     button: {
         chiudi: "Chiudi"
+    },
+    ricerca: {
+        origine: "Origin",
+        punti: "Punti",
+        cerca: "Cerca",
+        filtri: {
+            nome: "Filtri",
+            nessuno: "Nessuno",
+            negozi: "Solo negozi",
+            prodotti: "Solo prodotti"
+        }        
     }
 };  
