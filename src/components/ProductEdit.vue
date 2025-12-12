@@ -69,13 +69,59 @@
         }
     }
 
+    function createNewProduct(data: FormData, token: string){
+        fetch(import.meta.env.VITE_BACKEND_URL_API + `/shops/${props.shopId!}/products`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: data
+        }).then(e => {
+            switch (e.status) {
+                case 201:
+                    dialog.value.close();
+                    alert.value!.showError(AlertType.Success, t("shop.prodotto.creato"));
+                    if(props.onProductAdded){
+                        props.onProductAdded();
+                    }
+                    break;
+                default:
+                    alert.value!.showError(AlertType.Error, e.status + ": " + t("alerts.datiNonValidi"))
+                    break;
+            }
+        })
+    }
+
+    function updateExistingProduct(data: FormData, token: string){
+        fetch(import.meta.env.VITE_BACKEND_URL_API + `/shops/${props.shopId!}/products/${props.productId!}`, {
+            method: "PATCH",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: data
+        }).then(e => {
+            switch (e.status) {
+                case 200:
+                    dialog.value.close();
+                    alert.value!.showError(AlertType.Success, t("shop.prodotto.aggiornato"));
+                    if(props.onProductAdded){
+                        props.onProductAdded();
+                    }
+                    break;
+                default:
+                    alert.value!.showError(AlertType.Error, e.status + ": " + t("alerts.datiNonValidi"))
+                    break;
+            }
+        })
+    }
+
     function save() {
         if(!validateInputs(form.value!)){
             return
         }
 
         if(!image.value || !image.value.files) {
-            // triggerErrorAlert(t("alerts.noimage"));
+            alert.value!.showError(AlertType.Error, t("alerts.noimage"));
             return;
         }
 
@@ -92,28 +138,10 @@
         }
         
 
-        // TODO: Dividi in empty function e altro
         if(empty.value) {
-            fetch(import.meta.env.VITE_BACKEND_URL_API + `/shops/${props.shopId!}/products`, {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                },
-                body: data
-            }).then(e => {
-                switch (e.status) {
-                    case 201:
-                        dialog.value.close();
-                        alert.value!.showError(AlertType.Success, t("shop.prodotto.creato"));
-                        if(props.onProductAdded){
-                            props.onProductAdded();
-                        }
-                        break;
-                    default:
-                        alert.value!.showError(AlertType.Error, e.status + ": " + t("alerts.datiNonValidi"))
-                        break;
-                }
-            })
+            createNewProduct(data, token);
+        } else {
+            updateExistingProduct(data, token);
         }
     }
 

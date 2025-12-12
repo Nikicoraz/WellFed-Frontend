@@ -50,7 +50,8 @@ export default {
         nessunPunto: "Non assegna punti",
         prodotto: {
             nuovo: "Aggiungi un nuovo prodotto",
-            creato: "Il prodotto è stato aggiunto al negozio con successo!"
+            creato: "Il prodotto è stato aggiunto al negozio con successo!",
+            aggiornato: "Il prodotto è stato aggiornato con successo!"
         }
     }
 };

@@ -47,7 +47,7 @@
             <!-- Pulsante per l'aggiunta di un nuovo prodotto -->
             <EmptyAddCard v-if="editable" @click="newElementDetails" />
             <!-- Prodotti  del negozio -->
-            <ProductCard v-for="product in products" :shopId="shopId" :productId="product.id" :editable="editable" @showDetails="showDetails"/>
+            <ProductCard v-for="product in products" :shopId="shopId" :key="product" :productId="product.id" :editable="editable" @showDetails="showDetails"/>
         </div> 
     </div>
     <!-- Popup visualizzazione -->
