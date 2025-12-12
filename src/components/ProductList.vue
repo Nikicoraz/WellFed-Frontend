@@ -35,9 +35,9 @@
         <h1 class="text-3xl font-bold my-8">Prodotti</h1>
         <div class="grid grid-cols-4 gap-4">
             <!-- Pulsante per l'aggiunta di un nuovo prodotto -->
-            <EmptyAddCard />
+            <EmptyAddCard v-if="editable" />
             <!-- Prodotti  del negozio -->
-            <ProductCard v-for="product in products" :shopId="shopId" :productId="product.id" @showDetails="showDetails"/>
+            <ProductCard v-for="product in products" :shopId="shopId" :productId="product.id" :editable="editable" @showDetails="showDetails"/>
         </div> 
     </div>
     <ProductDetails ref="modalRef" v-if="details" :shopId="shopId" :productId="detailsProductId"/>

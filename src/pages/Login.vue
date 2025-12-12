@@ -82,6 +82,7 @@
                 case 200:
                     const data = await e.json();
                     (VueCookies as any).set("token", data.token, 86400);
+                    (VueCookies as any).remove("merchantID");
                     router.push(e.headers.get("Location") ?? "/");
                     break;
             }

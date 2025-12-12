@@ -4,7 +4,8 @@
 
     const props = defineProps({
         shopId: String,
-        productId: String
+        productId: String,
+        editable: Boolean
     });
 
     const emit = defineEmits(['showDetails']);
@@ -39,6 +40,9 @@
                     <h1 class="text-2xl card-title">{{ product.name }}</h1>
                 </div>
                 <div class="bg-lime-700 text-white border rounded-lg btn"> {{ product.points }} </div>
+            </div>
+            <div class="absolute top-8 left-8 bg-base-200 p-4 rounded-xl">
+                <img src="../assets/pencil.svg" alt="">
             </div>
         </div>
     </div>
