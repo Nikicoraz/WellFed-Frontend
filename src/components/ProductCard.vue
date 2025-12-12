@@ -23,7 +23,7 @@
     <div
         v-if="product"
         @click="$emit('showDetails', productId)"
-        class="card card-border shadow rounded-xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
+        class="bg-base-100 card card-border shadow rounded-xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
     >
         <div class="card-body">
             <figure>
@@ -41,6 +41,8 @@
                 </div>
                 <div class="bg-lime-700 text-white border rounded-lg btn"> {{ product.points }} </div>
             </div>
+
+            <!-- Matita di editing -->
             <div class="absolute top-8 left-8 bg-base-200 p-4 rounded-xl">
                 <img src="../assets/pencil.svg" alt="">
             </div>

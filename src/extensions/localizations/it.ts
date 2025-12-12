@@ -40,6 +40,13 @@ export default {
         }
     },
     shop: {
-        nuovoProdotto: "Aggiungi un nuovo prodotto"
+        nome: "Nome",
+        descrizione: "Descrizione",
+        origine: "Origine",
+        punti: "Punti",
+        immagine: "Cambia immagine",
+        nuovoProdotto: "Aggiungi un nuovo prodotto",
+        annulla: "Annulla",
+        salva: "Salva"
     }
 };

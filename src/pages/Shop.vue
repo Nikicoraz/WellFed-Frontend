@@ -2,7 +2,7 @@
     import { useRoute } from 'vue-router';
     import { onMounted, ref } from 'vue';
     import type { Ref } from 'vue';
-    import ProductsCustomer from '../components/ProductList.vue';
+    import ProductList from '../components/ProductList.vue';
     import ShopDetails from '../components/ShopDetails.vue';
     import  VueCookies from 'vue-cookies';
 
@@ -18,13 +18,15 @@
 </script>
 
 <template>
-    <div v-if="shop" class="w-3/4 p-8 mx-auto">
-        <ShopDetails :shopId="shopId"/>
-        <ProductsCustomer :shopId="shopId" :editable="isShopOwner"/>
-    </div>
-    <div v-else class="flex items-center justify-center h-screen">
-        <div>
-            No shop was found :(
+    <div class="min-h-screen bg-fed-bg">
+        <div v-if="shop" class="w-3/4 p-8 mx-auto">
+            <ShopDetails :shopId="shopId"/>
+            <ProductList :shopId="shopId" :editable="isShopOwner"/>
+        </div>
+        <div v-else class="flex items-center justify-center h-screen">
+            <div>
+                No shop was found :(
+            </div>
         </div>
     </div>
 </template>

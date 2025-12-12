@@ -1,6 +1,6 @@
 <template>
     <div
-        class="card card-border shadow rounded-xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
+        class="bg-base-100 card card-border shadow rounded-xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
     >
         <div class="card-body">
             <figure>
