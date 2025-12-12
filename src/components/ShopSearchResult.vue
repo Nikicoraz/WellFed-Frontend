@@ -7,7 +7,7 @@
     }
 
     function getImageUrl(imageURL: String): string{
-        return import.meta.env.VITE_BACKEND_URL + "/public/images/merchants/" + imageURL;
+        return import.meta.env.VITE_BACKEND_URL + imageURL;
     }
 </script>
 
