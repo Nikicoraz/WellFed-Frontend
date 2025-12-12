@@ -6,6 +6,7 @@
     import { useI18n } from "vue-i18n";
     import Alert from "./Alert.vue";
     import AlertType from "../types/alert";
+    import ConfirmModal from "./ConfirmModal.vue";
 
     const props = defineProps({
         shopId: String,
@@ -27,8 +28,8 @@
     }
 
     const alert = ref<typeof Alert | null>(null);
-    const dialog: Ref<any> = ref(null);
-    const box: Ref<any> = ref(null);
+    const dialog = ref<HTMLDialogElement | null>(null);
+    const box: Ref<HTMLDivElement | null> = ref(null);
     const empty = ref(false);
     const form = ref<HTMLDivElement | null>(null);
     const name = ref("");
@@ -36,6 +37,7 @@
     const origin = ref("");
     const points = ref(0);
     const image = ref<HTMLInputElement | null>(null);
+    const askModal = ref<typeof ConfirmModal | null>(null); 
 
     const assignsPoints = ref(true);
 
@@ -56,7 +58,7 @@
         }else{
             product.value = {...emptyProduct};
             empty.value = true;
-            dialog.value.show();
+            dialog.value!.show();
         }
         
         name.value = product.value.name;
@@ -79,7 +81,7 @@
         }).then(e => {
             switch (e.status) {
                 case 201:
-                    dialog.value.close();
+                    dialog.value!.close();
                     alert.value!.showError(AlertType.Success, t("shop.prodotto.creato"));
                     if(props.onProductAdded){
                         props.onProductAdded();
@@ -102,7 +104,7 @@
         }).then(e => {
             switch (e.status) {
                 case 200:
-                    dialog.value.close();
+                    dialog.value!.close();
                     alert.value!.showError(AlertType.Success, t("shop.prodotto.aggiornato"));
                     if(props.onProductAdded){
                         props.onProductAdded();
@@ -143,6 +145,34 @@
         } else {
             updateExistingProduct(data, token);
         }
+    }
+
+    function deleteProductAskConfirm(){
+        askModal.value!.ask(t('shop.prodotto.confermaCancellazione'));
+    }
+
+    function deleteProduct() {
+        const token = (cookies as any).get("token");
+
+        fetch(import.meta.env.VITE_BACKEND_URL_API + `/shops/${props.shopId!}/products/${props.productId!}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }).then(e =>{
+            switch (e.status) {
+                case 200:
+                    dialog.value!.close();
+                    alert.value!.showError(AlertType.Success, t("shop.prodotto.cancellato"));
+                    if(props.onProductAdded){
+                        props.onProductAdded();
+                    }
+                    break;
+                default:
+                    alert.value!.showError(AlertType.Error, e.status + ":" + t("alerts.errore"));
+                    break;
+            }
+        })
     }
 
     defineExpose({ open });
@@ -186,6 +216,7 @@
                 </div>
             </div>
             <div class="my-4 modal-action">
+                <button @click="deleteProductAskConfirm" class="btn mr-auto bg-red-700 text-white">{{ $t("shop.elimina") }}</button>
                 <form method="dialog">
                     <button class="btn">{{ $t("shop.annulla") }}</button>
                 </form>
@@ -194,4 +225,13 @@
         </div>
     </dialog>
     <Alert ref="alert" />
+    <ConfirmModal @on-yes='deleteProduct' ref="askModal" />
 </template>
+
+<style>
+    @reference "tailwindcss";
+
+    .yes-btn {
+        @apply bg-red-700 text-white;
+    }
+</style>

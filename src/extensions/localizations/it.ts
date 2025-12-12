@@ -26,7 +26,8 @@ export default {
         noimage: "Occorre inserire un'immagine!",
         googleTokenInvalido: "Errore durante l'autenticazione SSO",
         emailInUsoSSO: "L'email associata con l'account Google è già registrata nel sistema. Si prega di utilizzare la pagina di login",
-        emailInUsoLocale: "L'email associata con l'account Google è già registrata nel sistema. Si prega di autenticarsi con le credenziali locali"
+        emailInUsoLocale: "L'email associata con l'account Google è già registrata nel sistema. Si prega di autenticarsi con le credenziali locali",
+        errore: "Errore"
     },
     ricerca: {
         origine: "Origin",
@@ -48,10 +49,14 @@ export default {
         annulla: "Annulla",
         salva: "Salva",
         nessunPunto: "Non assegna punti",
+        conferma: "Conferma",
+        elimina: "Elimina",
         prodotto: {
             nuovo: "Aggiungi un nuovo prodotto",
             creato: "Il prodotto è stato aggiunto al negozio con successo!",
-            aggiornato: "Il prodotto è stato aggiornato con successo!"
+            aggiornato: "Il prodotto è stato aggiornato con successo!",
+            confermaCancellazione: "Sei sicuro che vuoi cancellare questo prodotto?",
+            cancellato: "Il prodotto è stato cancellato con successo"
         }
     }
 };

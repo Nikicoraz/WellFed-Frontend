@@ -10,7 +10,7 @@
     const product: Ref<any> = ref<any>(null);
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
 
-    const dialog: Ref<any> = ref(null);
+    const dialog: Ref<HTMLDialogElement | null> = ref(null);
 
     async function open() {
         product.value = await fetch(`${import.meta.env.VITE_BACKEND_URL_API}/shops/${props.shopId}/products/${props.productId}`)
