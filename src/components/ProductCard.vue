@@ -39,11 +39,11 @@
                 <div class="flex">
                     <h1 class="text-2xl card-title">{{ product.name }}</h1>
                 </div>
-                <div class="bg-lime-700 text-white border rounded-lg btn"> {{ product.points }} </div>
+                <div class="bg-lime-700 text-white border rounded-lg btn"> {{ product.points ?? 0 }} </div>
             </div>
 
             <!-- Matita di editing -->
-            <div class="absolute top-8 left-8 bg-base-200 p-4 rounded-xl">
+            <div class="absolute top-8 left-8 bg-base-200 p-4 rounded-xl" v-if="editable">
                 <img src="../assets/pencil.svg" alt="">
             </div>
         </div>

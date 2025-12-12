@@ -45,8 +45,12 @@ export default {
         origine: "Origine",
         punti: "Punti",
         immagine: "Cambia immagine",
-        nuovoProdotto: "Aggiungi un nuovo prodotto",
         annulla: "Annulla",
-        salva: "Salva"
+        salva: "Salva",
+        nessunPunto: "Non assegna punti",
+        prodotto: {
+            nuovo: "Aggiungi un nuovo prodotto",
+            creato: "Il prodotto è stato aggiunto al negozio con successo!"
+        }
     }
 };

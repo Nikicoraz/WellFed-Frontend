@@ -8,7 +8,7 @@
                     <img
                         class="w-full h-full object-cover"
                         src="../assets/plus.svg"
-                        :alt="$t('shop.nuovoProdotto')"
+                        :alt="$t('shop.prodotto.nuovo')"
                     />
                 </div>
             </figure>

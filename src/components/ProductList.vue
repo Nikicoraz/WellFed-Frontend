@@ -29,10 +29,14 @@
         modalRef.value?.open();
     }
 
-    onMounted(async () => {
+    async function updateProducts() {
         products.value = await fetch(`${import.meta.env.VITE_BACKEND_URL_API}/shops/${props.shopId}/products`)
             .then((res) => { return res.json() })
             .catch(() => { shopFound.value = false });
+    }
+
+    onMounted(() => {
+        updateProducts();
     });
 </script>
 
@@ -49,5 +53,5 @@
     <!-- Popup visualizzazione -->
     <ProductDetails ref="modalRef" :shopId="shopId" :productId="detailsProductId" v-if="!editable" />
     <!-- Popup creazione -->
-    <ProductEdit ref="modalRef" :shopId="shopId" :productId="detailsProductId" v-if="editable" />
+    <ProductEdit ref="modalRef" :onProductAdded="updateProducts" :shopId="shopId" :productId="detailsProductId"  v-if="editable" />
 </template>
