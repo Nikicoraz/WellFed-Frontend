@@ -11,9 +11,10 @@
     import { useI18n } from "vue-i18n";
     import cookies from "vue-cookies";
     import QRPopup from "./QRPopup.vue";
-    
-    const {t} = useI18n();
+    import { useRoute } from "vue-router";
 
+    const {t} = useI18n();
+    const route = useRoute();
 
     const props = defineProps({
         shopId: String,
@@ -93,8 +94,13 @@
         })
     }
 
-    onMounted(() => {
-        updateProducts();
+    onMounted(async () => {
+        await updateProducts();
+        const productId = route.query.product;
+
+        if(productId){
+            showDetails(productId as string);
+        }
     });
 
     defineExpose({createTransactionQR});
