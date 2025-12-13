@@ -6,6 +6,13 @@
     import EmptyAddCard from "./EmptyAddCard.vue";
     import ProductEdit from "./ProductEdit.vue";
     import ProductSelector from "./ProductSelector.vue";
+    import Alert from "./Alert.vue";
+    import AlertType from "../types/alert";
+    import { useI18n } from "vue-i18n";
+    import cookies from "vue-cookies";
+    
+    const {t} = useI18n();
+
 
     const props = defineProps({
         shopId: String,
@@ -18,6 +25,8 @@
     const shopFound = ref(true);
     const detailsProductId = ref("");
     const modalRef: Ref<any> = ref(null);
+    const selectors = ref<typeof ProductSelector[] | null>(null);
+    const alertRef = ref<typeof Alert | null>(null);
 
     async function showDetails(productId: string) {
         detailsProductId.value = productId;
@@ -37,9 +46,54 @@
             .catch(() => { shopFound.value = false });
     }
 
+    function createTransactionQR() {
+        const toAdd = [];
+        for(const selector of selectors.value!) {
+            if(selector.getCount() > 0){
+                toAdd.push({
+                    productID: selector.getProductId(),
+                    quantity: selector.getCount()
+                });
+            }
+        }
+
+        if(toAdd.length == 0) {
+            alertRef.value!.showError(AlertType.Error, t("alerts.nessunProdotto"));
+            return;
+        }
+
+        const token = (cookies as any).get("token");
+
+        fetch(import.meta.env.VITE_BACKEND_URL_API + "/QRCodes/assignPoints", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(toAdd)
+        }).then(e => {
+            switch(e.status) {
+                case 200:
+                    e.text().then(t => console.log(t));
+                    break;
+                case 400:
+                    alertRef.value!.showError(AlertType.Error, t("alerts.datiNonValidi"));
+                    break;
+                case 401:
+                    alertRef.value!.showError(AlertType.Error, t("alerts.nonAutorizzato"));
+                    break;
+                default:
+                    alertRef.value!.showError(AlertType.Error, e.status + ": " + t("alerts.errore"));
+                    break;
+            }
+        })
+    }
+
     onMounted(() => {
         updateProducts();
     });
+
+    defineExpose({createTransactionQR});
 </script>
 
 <template>
@@ -51,7 +105,7 @@
             <!-- Prodotti  del negozio -->
             <div v-for="product in products">
                 <ProductCard :shopId="shopId" :key="product" :productId="product.id" :editable="editable" @showDetails="showDetails" :class="props.creatingTransaction ? 'rounded-b-none' : ''" />
-                <ProductSelector v-if="props.creatingTransaction" />
+                <ProductSelector ref="selectors" v-if="props.creatingTransaction" :productId="product.id" />
             </div>
         </div> 
     </div>
@@ -59,4 +113,6 @@
     <ProductDetails ref="modalRef" :shopId="shopId" :productId="detailsProductId" v-if="!editable" />
     <!-- Popup creazione -->
     <ProductEdit ref="modalRef" :onProductAdded="updateProducts" :shopId="shopId" :productId="detailsProductId"  v-if="editable" />
+
+    <Alert ref="alertRef" />
 </template>

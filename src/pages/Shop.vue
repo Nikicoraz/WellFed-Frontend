@@ -9,6 +9,7 @@
     const shopId = ref(useRoute().params.shopId as string);
     const currentMerchantID: string | undefined = (VueCookies as any).get("merchantID");
     const creatingTransaction = ref(false);
+    const productList = ref<typeof ProductList | null>(null);
 
 
     const shop: Ref<any> = ref(null);
@@ -18,16 +19,20 @@
             .then((res) => { return res.json(); });
     });
 
-    function transactionMode(){
-        creatingTransaction.value = true;
+    function toggleTransaction(){
+        creatingTransaction.value = !creatingTransaction.value;
+    }
+
+    function confirmTransaction() {
+        productList.value!.createTransactionQR();
     }
 </script>
 
 <template>
     <div class="min-h-screen bg-fed-bg">
         <div v-if="shop" class="w-3/4 p-8 mx-auto">
-            <ShopDetails :shopId="shopId" :onTransactionOpen="transactionMode" />
-            <ProductList :shopId="shopId" :editable="isShopOwner" :creatingTransaction="creatingTransaction"/>
+            <ShopDetails :shopId="shopId" :onTransactionOpen="toggleTransaction" @confirmTransaction="confirmTransaction"/>
+            <ProductList ref="productList" :shopId="shopId" :editable="isShopOwner" :creatingTransaction="creatingTransaction" />
         </div>
         <div v-else class="flex items-center justify-center h-screen">
             <div>

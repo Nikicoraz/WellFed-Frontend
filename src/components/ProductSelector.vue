@@ -1,6 +1,10 @@
 <script setup lang="ts">
     import { ref } from 'vue';
 
+    const props = defineProps<{
+        productId: string
+    }>();
+
     const count = ref(0);
 
     function decrease(){
@@ -16,7 +20,11 @@
         return count.value;
     }
 
-    defineExpose({getCount})
+    function getProductId(): string {
+        return props.productId;
+    }
+
+    defineExpose({getCount, getProductId})
 </script>
 
 <template>
