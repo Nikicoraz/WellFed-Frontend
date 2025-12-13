@@ -216,7 +216,7 @@
                 </div>
             </div>
             <div class="my-4 modal-action">
-                <button @click="deleteProductAskConfirm" class="btn mr-auto bg-red-700 text-white">{{ $t("shop.elimina") }}</button>
+                <button v-if="!empty" @click="deleteProductAskConfirm" class="btn mr-auto bg-red-700 text-white">{{ $t("shop.elimina") }}</button>
                 <form method="dialog">
                     <button class="btn">{{ $t("shop.annulla") }}</button>
                 </form>
