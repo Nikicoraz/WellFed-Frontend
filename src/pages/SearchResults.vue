@@ -32,8 +32,6 @@
         const query = proxy.query.query;
         const filter = proxy.query.filter;
     
-        console.log(query);
-
         fetch(import.meta.env.VITE_BACKEND_URL_API + "/search?query=" + query + "&filter=" + filter).then(e => e.json()).then(data => {
             results.value = data as SearchResults;
         });
