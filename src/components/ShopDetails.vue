@@ -43,10 +43,9 @@
                     <h1 class="text-3xl md:text-6xl text-center font-bold">{{ shop.name }}</h1>
                     <p class="text-center py-4"> {{ shop.address }} </p>
                     <div class="flex flex-col" v-if="props.isShopOwner">
-                        <!-- TODO: Traduzioni -->
-                        <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-fed-green text-white rounded-xl" @click="toggleTransaction" v-if="!transactionMode">Nuova transazione</button>
-                        <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-lime-700 text-white rounded-xl" @click="$emit('confirmTransaction')" v-if="transactionMode">Conferma transazione</button>
-                        <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-red-700 text-white rounded-xl" v-if="transactionMode" @click="toggleTransaction">Annulla Transazione</button>
+                        <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-fed-green text-white rounded-xl" @click="toggleTransaction" v-if="!transactionMode">{{ $t("shop.transazioni.nuova") }}</button>
+                        <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-lime-700 text-white rounded-xl" @click="$emit('confirmTransaction')" v-if="transactionMode">{{ $t("shop.transazioni.conferma") }}</button>
+                        <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-red-700 text-white rounded-xl" v-if="transactionMode" @click="toggleTransaction">{{ $t("shop.transazioni.annulla") }}</button>
                     </div>
                 </div>
             </div>

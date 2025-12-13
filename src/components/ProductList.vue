@@ -10,7 +10,7 @@
     import AlertType from "../types/alert";
     import { useI18n } from "vue-i18n";
     import cookies from "vue-cookies";
-import QRPopup from "./QRPopup.vue";
+    import QRPopup from "./QRPopup.vue";
     
     const {t} = useI18n();
 

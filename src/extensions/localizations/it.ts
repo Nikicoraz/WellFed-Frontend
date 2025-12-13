@@ -62,6 +62,11 @@ export default {
         },
         qrcode: {
             mostraACliente: "Fai scansionare questo QR code al cliente per assegnargli i punti!"
+        },
+        transazioni: {
+            nuova: "Nuova transazione",
+            conferma: "Conferma transazione",
+            annulla: "Annulla transazione"
         }
     },
 };

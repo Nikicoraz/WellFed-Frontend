@@ -18,7 +18,6 @@
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
     const {t} = useI18n();
 
-    // TODO: L'immagine dovrebbe essere tipo una template image
     const emptyProduct = {
         name: "",
         description: "",

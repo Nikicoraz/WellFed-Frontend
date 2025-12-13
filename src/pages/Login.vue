@@ -61,7 +61,6 @@
     function googleLogin(response: any) {
         const token: string = response.credential;
 
-        // TODO: Cambia URL
         fetch(import.meta.env.VITE_BACKEND_URL_API + "/login/SSO", {
             method: "POST",
             headers: { 
