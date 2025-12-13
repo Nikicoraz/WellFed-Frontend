@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import { useRoute } from "vue-router";
     import ProductCard from "../components/ProductCard.vue";
     import ProductDetails from "../components/ProductDetails.vue";
     import { ref, onMounted, nextTick } from "vue";
@@ -13,6 +14,7 @@
     const details = ref(false);
     const detailsProductId = ref("");
     const modalRef: Ref<any> = ref(null);
+    const route = useRoute();
 
     async function showDetails(productId: string) {
         detailsProductId.value = productId;
@@ -25,7 +27,15 @@
         products.value = await fetch(`${import.meta.env.VITE_BACKEND_URL_API}/shops/${props.shopId}/products`)
             .then((res) => { return res.json() })
             .catch(() => { shopFound.value = false });
+
+        const productId = route.query.product;
+
+        if(productId){
+            showDetails(productId as string);
+        }
     });
+
+    
 </script>
 
 <template>
