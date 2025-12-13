@@ -26,12 +26,10 @@ export default {
         noimage: "Occorre inserire un'immagine!",
         googleTokenInvalido: "Errore durante l'autenticazione SSO",
         emailInUsoSSO: "L'email associata con l'account Google è già registrata nel sistema. Si prega di utilizzare la pagina di login",
-        emailInUsoLocale: "L'email associata con l'account Google è già registrata nel sistema. Si prega di autenticarsi con le credenziali locali"
-    },
-    shop: {
-        negozioNonTrovato: "Il negozio non esiste",
-        altImmagineNegozio: "Immagine del negozio",
-        prodotti: "Prodotti"
+        emailInUsoLocale: "L'email associata con l'account Google è già registrata nel sistema. Si prega di autenticarsi con le credenziali locali",
+        errore: "Errore",
+        nessunProdotto: "Occorre selezionare almeno un prodotto!",
+        nonAutorizzato: "Non sei autorizzato ad eseguire questa operazione"
     },
     product: {
         origine: "Origine",
@@ -50,6 +48,36 @@ export default {
             nessuno: "Nessuno",
             negozi: "Solo negozi",
             prodotti: "Solo prodotti"
-        }        
-    }
-};  
+        }
+    },
+    shop: {
+        nome: "Nome",
+        negozioNonTrovato: "Il negozio non esiste",
+        altImmagineNegozio: "Immagine del negozio",
+        prodotti: "Prodotti",
+        descrizione: "Descrizione",
+        origine: "Origine",
+        punti: "Punti",
+        immagine: "Cambia immagine",
+        annulla: "Annulla",
+        salva: "Salva",
+        nessunPunto: "Non assegna punti",
+        conferma: "Conferma",
+        elimina: "Elimina",
+        prodotto: {
+            nuovo: "Aggiungi un nuovo prodotto",
+            creato: "Il prodotto è stato aggiunto al negozio con successo!",
+            aggiornato: "Il prodotto è stato aggiornato con successo!",
+            confermaCancellazione: "Sei sicuro che vuoi cancellare questo prodotto?",
+            cancellato: "Il prodotto è stato cancellato con successo"
+        },
+        qrcode: {
+            mostraACliente: "Fai scansionare questo QR code al cliente per assegnargli i punti!"
+        },
+        transazioni: {
+            nuova: "Nuova transazione",
+            conferma: "Conferma transazione",
+            annulla: "Annulla transazione"
+        }
+    },
+};
