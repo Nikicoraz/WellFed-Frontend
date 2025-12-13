@@ -14,7 +14,7 @@
             </figure>
             <div class="flex justify-between mt-6">
                 <div class="flex">
-                    <h1 class="text-2xl card-title">Aggiungi un nuovo prodotto</h1>
+                    <h1 class="text-2xl card-title">{{ $t("shop.prodotto.nuovo") }}</h1>
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@ import { ref, watch } from 'vue';
         <p class="py-4">{{ $t("shop.qrcode.mostraACliente") }}</p>
         <div class="modal-action">
             <form method="dialog">
-                <button class="btn">Close</button>
+                <button class="btn">{{ $t("button.chiudi") }}</button>
             </form>
         </div>
     </div>
