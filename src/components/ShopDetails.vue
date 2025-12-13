@@ -4,7 +4,8 @@
 
     const props = defineProps({
         shopId: String,
-        onTransactionOpen: Function
+        onTransactionOpen: Function,
+        isShopOwner: Boolean
     });
 
     const emit = defineEmits(['confirmTransaction']);
@@ -41,7 +42,7 @@
                 <div>
                     <h1 class="text-3xl md:text-6xl text-center font-bold">{{ shop.name }}</h1>
                     <p class="text-center py-4"> {{ shop.address }} </p>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col" v-if="props.isShopOwner">
                         <!-- TODO: Traduzioni -->
                         <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-fed-green text-white rounded-xl" @click="toggleTransaction" v-if="!transactionMode">Nuova transazione</button>
                         <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-lime-700 text-white rounded-xl" @click="$emit('confirmTransaction')" v-if="transactionMode">Conferma transazione</button>

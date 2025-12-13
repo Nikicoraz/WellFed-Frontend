@@ -59,6 +59,9 @@ export default {
             aggiornato: "Il prodotto è stato aggiornato con successo!",
             confermaCancellazione: "Sei sicuro che vuoi cancellare questo prodotto?",
             cancellato: "Il prodotto è stato cancellato con successo"
+        },
+        qrcode: {
+            mostraACliente: "Fai scansionare questo QR code al cliente per assegnargli i punti!"
         }
-    }
+    },
 };

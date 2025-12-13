@@ -10,6 +10,7 @@
     import AlertType from "../types/alert";
     import { useI18n } from "vue-i18n";
     import cookies from "vue-cookies";
+import QRPopup from "./QRPopup.vue";
     
     const {t} = useI18n();
 
@@ -27,6 +28,7 @@
     const modalRef: Ref<any> = ref(null);
     const selectors = ref<typeof ProductSelector[] | null>(null);
     const alertRef = ref<typeof Alert | null>(null);
+    const displayQRCode = ref("");
 
     async function showDetails(productId: string) {
         detailsProductId.value = productId;
@@ -74,7 +76,9 @@
         }).then(e => {
             switch(e.status) {
                 case 200:
-                    e.text().then(t => console.log(t));
+                    e.text().then(t => {
+                        displayQRCode.value = t;
+                    });
                     break;
                 case 400:
                     alertRef.value!.showError(AlertType.Error, t("alerts.datiNonValidi"));
@@ -115,4 +119,5 @@
     <ProductEdit ref="modalRef" :onProductAdded="updateProducts" :shopId="shopId" :productId="detailsProductId"  v-if="editable" />
 
     <Alert ref="alertRef" />
+    <QRPopup :qrcode="displayQRCode" />
 </template>
