@@ -25,7 +25,7 @@
         @click="$emit('showDetails', productId)"
         class="bg-base-100 card card-border shadow rounded-xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
     >
-        <div class="card-body">
+        <div class="card-body h-100">
             <figure>
                 <div class="aspect-square overflow-hidden rounded-xl">
                     <img
@@ -36,9 +36,7 @@
                 </div>
             </figure>
             <div class="flex justify-between mt-6">
-                <div class="flex">
-                    <h1 class="text-2xl card-title">{{ product.name }}</h1>
-                </div>
+                <h1 class="text-2xl card-title w-8/12"><p class="truncate">{{ product.name }}</p></h1>
                 <div class="bg-lime-700 text-white border rounded-lg btn"> {{ product.points ?? 0 }} </div>
             </div>
 

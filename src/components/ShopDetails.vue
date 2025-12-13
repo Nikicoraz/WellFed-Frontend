@@ -3,7 +3,8 @@
     import type { Ref } from "vue";
 
     const props = defineProps({
-        shopId: String
+        shopId: String,
+        onTransactionOpen: Function
     });
 
     const emit = defineEmits(['showDetails']);
@@ -33,6 +34,9 @@
                 <div>
                     <h1 class="text-3xl md:text-6xl text-center font-bold">{{ shop.name }}</h1>
                     <p class="text-center py-4"> {{ shop.address }} </p>
+                    <div class="flex">
+                        <button class="btn text-xl px-12 py-8 m-auto bg-fed-green text-white rounded-xl" @click="onTransactionOpen!">Nuova transazione</button>
+                    </div>
                 </div>
             </div>
 

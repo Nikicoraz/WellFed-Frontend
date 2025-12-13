@@ -5,10 +5,12 @@
     import type { Ref } from "vue";
     import EmptyAddCard from "./EmptyAddCard.vue";
     import ProductEdit from "./ProductEdit.vue";
+    import ProductSelector from "./ProductSelector.vue";
 
     const props = defineProps({
         shopId: String,
-        editable: Boolean
+        editable: Boolean,
+        creatingTransaction: Boolean
     });
 
     // useRoute prende il parametro :shopId definito nella route
@@ -47,7 +49,10 @@
             <!-- Pulsante per l'aggiunta di un nuovo prodotto -->
             <EmptyAddCard v-if="editable" @click="newElementDetails" />
             <!-- Prodotti  del negozio -->
-            <ProductCard v-for="product in products" :shopId="shopId" :key="product" :productId="product.id" :editable="editable" @showDetails="showDetails"/>
+            <div v-for="product in products">
+                <ProductCard :shopId="shopId" :key="product" :productId="product.id" :editable="editable" @showDetails="showDetails" :class="props.creatingTransaction ? 'rounded-b-none' : ''" />
+                <ProductSelector v-if="props.creatingTransaction" />
+            </div>
         </div> 
     </div>
     <!-- Popup visualizzazione -->
