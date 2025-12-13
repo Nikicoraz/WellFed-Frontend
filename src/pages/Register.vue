@@ -11,6 +11,7 @@
     import { GoogleLogin } from "vue3-google-login";
     import Alert from "../components/Alert.vue";
     import AlertType from "../types/alert";
+    import { validateInputs } from "../extensions/formValidation";
 
     const {t} = useI18n();
     let isClient = ref(true);
@@ -24,17 +25,7 @@
     const clientForm = ref<HTMLDivElement | null>(null);
     const merchantForm = ref<HTMLDivElement | null>(null);
 
-    function validateInputs(form: HTMLDivElement): boolean {
-        for(const child of form.children) {
-            if (child.classList.contains("input") || child.classList.contains("file-input")) {
-                if(!(child as HTMLInputElement).reportValidity()) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
+    
 
     // Non ho idea di che tipo sia 
     const alertRef: Ref<any> = ref(null);
@@ -189,8 +180,8 @@
                 <input required type="text" class="input validator" :placeholder="$t('register.indirizzoNegozio')" v-model="indirizzo">
                 <input required type="text" class="input validator" placeholder="Partita IVA" v-model="partitaIVA">
                 <input required type="email" class="input validator" placeholder="Email" v-model="email">
-                <input required type="password" class="input validator" placeholder="Password" v-model="password">
-                <input required type="file" ref="image" class="file-input">
+                <input required type="password" class="input validator" placeholder="Password" v-model="password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-_]).{8,40}$" :title="$t('register.formatoPassword')">
+                <input required type="file" ref="image" class="file-input validator" accept="image/jpeg, image/png, image/webp">
                 <input required type="submit" :value="$t('login.registrati')" @click="registerMerchant" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
             </div>
         </div>

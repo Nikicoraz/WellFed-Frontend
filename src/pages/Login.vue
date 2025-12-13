@@ -8,7 +8,6 @@
     import Alert from "../components/Alert.vue";
     import AlertType from "../types/alert";
 
-
     const {t} = useI18n();
 
     const email = ref("");
@@ -45,7 +44,12 @@
                 return;
             }
             const data = await e.json();
-            (VueCookies as any).set("token", data.token, 86400);
+            (VueCookies as any).set("token", data.token, "1d");
+            if(e.headers.get("Location")?.includes("/shop/")) {
+                (VueCookies as any).set("merchantID", e.headers.get("Location")?.split("/shop/")[1], "1d");
+            } else {
+                (VueCookies as any).remove("merchantID");
+            }
             router.push(e.headers.get("Location") ?? "/");
         }).catch(e => {
             console.log(e);
@@ -56,7 +60,6 @@
     function googleLogin(response: any) {
         const token: string = response.credential;
 
-        // TODO: Cambia URL
         fetch(import.meta.env.VITE_BACKEND_URL_API + "/login/SSO", {
             method: "POST",
             headers: { 
@@ -77,6 +80,7 @@
                 case 200:
                     const data = await e.json();
                     (VueCookies as any).set("token", data.token, 86400);
+                    (VueCookies as any).remove("merchantID");
                     router.push(e.headers.get("Location") ?? "/");
                     break;
             }
