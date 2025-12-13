@@ -3,13 +3,22 @@
     import type { Ref } from "vue";
 
     const props = defineProps({
-        shopId: String
+        shopId: String,
+        onTransactionOpen: Function,
+        isShopOwner: Boolean
     });
 
-    const emit = defineEmits(['showDetails']);
+    const emit = defineEmits(['confirmTransaction']);
 
     const shop: Ref<any> = ref(null);
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
+    const transactionMode = ref(false);
+    
+    function toggleTransaction(){
+        transactionMode.value = !transactionMode.value;
+
+        props.onTransactionOpen!();
+    }
 
     onMounted(async () => {
         shop.value = await fetch(`${import.meta.env.VITE_BACKEND_URL_API}/shops/${props.shopId}`)
@@ -33,9 +42,13 @@
                 <div>
                     <h1 class="text-3xl md:text-6xl text-center font-bold">{{ shop.name }}</h1>
                     <p class="text-center py-4"> {{ shop.address }} </p>
+                    <div class="flex flex-col" v-if="props.isShopOwner">
+                        <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-fed-green text-white rounded-xl" @click="toggleTransaction" v-if="!transactionMode">{{ $t("shop.transazioni.nuova") }}</button>
+                        <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-lime-700 text-white rounded-xl" @click="$emit('confirmTransaction')" v-if="transactionMode">{{ $t("shop.transazioni.conferma") }}</button>
+                        <button class="btn text-xl px-12 py-8 w-6/12 m-auto bg-red-700 text-white rounded-xl" v-if="transactionMode" @click="toggleTransaction">{{ $t("shop.transazioni.annulla") }}</button>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
