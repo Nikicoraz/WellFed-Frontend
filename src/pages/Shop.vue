@@ -5,6 +5,7 @@
     import ProductList from '../components/ProductList.vue';
     import ShopDetails from '../components/ShopDetails.vue';
     import  VueCookies from 'vue-cookies';
+import QRScanner from '../components/QRScanner.vue';
 
     const shopId = ref(useRoute().params.shopId as string);
     const currentMerchantID: string | undefined = (VueCookies as any).get("merchantID");
@@ -39,5 +40,6 @@
                 No shop was found :(
             </div>
         </div>
+        <QRScanner />
     </div>
 </template>

@@ -24,6 +24,7 @@
     import NavBar from '../components/NavBar.vue';
     import ShopSearchResult from '../components/ShopSearchResult.vue';
     import ProductSearchResult from '../components/ProductSearchResult.vue';
+import QRScanner from '../components/QRScanner.vue';
 
     const results: Ref<SearchResults | null> = ref(null);
     const proxy = useRoute();
@@ -54,6 +55,6 @@
         <div v-for="product in results?.products">
             <ProductSearchResult :product="product" />
         </div>
-
+        <QRScanner />
     </div>
 </template>
