@@ -1,6 +1,6 @@
 <script setup lang="ts">
     const props = defineProps(['transaction']); // non ho idea di che tipo sia
-    defineEmits(['showTransactionDetailsModal'])
+    defineEmits(['showTransactionDetailsModal']);
 </script>
 
 <template>

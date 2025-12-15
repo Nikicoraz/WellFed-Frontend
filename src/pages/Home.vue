@@ -1,7 +1,6 @@
 <script setup lang="ts">
     import cookies from 'vue-cookies';
     import { router } from '../extensions/router';
-    import MainLayout from '../layouts/MainLayout.vue';
 
     const token = (cookies as any).get("token");
     if(!token) {
@@ -17,6 +16,5 @@
 
 <template>
     <div class="bg-fed-bg min-h-screen">
-        <MainLayout />
     </div>
 </template>

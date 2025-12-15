@@ -54,6 +54,5 @@
         <div v-for="product in results?.products">
             <ProductSearchResult :product="product" />
         </div>
-
     </div>
 </template>

@@ -12,11 +12,12 @@
 
     const product: Ref<any> = ref<any>(null);
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
+    const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
 
     const dialog: Ref<HTMLDialogElement | null> = ref(null);
 
     async function open() {
-        product.value = await fetch(`${import.meta.env.VITE_BACKEND_URL_API}/shops/${props.shopId}/products/${props.productId}`)
+        product.value = await fetch(`${backendAPI}/shops/${props.shopId}/products/${props.productId}`)
             .then((res) => { return res.json(); });
         if (dialog.value) {
             dialog.value.showModal();

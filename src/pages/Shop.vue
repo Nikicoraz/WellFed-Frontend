@@ -1,43 +1,34 @@
 <script setup lang="ts">
+    import ShopClientView from './ShopClientView.vue';
+    import ShopMerchantView from './ShopMerchantView.vue';
+    import { ref } from 'vue';
     import { useRoute } from 'vue-router';
-    import { onMounted, ref } from 'vue';
-    import type { Ref } from 'vue';
-    import ProductList from '../components/ProductList.vue';
-    import ShopDetails from '../components/ShopDetails.vue';
-    import  VueCookies from 'vue-cookies';
+    import VueCookies from 'vue-cookies';
+
+    const cookies = (VueCookies as any);
+    const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
+
+    const currentMerchantID: string | undefined = cookies.get("merchantID");
 
     const shopId = ref(useRoute().params.shopId as string);
-    const currentMerchantID: string | undefined = (VueCookies as any).get("merchantID");
-    const creatingTransaction = ref(false);
-    const productList = ref<typeof ProductList | null>(null);
 
-
-    const shop: Ref<any> = ref(null);
-    const isShopOwner = shopId.value == currentMerchantID;
-    onMounted(async () => {
-        shop.value = await fetch(`${import.meta.env.VITE_BACKEND_URL_API}/shops/${shopId.value}`)
-            .then((res) => { return res.json(); });
-    });
-
-    function toggleTransaction(){
-        creatingTransaction.value = !creatingTransaction.value;
-    }
-
-    function confirmTransaction() {
-        productList.value!.createTransactionQR();
-    }
+    const isOwner = ref(shopId.value == currentMerchantID);
+    const shop = ref(await fetch(`${backendAPI}/shops/${shopId.value}`)
+        .then((res) => { return res.json(); })
+        .catch((e) => { console.error(e) })
+    );
 </script>
 
 <template>
-    <div class="min-h-screen bg-fed-bg">
-        <div v-if="shop" class="w-3/4 p-8 mx-auto">
-            <ShopDetails :shopId="shopId" :onTransactionOpen="toggleTransaction" :isShopOwner="isShopOwner" @confirmTransaction="confirmTransaction"/>
-            <ProductList ref="productList" :shopId="shopId" :editable="isShopOwner" :creatingTransaction="creatingTransaction" />
+    <div v-if="shop">
+        <div v-if="isOwner">
+            <ShopMerchantView :shop-id="shopId" :shop-data="shop.value" />
         </div>
-        <div v-else class="flex items-center justify-center h-screen">
-            <div>
-                No shop was found :(
-            </div>
+        <div v-else-if="!isOwner && !currentMerchantID">
+            <ShopClientView :shop-id="shopId" :shop-data="shop.value" />
         </div>
+    </div>
+    <div v-else class="flex items-center justify-center h-screen">
+        No shop was found :(
     </div>
 </template>

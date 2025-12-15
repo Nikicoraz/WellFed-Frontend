@@ -1,12 +1,12 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import type { Ref } from "vue";
-    import { validateInputs } from "../extensions/formValidation";
+    import { validateInputs } from "../../extensions/formValidation";
     import cookies  from 'vue-cookies'
     import { useI18n } from "vue-i18n";
-    import Alert from "./Alert.vue";
-    import AlertType from "../types/alert";
-    import ConfirmModal from "./ConfirmModal.vue";
+    import Alert from "../util/Alert.vue";
+    import AlertType from "../../types/alert";
+    import ConfirmModal from "../util/ConfirmModal.vue";
 
     const props = defineProps({
         shopId: String,

@@ -3,6 +3,7 @@
     import VueCookies from "vue-cookies";
     import { useI18n } from "vue-i18n";
     import TransactionListEntry from "./TransactionListEntry.vue";
+    import TransactionDetailsModal from "./TransactionDetailsModal.vue";
 
     const {t} = useI18n();
 
@@ -10,15 +11,15 @@
         open: Boolean
     });
 
-    const emit = defineEmits(['close', 'showTransactionDetailsModal']);
+    const emit = defineEmits(['close']);
 
     const transactionList: Ref<any> = ref<any>([]); // brutto
-    const backendUrl = import.meta.env.VITE_BACKEND_URL_API;
+    const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
 
     const dialog: Ref<HTMLDialogElement | null> = ref(null);
 
     async function fetchTransactions() {
-        transactionList.value = await fetch(`${backendUrl}/transactions`, {
+        transactionList.value = await fetch(`${backendAPI}/transactions`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + (VueCookies as any).get("token")
@@ -46,6 +47,8 @@
     });
 
     // Da fare l'interfaccia ma non so come farla dato il tipo delle api
+    const showTransactionDetailsModal = ref(false);
+    const selectedTransaction = ref(null);
 </script>
 
 <template>
@@ -53,9 +56,15 @@
         <div v-if="transactionList.length > 0" class="modal-box w-4/5 max-w-5xl">
             <ul class="list bg-base-100 rounded-box shadow-md">
                 <!-- TODO mettere traduzioni -->
-                <li class="p-4 pb-5 text-md">Ultime transazioni avvenute</li>
+                <li class="p-4 pb-5 text-md text-black">Ultime transazioni avvenute</li>
                 <li v-for="transaction in transactionList">
-                    <TransactionListEntry :transaction="transaction" @show-transaction-details-modal="(transaction) => { emit('showTransactionDetailsModal', transaction) }"/>
+                    <TransactionListEntry 
+                        :transaction="transaction" 
+                        @show-transaction-details-modal="(transaction) => {
+                            showTransactionDetailsModal = true; 
+                            selectedTransaction = transaction;
+                        }"
+                    />
                 </li>
             </ul>
             <div class="my-4 modal-action">
@@ -63,4 +72,9 @@
             </div>
         </div>
     </dialog>
+    <TransactionDetailsModal 
+        :open="showTransactionDetailsModal" 
+        :transaction="selectedTransaction"
+        @close="showTransactionDetailsModal = false" 
+    />
 </template>

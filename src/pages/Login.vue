@@ -1,29 +1,31 @@
 <script setup lang="ts">
-    import VueCookies from "vue-cookies";
+    import  VueCookies from "vue-cookies";
     import { router } from "../extensions/router";
-    import WellfedLogoVue from "../components/WellfedLogo.vue";
+    import WellfedLogoVue from "../components/util/WellfedLogo.vue";
     import { ref, type Ref } from "vue";
     import { useI18n } from "vue-i18n";
     import { GoogleLogin } from "vue3-google-login";
-    import Alert from "../components/Alert.vue";
+    import Alert from "../components/util/Alert.vue";
     import AlertType from "../types/alert";
 
     const {t} = useI18n();
+    const cookies = (VueCookies as any);
 
     const email = ref("");
     const password = ref("");
     const form: Ref<HTMLDivElement | null> = ref(null);
     const alertRef = ref<any>(null);
+    const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
     
     function triggerErrorAlert(msg: string) {
-        alertRef.value.showError(AlertType.Error, msg);
+        alertRef.value.showAlert(AlertType.Error, msg);
     }
 
     function login(){
         // Validazione inserimento dentro ai campi
-        for(const child of form.value!.children) {
-            if(child.classList.contains("input")){
-                if(!(child as HTMLInputElement).reportValidity()) {
+        for (const child of form.value!.children) {
+            if (child.classList.contains("input")){
+                if (!(child as HTMLInputElement).reportValidity()) {
                     return;
                 }
             }
@@ -43,14 +45,21 @@
                 triggerErrorAlert(t("alerts.autenticazioneFallita"))
                 return;
             }
+
             const data = await e.json();
-            (VueCookies as any).set("token", data.token, "1d");
-            if(e.headers.get("Location")?.includes("/shop/")) {
-                (VueCookies as any).set("merchantID", e.headers.get("Location")?.split("/shop/")[1], "1d");
+            cookies.set("token", data.token, "1d");
+
+            // TODO: scrivere meglio, al massimo migliorare le api
+            const redirectURL = e.headers.get("Location") ?? "/login";
+
+            if (redirectURL.includes("/shop/")) {
+                cookies.set("merchantID", redirectURL.split("/shop/")[1], "1d");
             } else {
-                (VueCookies as any).remove("merchantID");
+                cookies.remove("merchantID");
             }
-            router.push(e.headers.get("Location") ?? "/");
+
+            router.push(redirectURL);
+
         }).catch(e => {
             console.log(e);
             triggerErrorAlert(t("alerts.autenticazioneFallita"))
@@ -60,7 +69,7 @@
     function googleLogin(response: any) {
         const token: string = response.credential;
 
-        fetch(import.meta.env.VITE_BACKEND_URL_API + "/login/SSO", {
+        fetch(backendAPI.concat("/login/SSO"), {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json"
@@ -70,6 +79,8 @@
             })
         }).then(async e => {
             let errorMessage = "";
+            const redirectURL = e.headers.get("Location") ?? "/login";
+
             switch (e.status) {
                 case 400:
                     errorMessage = t("alerts.datiNonValidi")
@@ -79,9 +90,9 @@
                     break;
                 case 200:
                     const data = await e.json();
-                    (VueCookies as any).set("token", data.token, 86400);
-                    (VueCookies as any).remove("merchantID");
-                    router.push(e.headers.get("Location") ?? "/");
+                    cookies.set("token", data.token, "1d");
+                    cookies.remove("merchantID");
+                    router.push(redirectURL);
                     break;
             }
 
@@ -89,6 +100,7 @@
         })
     }
 </script>
+
 <template>
     <div class="h-screen flex bg-[url('/sfondo.png')] bg-size-[10%]" @keypress.enter.native="login()">
         <div class="m-auto flex flex-col gap-2 max-w-sm items-center rounded-xl bg-white p-12 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">

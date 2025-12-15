@@ -1,11 +1,16 @@
 <script setup lang="ts">
-    // Bottone che fa emit di un evento per aprire il modal
-    defineEmits(['showTransactionListModal']);
+    import TransactionListModal from './TransactionListModal.vue';
+    import { ref } from "vue";
+    const showTransactionListModal = ref(false);
 </script>
 
 <template>
-    <div class="w-10 mx-10 rounded-full bg-white" @click="$emit('showTransactionListModal')">
+    <button class="btn btn-circle mx-10" @click="showTransactionListModal = true">
         <!-- TODO: mettere alt -->
         <img class="scale-50" src="../../assets/transaction.svg" alt=""> 
-    </div>
+    </button>
+    <TransactionListModal 
+        :open="showTransactionListModal" 
+        @close="showTransactionListModal = false"
+    />
 </template>

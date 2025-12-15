@@ -22,7 +22,7 @@
     import { useI18n } from "vue-i18n";
     import { ref, type Ref } from 'vue';
     import VueCookies from 'vue-cookies';
-    import WellfedLogo from './WellfedLogo.vue';
+    import WellfedLogo from './util/WellfedLogo.vue';
     import { router } from '../extensions/router';
     import TransactionListButton from "./transactions/TransactionListButton.vue";
 

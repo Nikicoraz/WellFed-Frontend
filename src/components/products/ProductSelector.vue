@@ -7,16 +7,16 @@
 
     const count = ref(0);
 
-    function decrease(){
-        if(count.value > 0)
+    function decrease() {
+        if (count.value > 0)
             count.value--;
     }
 
-    function increase(){
+    function increase() {
         count.value++;
     }
 
-    function getCount() : number {
+    function getCount(): number {
         return count.value;
     }
 

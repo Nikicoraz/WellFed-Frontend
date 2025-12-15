@@ -1,12 +1,13 @@
+
 <script setup lang="ts">
-    import ProductCard from "../components/ProductCard.vue";
-    import ProductDetails from "./ProductDetails.vue";
+    import ProductCard from "./products/ProductCard.vue";
+    import ProductDetails from "./products/ProductDetails.vue";
     import { ref, onMounted, nextTick } from "vue";
     import type { Ref } from "vue";
-    import EmptyAddCard from "./EmptyAddCard.vue";
-    import ProductEdit from "./ProductEdit.vue";
-    import ProductSelector from "./ProductSelector.vue";
-    import Alert from "./Alert.vue";
+    import EmptyAddCard from "./products/EmptyAddCard.vue";
+    import ProductEdit from "./products/ProductEdit.vue";
+    import ProductSelector from "./products/ProductSelector.vue";
+    import Alert from "./util/Alert.vue";
     import AlertType from "../types/alert";
     import { useI18n } from "vue-i18n";
     import cookies from "vue-cookies";

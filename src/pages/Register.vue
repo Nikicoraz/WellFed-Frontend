@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import type { Ref } from "vue";
-    import WellfedLogo from "../components/WellfedLogo.vue";
+    import WellfedLogo from "../components/util/WellfedLogo.vue";
     import { router } from "../extensions/router";
     import UserSelection from "../components/UserSelection.vue";
     import clientImage from "../assets/user.svg"
@@ -9,7 +9,7 @@
     import backArrow from "../assets/back.svg";
     import { useI18n } from "vue-i18n";
     import { GoogleLogin } from "vue3-google-login";
-    import Alert from "../components/Alert.vue";
+    import Alert from "../components/util/Alert.vue";
     import AlertType from "../types/alert";
     import { validateInputs } from "../extensions/formValidation";
 

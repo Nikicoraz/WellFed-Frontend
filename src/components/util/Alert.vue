@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import AlertType from "../types/alert";
-import { ref } from 'vue';
+    import AlertType from "../../types/alert";
+    import { ref } from "vue";
 
-const visible = ref(false);
-const duration = 5000;
-const alertType = ref(AlertType.Info);
-const message = ref("");
+    const visible = ref(false);
+    const duration = 5000;
+    const alertType = ref(AlertType.Info);
+    const message = ref("");
 
-function showError(type: AlertType, msg: string) {
-    visible.value = true;
-    alertType.value = type;
-    message.value = msg;
+    function showAlert(type: AlertType, msg: string) {
+        visible.value = true;
+        alertType.value = type;
+        message.value = msg;
 
-    setTimeout(() => {
-        visible.value = false;
-    }, duration);
-}
+        setTimeout(() => {
+            visible.value = false;
+        }, duration);
+    }
 
-defineExpose({ showError });
+    defineExpose({ showAlert });
 </script>
 
 <template>
