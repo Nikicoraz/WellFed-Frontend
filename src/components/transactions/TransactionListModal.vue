@@ -7,7 +7,6 @@
     const {t} = useI18n();
 
     const props = defineProps({
-        clientId: String,
         open: Boolean
     });
 
@@ -31,10 +30,6 @@
                 return [];
             }
         });
-
-        if (dialog.value) {
-            dialog.value.showModal();
-        }
     }
 
     watch(() => props.open, async (open) => {

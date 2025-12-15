@@ -87,7 +87,7 @@
         });
     }
 
-    const emit = defineEmits(['showTransactionListModal', 'showTransactionDetailsModal']);
+    const emit = defineEmits(['showTransactionListModal']);
 </script>
 
 <template>
@@ -118,7 +118,9 @@
         </div>
         <div class="navbar-end text-white">
             <!-- bubbling up dell'evento -->
-            <TransactionListButton @show-transaction-list-modal="$emit('showTransactionListModal')" @show-transaction-details-modal="(transaction) => { emit('showTransactionDetailsModal', transaction) }"/>
+            <TransactionListButton 
+                @show-transaction-list-modal="$emit('showTransactionListModal')" 
+            />
             <p>{{ username }}</p>
         </div>
     </div>
