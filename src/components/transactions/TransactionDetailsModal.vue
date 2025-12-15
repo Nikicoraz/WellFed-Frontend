@@ -27,6 +27,19 @@
         <div v-if="transaction" class="modal-box">
             <div class="flex">
                 <div>{{ props.transaction.transactionType }}</div>
+                <div>{{ props.transaction.transactionStatus }}</div>
+                <div>{{ props.transaction.points}}</div>
+                <div>
+                    <ul>
+                        <li v-for="product in props.transaction.items.products">
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li v-for="item in props.transaction.items.products"></li>
+                    </ul>
+                </div>
             </div>
             <div class="my-4 modal-action">
                 <button class="btn" @click="$emit('close')">{{ `${t('button.chiudi')}` }}</button>
