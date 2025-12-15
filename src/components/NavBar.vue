@@ -24,6 +24,8 @@
     import VueCookies from 'vue-cookies';
     import WellfedLogo from './WellfedLogo.vue';
     import { router } from '../extensions/router';
+    import TransactionListButton from "./transactions/TransactionListButton.vue";
+
     const {t} = useI18n();
 
     const username = ref("");
@@ -50,7 +52,7 @@
         }
     });
 
-        function getFilterName(filter: SearchFilter): string {
+    function getFilterName(filter: SearchFilter): string {
         switch (filter) {
             case SearchFilter.None:
                 return t("ricerca.filtri.nome");
@@ -85,6 +87,7 @@
         });
     }
 
+    const emit = defineEmits(['showTransactionListModal', 'showTransactionDetailsModal']);
 </script>
 
 <template>
@@ -111,9 +114,11 @@
                     <li @click="filter = SearchFilter.Shops"><a>{{ getFilterName(SearchFilter.Shops) }}</a></li>
                     <li @click="filter = SearchFilter.Products"><a>{{ getFilterName(SearchFilter.Products) }}</a></li>
                 </ul>
-                </div>
             </div>
+        </div>
         <div class="navbar-end text-white">
+            <!-- bubbling up dell'evento -->
+            <TransactionListButton @show-transaction-list-modal="$emit('showTransactionListModal')" @show-transaction-details-modal="(transaction) => { emit('showTransactionDetailsModal', transaction) }"/>
             <p>{{ username }}</p>
         </div>
     </div>

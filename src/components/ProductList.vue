@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import ProductCard from "../components/ProductCard.vue";
-    import ProductDetails from "../components/ProductDetails.vue";
+    import ProductDetails from "./ProductDetails.vue";
     import { ref, onMounted, nextTick } from "vue";
     import type { Ref } from "vue";
     import EmptyAddCard from "./EmptyAddCard.vue";
