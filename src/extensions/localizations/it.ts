@@ -64,6 +64,8 @@ export default {
         nessunPunto: "Non assegna punti",
         conferma: "Conferma",
         elimina: "Elimina",
+        validita: "Valido per:",
+        scaduto: "Il QR code è scaduto",
         prodotto: {
             nuovo: "Aggiungi un nuovo prodotto",
             creato: "Il prodotto è stato aggiunto al negozio con successo!",
@@ -78,6 +80,6 @@ export default {
             nuova: "Nuova transazione",
             conferma: "Conferma transazione",
             annulla: "Annulla transazione"
-        }
+        },
     },
 };
