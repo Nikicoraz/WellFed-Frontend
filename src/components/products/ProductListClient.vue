@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import ProductCardClient from "./ProductCardClient.vue";
     import ProductDetailsModal from "./ProductDetailsModal.vue";
-    import { ref, type Ref } from "vue";
+    import { onMounted, ref, type Ref } from "vue";
     import { useI18n } from "vue-i18n";
     import { useRoute } from "vue-router";
 
@@ -30,8 +30,10 @@
         showDetails(productId);
     }
 
-    products.value = await fetch(`${backendAPI}/shops/${props.shopId}/products`)
-        .then((res) => { return res.json() });
+    onMounted(async () => {
+        products.value = await fetch(`${backendAPI}/shops/${props.shopId}/products`)
+            .then((res) => { return res.json() });
+    });
 </script>
 
 <template>
@@ -39,7 +41,7 @@
         <h1 class="text-3xl font-bold my-8">{{ $t('shop.prodotti') }}</h1>
         <div class="grid grid-cols-4 gap-4">
             <ProductCardClient v-for="product in products"
-                :productId="product"
+                :product="product"
                 :editable="false"
                 @show-details="showDetails" 
             />

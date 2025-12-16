@@ -15,7 +15,7 @@
 </script>
 
 <script setup lang="ts">
-import { router } from '../extensions/router';
+    import { router } from '../extensions/router';
 
     const props = defineProps<{
         product: Product

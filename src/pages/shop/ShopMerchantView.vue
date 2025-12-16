@@ -1,27 +1,39 @@
 <script setup lang="ts">
     import { useRoute } from 'vue-router';
     import { ref } from 'vue';
-    import ProductList from '../../components/products/ProductListGeneral.vue';
+    import ProductList from '../../components/products/ProductList.vue';
     import ShopInfo from '../../components/ShopInfo.vue';
-    import Sale from '../../components/Sale.vue';
+    import TransactionButtons from '../../components/TransactionButtons.vue';
+
+    type ProductListExposed = {
+        generateQR: () => void;
+    };
 
     const shopId = ref(useRoute().params.shopId as string);
-    const creatingTransaction = ref(false);
-    const productList = ref<typeof ProductList | null>(null);
+    const isCreatingTransaction = ref(false);
+    const productList = ref<ProductListExposed | null>(null);
 
-    function toggleTransaction(){
-        creatingTransaction.value = !creatingTransaction.value;
+    function toggleTransaction() {
+        isCreatingTransaction.value = !isCreatingTransaction.value;
     }
 
     function confirmTransaction() {
-        productList.value!.createTransactionQR();
+        if (productList.value) {
+            productList.value.generateQR();
+        }
+        toggleTransaction();
     }
 </script>
 
 <template>
     <div class="w-3/4 p-8 mx-auto">
-        <Sale :shopId="shopId" :onTransactionOpen="toggleTransaction" @confirmTransaction="confirmTransaction"/>
-        <ShopInfo :shopId="shopId" />
-        <ProductList ref="productList" :shopId="shopId" :creatingTransaction="creatingTransaction" />
+        <TransactionButtons 
+            :shopId="shopId" 
+            @transaction-opened="toggleTransaction" 
+            @transaction-closed="toggleTransaction" 
+            @transaction-confirmed="confirmTransaction"
+        />
+        <ShopInfo :shopId="shopId"/>
+        <ProductList ref="productList" :shopId="shopId" :isCreatingTransaction="isCreatingTransaction"/>
     </div>
 </template>

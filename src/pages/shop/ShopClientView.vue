@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useRoute } from 'vue-router';
     import { ref } from 'vue';
-    import ProductList from '../../components/products/ProductListGeneral.vue';
+    import ProductList from '../../components/products/ProductList.vue';
     import ShopInfo from '../../components/ShopInfo.vue';
     import NavBar from '../../components/NavBar.vue';
 

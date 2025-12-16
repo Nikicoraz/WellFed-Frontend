@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref } from "vue";
+    import { onMounted, ref } from "vue";
     import type { Ref } from "vue";
     import EmptyAddCard from "./EmptyAddCard.vue";
     import ProductEditModal from "./ProductEditModal.vue";
@@ -9,19 +9,28 @@
     import ProductInsertModal from "./ProductInsertModal.vue";
     import { useI18n } from "vue-i18n";
     import QRPopup from "../QRPopup.vue";
+    import VueCookies from "vue-cookies";
+    import Alert from "../util/Alert.vue";
+    import AlertType from "../../types/alert";
 
     const {t} = useI18n();
     const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
+    const cookies = (VueCookies as any);
 
     const props = defineProps({
         shopId: String,
-        creatingTransaction: Boolean
+        isCreatingTransaction: Boolean
     });
 
     // useRoute prende il parametro :shopId definito nella route
     const shopFound = ref(true);
 
     const products: Ref<any[], any[]> = ref([]);
+
+    // Riferimenti per alert e selettori
+    const alert = ref<typeof Alert | null>(null);
+    const selectors = ref<typeof ProductSelector[] | null>(null);
+    const displayedQRCode = ref("");
 
     // Dettagli
     const showProductDetails = ref(false);
@@ -45,7 +54,66 @@
             .catch(() => { shopFound.value = false });
     }
 
-    await refreshProducts();
+    function generateQR() {
+        const toAdd = [];
+
+        if (!selectors.value) {
+            return;
+        }
+
+        for (const selector of selectors.value) {
+            if (selector.getCount() > 0){
+                toAdd.push({
+                    productID: selector.getProductId(),
+                    quantity: selector.getCount()
+                });
+            }
+        }
+
+        if(toAdd.length == 0) {
+            alert.value!.showAlert(AlertType.Error, t("alerts.nessunProdotto"));
+            return;
+        }
+
+        const token = cookies.get("token");
+
+        fetch(`${backendAPI}/QRCodes/assignPoints`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(toAdd)
+        }).then((res) => {
+            switch(res.status) {
+                case 200:
+                    res.text().then((text) => {
+                        displayedQRCode.value = text;
+                    });
+                    break;
+                case 400:
+                    alert.value!.showAlert(AlertType.Error, t("alerts.datiNonValidi"));
+                    break;
+                case 401:
+                    alert.value!.showAlert(AlertType.Error, t("alerts.nonAutorizzato"));
+                    break;
+                default:
+                    alert.value!.showAlert(AlertType.Error, res.status + ": " + t("alerts.errore"));
+                    break;
+            }
+        })
+    }
+
+    const isCreatingTransaction = ref(false);
+    function startTransaction() {
+        isCreatingTransaction.value = true;
+    }
+
+    defineExpose({generateQR, startTransaction});
+
+    onMounted(async () => {
+        await refreshProducts();
+    });
 </script>
 
 <template>
@@ -65,7 +133,7 @@
                         showEditProduct = true;
                     }"
                 />
-                <ProductSelector ref="selectors" v-if="props.creatingTransaction" :productId="product.id" />
+                <ProductSelector ref="selectors" v-if="props.isCreatingTransaction" class="my-2" :productId="product.id" />
             </div>
         </div> 
     </div>
@@ -87,4 +155,6 @@
         @close="showEditProduct = false"
         @product-saved="refreshProducts"
     />
+    <Alert ref="alert"/>
+    <QRPopup :qrcode="displayedQRCode"/>
 </template>
