@@ -6,7 +6,7 @@
         origin: String,
         image: String,
         points: Number,
-        shopID: String
+        shopId: String
     }
 
     function getImageUrl(imageURL: String): string{
@@ -25,7 +25,7 @@ import { router } from '../extensions/router';
 
 <template>
     <div class="card card-side bg-base-100 shadow-sm m-4 overflow-y-scroll cursor-pointer" @click="router.push({
-        path: '/shop/' + product.shopID,
+        path: '/shop/' + product.shopId,
         query: {
             product: String(product.id)
         }

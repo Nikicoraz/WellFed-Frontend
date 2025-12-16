@@ -39,8 +39,8 @@
         <h1 class="text-3xl font-bold my-8">{{ $t('shop.prodotti') }}</h1>
         <div class="grid grid-cols-4 gap-4">
             <ProductCardClient v-for="product in products"
-                :shopId="shopId" 
-                :productId="product.id" 
+                :productId="product"
+                :editable="false"
                 @show-details="showDetails" 
             />
         </div> 

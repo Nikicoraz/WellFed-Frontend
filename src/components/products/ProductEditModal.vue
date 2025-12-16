@@ -61,8 +61,8 @@
         }
     });
 
-    function updateExistingProduct(data: FormData, token: string){
-        fetch(`${backendAPI}/shops/${props.shopId!}/products/${props.productId!}`, {
+    async function updateExistingProduct(data: FormData, token: string){
+        await fetch(`${backendAPI}/shops/${props.shopId!}/products/${props.productId!}`, {
             method: "PATCH",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -73,13 +73,12 @@
                 case 200:
                     dialog.value!.close();
                     alert.value!.showAlert(AlertType.Success, t("shop.prodotto.aggiornato"));
-                    emit('productSaved');
                     break;
                 default:
                     alert.value!.showAlert(AlertType.Error, e.status + ": " + t("alerts.datiNonValidi"))
                     break;
             }
-        })
+        }).then(_ => emit('productSaved'));
     }
 
     function save() {
@@ -112,10 +111,10 @@
         askModal.value!.ask(t('shop.prodotto.confermaCancellazione'));
     }
 
-    function deleteProduct() {
-        const token = (cookies as any).get("token");
+    async function deleteProduct() {
+        const token = cookies.get("token");
 
-        fetch(import.meta.env.VITE_BACKEND_URL_API + `/shops/${props.shopId!}/products/${props.productId!}`, {
+        await fetch(`${backendAPI}/shops/${props.shopId!}/products/${props.productId!}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -125,13 +124,12 @@
                 case 200:
                     dialog.value!.close();
                     alert.value!.showAlert(AlertType.Success, t("shop.prodotto.cancellato"));
-                    // EMIT 
                     break;
                 default:
                     alert.value!.showAlert(AlertType.Error, e.status + ":" + t("alerts.errore"));
                     break;
             }
-        })
+        }).then(_ => { emit('productSaved') });
     }
 </script>
 

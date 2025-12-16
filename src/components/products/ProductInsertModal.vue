@@ -57,9 +57,7 @@
                     alert.value!.showAlert(AlertType.Error, e.status + ": " + t("alerts.datiNonValidi"))
                     break;
             }
-        })
-
-        emit('productSaved');
+        }).then(_ => emit('productSaved'));
     }
 
     function save() {

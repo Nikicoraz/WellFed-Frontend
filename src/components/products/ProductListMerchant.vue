@@ -53,12 +53,11 @@
         <h1 class="text-3xl font-bold my-8">{{ $t('shop.prodotti') }}</h1>
         <div class="grid grid-cols-4 gap-4">
             <!-- Pulsante per l'aggiunta di un nuovo prodotto -->
-            <EmptyAddCard @click="() => { showInsertNewProduct = true; console.log('ciao'); }" />
+            <EmptyAddCard @click="() => { showInsertNewProduct = true; }" />
             <!-- Prodotti  del negozio -->
-            <div v-for="product in products">
+            <div v-for="product in products" :key="product.id">
                 <ProductCard 
-                    :shopId="shopId" 
-                    :productId="product.id" 
+                    :product="product" 
                     :editable="true"
                     @showDetails="showDetails"
                     @edit="(productId) => { 

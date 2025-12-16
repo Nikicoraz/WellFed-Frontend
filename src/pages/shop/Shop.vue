@@ -22,10 +22,10 @@
 <template>
     <div v-if="shop">
         <div v-if="isOwner">
-            <ShopMerchantView :shop-id="shopId" :shop-data="shop.value" />
+            <ShopMerchantView :shop-id="shopId"/>
         </div>
         <div v-else-if="!isOwner && !currentMerchantID">
-            <ShopClientView :shop-id="shopId" :shop-data="shop.value" />
+            <ShopClientView :shop-id="shopId"/>
         </div>
     </div>
     <div v-else class="flex items-center justify-center h-screen">
