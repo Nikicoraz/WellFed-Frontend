@@ -7,9 +7,13 @@
     });
 
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
-    const shop = ref(await fetch(`${import.meta.env.VITE_BACKEND_URL_API}/shops/${props.shopId}`)
-        .then((res) => { return res.json(); })
-    );
+    const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
+    const shop: Ref<any> = ref(null);
+
+    onMounted(async () => {
+        shop.value = await fetch(`${backendAPI}/shops/${props.shopId}`)
+            .then((res) => { return res.json(); })
+    });
 </script>
 
 <template>

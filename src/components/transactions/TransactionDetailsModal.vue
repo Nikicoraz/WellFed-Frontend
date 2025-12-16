@@ -25,7 +25,7 @@
 <template>
     <dialog ref="dialog" class="modal">
         <div v-if="transaction" class="modal-box">
-            <div class="flex">
+            <div class="bg-white text-black flex flex-col">
                 <div>{{ props.transaction.transactionType }}</div>
                 <div>{{ props.transaction.transactionStatus }}</div>
                 <div>{{ props.transaction.points}}</div>

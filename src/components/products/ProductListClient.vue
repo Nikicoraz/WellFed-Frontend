@@ -24,15 +24,17 @@
 
     const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
 
-    // Rerouting dalla ricerca
-    const productId = (route.query.product as string) || undefined;
-    if (productId) {
-        showDetails(productId);
-    }
 
     onMounted(async () => {
         products.value = await fetch(`${backendAPI}/shops/${props.shopId}/products`)
             .then((res) => { return res.json() });
+
+        // Rerouting dalla ricerca
+        const productId = (route.query.product as string);
+        if (productId) {
+            const product = await fetch(`${backendAPI}/shops/${props.shopId}/products/${productId}`).then((res) => { return res.json(); });
+            showDetails(product);
+        }
     });
 </script>
 

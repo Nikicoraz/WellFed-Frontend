@@ -53,14 +53,14 @@
 
 <template>
     <dialog ref="dialog" class="modal">
-        <div v-if="transactionList.length > 0" class="modal-box w-4/5 max-w-5xl">
+        <div v-if="transactionList.length > 0" class="modal-box w-4/5 max-w-3xl">
             <ul class="list bg-base-100 rounded-box shadow-md">
                 <!-- TODO mettere traduzioni -->
-                <li class="p-4 pb-5 text-md text-black">Ultime transazioni avvenute</li>
+                <li class="p-4 pb-5 text-xl text-black">Ultime transazioni avvenute</li>
                 <li v-for="transaction in transactionList">
                     <TransactionListEntry 
                         :transaction="transaction" 
-                        @show-transaction-details-modal="(transaction) => {
+                        @show-transaction-details="(transaction) => {
                             showTransactionDetailsModal = true; 
                             selectedTransaction = transaction;
                         }"
