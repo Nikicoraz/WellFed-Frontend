@@ -3,10 +3,11 @@
 
     const props = defineProps({
         shopId: String,
-        productId: String
+        productId: String,
+        editable: Boolean
     });
 
-    const emit = defineEmits(['showDetails']);
+    const emit = defineEmits(['showDetails', 'edit']);
 
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
     const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
@@ -35,6 +36,9 @@
             <div class="flex justify-between mt-6">
                 <h1 class="text-2xl card-title w-8/12"><p class="truncate">{{ product.name }}</p></h1>
                 <div class="bg-lime-700 text-white border rounded-lg btn"> {{ product.points ?? 0 }} </div>
+            </div>
+            <div v-if="editable" class="absolute top-8 left-8 bg-base-200 p-2 rounded-xl" @click="$emit('edit')">
+                <img class="scale-50" src="../../assets/pencil.svg" alt="">
             </div>
         </div>
     </div>

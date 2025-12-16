@@ -3,7 +3,7 @@ import Login from "../pages/Login.vue";
 import Home from "../pages/Home.vue";
 import Register from "../pages/Register.vue";
 import SearchResults from "../pages/SearchResults.vue";
-import Shop from "../pages/Shop.vue";
+import Shop from "../pages/shop/Shop.vue";
 
 const routes = [
     { path: "/", component: Home },
