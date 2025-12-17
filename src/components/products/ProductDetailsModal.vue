@@ -25,7 +25,7 @@
 </script>
 
 <template>
-    <dialog ref="dialog" class="modal">
+    <dialog ref="dialog" class="modal" @close="$emit('close')">
         <div v-if="props.productDetails" class="modal-box">
             <div class="flex flex-cols my-4">
                 <div class="flex-1 h-full flex flex-col">
@@ -44,7 +44,7 @@
             </div>
             <div class="my-4 modal-action">
                 <form method="dialog">
-                    <button class="btn" @click="$emit('close')">{{ `${t('button.chiudi')}` }}</button>
+                    <button class="btn">{{ `${t('button.chiudi')}` }}</button>
                 </form>
             </div>
         </div>

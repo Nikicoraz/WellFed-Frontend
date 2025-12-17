@@ -36,9 +36,21 @@
         if (open) {
             dialog.value.showModal();
         } else {
+            resetFields();
             dialog.value.close();
         }
     });
+
+    function resetFields() {
+        name.value = "";
+        description.value = "";
+        origin.value = "";
+        points.value = 0;
+        assignsPoints.value = true;
+        if (image.value) {
+            image.value.value = "";
+        }
+    }
 
     async function insertNewProduct(data: FormData, token: string){
         await fetch(`${backendAPI}/shops/${props.shopId!}/products`, {
@@ -88,20 +100,20 @@
 </script>
 
 <template>
-    <dialog ref="dialog" class="modal">
+    <dialog ref="dialog" class="modal" @close="$emit('close')">
         <div class="modal-box min-w-[40dvw]">
             <div class="flex flex-cols my-4">
                 <div class="flex-1 h-full flex flex-col">
                     <h2 class="text-3xl font-bold">{{ $t("shop.prodotto.nuovo") }}</h2>
-                    <div class="grid grid-cols-2 gap-y-4 my-4 items-center" ref="form">
+                    <div ref="form" class="grid grid-cols-2 gap-y-4 my-4 items-center">
                         <span class="text-xl label">{{ $t("shop.nome") }}:</span>
-                        <input :required="true" class="input validator" type="text" v-model="name">
+                        <input required class="input validator" type="text" v-model="name">
 
                         <span class="text-xl label">{{ $t("shop.descrizione") }}:</span>
-                        <textarea :required="true" class="validator textarea resize-none" v-model="description"></textarea>
+                        <textarea required class="validator textarea resize-none" v-model="description"></textarea>
 
                         <span class="text-xl label">{{ $t("shop.origine") }}:</span>
-                        <input :required="true" class="input validator" v-model="origin">
+                        <input required class="input validator" v-model="origin">
 
                         <div class="flex flex-col">
                             <span class="text-xl label">{{ $t("shop.punti") }}:</span>
@@ -110,16 +122,16 @@
                                     {{ $t("shop.nessunPunto") }}
                             </label>
                         </div>
-                        <input :required="true" type="number" min="0" :disabled="!assignsPoints" class="input validator" v-model="points">
+                        <input required type="number" min="0" :disabled="!assignsPoints" class="input validator" v-model="points">
 
                         <span class="text-xl label">{{ $t("shop.immagine") }}:</span>
-                        <input :required="true" type="file" class="input file-input validator" accept="image/jpeg, image/png, image/webp" ref="image">
+                        <input required type="file" class="input file-input validator" accept="image/jpeg, image/png, image/webp" ref="image">
                     </div>
                 </div>
             </div>
             <div class="my-4 modal-action">
                 <button class="btn" @click="$emit('close')">{{ $t("shop.annulla") }}</button>
-                <button class="btn bg-lime-700 text-white" @click="() => { save(); $emit('close') }" >{{ $t("shop.salva") }}</button>
+                <button class="btn bg-lime-700 text-white" @click="save()" >{{ $t("shop.salva") }}</button>
             </div>
         </div>
     </dialog>

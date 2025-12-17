@@ -107,7 +107,7 @@
         updateExistingProduct(data, token);
     }
 
-    function deleteProductAskConfirm(){
+    function deleteProductAskConfirm() {
         askModal.value!.ask(t('shop.prodotto.confermaCancellazione'));
     }
 
@@ -134,7 +134,7 @@
 </script>
 
 <template>
-    <dialog ref="dialog" class="modal z-0">
+    <dialog ref="dialog" class="modal z-0" @close="$emit('close')" @keyup.esc="dialog?.close()">
         <div v-if="product" class="modal-box min-w-[40dvw] z-0" ref="box">
             <div class="flex flex-cols my-4">
                 <div class="flex-1 h-full flex flex-col">
@@ -170,8 +170,8 @@
             </div>
             <div class="my-4 modal-action">
                 <button @click="deleteProductAskConfirm" class="btn mr-auto bg-red-700 text-white">{{ $t("shop.elimina") }}</button>
-                <button class="btn" @click="$emit('close')">{{ $t("shop.annulla") }}</button>
-                <button class="btn bg-lime-700 text-white" @click="() => { save(); $emit('close') }" >{{ $t("shop.salva") }}</button>
+                <button class="btn" @click="dialog?.close()">{{ $t("shop.annulla") }}</button>
+                <button class="btn bg-lime-700 text-white" @click="save()">{{ $t("shop.salva") }}</button>
             </div>
         </div>
     </dialog>
