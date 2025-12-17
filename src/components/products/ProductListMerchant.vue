@@ -104,12 +104,7 @@
         })
     }
 
-    const isCreatingTransaction = ref(false);
-    function startTransaction() {
-        isCreatingTransaction.value = true;
-    }
-
-    defineExpose({generateQR, startTransaction});
+    defineExpose({generateQR});
 
     onMounted(async () => {
         await refreshProducts();

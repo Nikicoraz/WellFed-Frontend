@@ -53,20 +53,25 @@
 
 <template>
     <dialog ref="dialog" class="modal">
-        <div v-if="transactionList.length > 0" class="modal-box w-4/5 max-w-3xl">
-            <ul class="list bg-base-100 rounded-box shadow-md">
-                <!-- TODO mettere traduzioni -->
-                <li class="p-4 pb-5 text-xl text-black">Ultime transazioni avvenute</li>
-                <li v-for="transaction in transactionList">
-                    <TransactionListEntry 
-                        :transaction="transaction" 
-                        @show-transaction-details="(transaction) => {
-                            showTransactionDetailsModal = true; 
-                            selectedTransaction = transaction;
-                        }"
-                    />
-                </li>
-            </ul>
+        <div class="modal-box w-4/5 max-w-3xl">
+            <div v-if="transactionList.length > 0">
+                <ul class="list bg-base-100 rounded-box shadow-md">
+                    <!-- TODO mettere traduzioni -->
+                    <li class="p-4 pb-5 text-xl text-black">Ultime transazioni avvenute</li>
+                    <li v-for="transaction in transactionList">
+                        <TransactionListEntry 
+                            :transaction="transaction" 
+                            @show-transaction-details="(transaction) => {
+                                showTransactionDetailsModal = true; 
+                                selectedTransaction = transaction;
+                            }"
+                        />
+                    </li>
+                </ul>
+            </div>
+            <div v-else>
+                <p class="text-black">No transaction found</p>
+            </div>
             <div class="my-4 modal-action">
                 <button class="btn" @click="$emit('close')">{{ `${t('button.chiudi')}` }}</button>
             </div>

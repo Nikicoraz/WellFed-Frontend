@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useRoute } from 'vue-router';
     import { ref } from 'vue';
-    import ProductList from '../../components/products/ProductList.vue';
+    import ProductListClient from '../../components/products/ProductListClient.vue';
     import ShopInfo from '../../components/ShopInfo.vue';
     import NavBar from '../../components/NavBar.vue';
 
@@ -13,7 +13,7 @@
         <NavBar />
         <div class="w-3/4 p-8 mx-auto">
             <ShopInfo :shopId="shopId"/>
-            <ProductList :shopId="shopId"/>
+            <ProductListClient :shopId="shopId"/>
         </div>
     </div>
 </template>

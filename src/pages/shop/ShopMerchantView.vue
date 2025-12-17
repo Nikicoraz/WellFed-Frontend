@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useRoute } from 'vue-router';
     import { ref } from 'vue';
-    import ProductList from '../../components/products/ProductList.vue';
+    import ProductListMerchant from '../../components/products/ProductListMerchant.vue';
     import ShopInfo from '../../components/ShopInfo.vue';
     import TransactionButtons from '../../components/TransactionButtons.vue';
 
@@ -34,6 +34,6 @@
             @transaction-confirmed="confirmTransaction"
         />
         <ShopInfo :shopId="shopId"/>
-        <ProductList ref="productList" :shopId="shopId" :isCreatingTransaction="isCreatingTransaction"/>
+        <ProductListMerchant ref="productList" :shopId="shopId" :isCreatingTransaction="isCreatingTransaction"/>
     </div>
 </template>
