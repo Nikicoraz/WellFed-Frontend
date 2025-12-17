@@ -4,6 +4,7 @@
     import { ref } from 'vue';
     import { useRoute } from 'vue-router';
     import VueCookies from 'vue-cookies';
+    import QRScanner from '../../components/QRScanner.vue';
 
     const cookies = (VueCookies as any);
     const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
@@ -31,4 +32,5 @@
     <div v-else class="flex items-center justify-center h-screen">
         No shop was found :(
     </div>
+    <QRScanner />
 </template>

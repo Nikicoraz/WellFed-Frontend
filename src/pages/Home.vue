@@ -2,6 +2,7 @@
     import cookies from 'vue-cookies';
     import { router } from '../extensions/router';
     import NavBar from '../components/NavBar.vue';
+    import QRScanner from '../components/QRScanner.vue';
 
     const token = (cookies as any).get("token");
     if(!token) {
@@ -16,7 +17,8 @@
 </script>
 
 <template>
-    <div class="bg-fed-bg min-h-screen">
-        <NavBar/>
+    <div class="bg-fed-bg min-h-screen h-full">
+        <NavBar />
+        <QRScanner />
     </div>
 </template>
