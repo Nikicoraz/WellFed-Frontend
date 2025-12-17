@@ -20,11 +20,8 @@
 
     function detected(codes: DetectedBarcode[]){
         const code = codes[0];
-        console.log(code?.rawValue);
         dialog.value?.close();
         useCamera.value = false;
-
-        console.log(JSON.stringify({token: code?.rawValue}));
 
         fetch(import.meta.env.VITE_BACKEND_URL_API + "/QRCodes/scanned", {
             method: "POST",
