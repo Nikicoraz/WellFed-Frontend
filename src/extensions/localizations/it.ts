@@ -74,12 +74,14 @@ export default {
             cancellato: "Il prodotto è stato cancellato con successo"
         },
         qrcode: {
-            mostraACliente: "Fai scansionare questo QR code al cliente per assegnargli i punti!"
+            mostraACliente: "Fai scansionare questo QR code al cliente per assegnargli i punti!",
+            invalido: "Il qr code scannerizzato non è valido"
         },
         transazioni: {
             nuova: "Nuova transazione",
             conferma: "Conferma transazione",
-            annulla: "Annulla transazione"
-        },
+            annulla: "Annulla transazione",
+            successo: "La transazione è avvenuta con successo"
+        }
     },
 };
