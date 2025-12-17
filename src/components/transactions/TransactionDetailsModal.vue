@@ -30,9 +30,45 @@
                 <div>{{ props.transaction.transactionStatus }}</div>
                 <div>{{ props.transaction.points}}</div>
                 <div>
-                    <ul>
-                        <li v-for="product in props.transaction.items.products">
-                        </li>
+                    <ul v-if="props.transaction.items.products">
+                        <p>Prodotti coinvolti</p>
+                        <div class="overflow-x-auto">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="product in props.transaction.items.products">
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.quantity }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ul>
+                    <ul v-if="props.transaction.items.prizes">
+                        <p>Premi coinvolti</p>
+                        <div class="overflow-x-auto">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="prize in props.transaction.items.prizes">
+                                        <td>{{ prize.name }}</td>
+                                        <td>{{ prize.quantity }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </ul>
                 </div>
                 <div>

@@ -55,9 +55,9 @@
     <dialog ref="dialog" class="modal">
         <div class="modal-box w-4/5 max-w-3xl">
             <div v-if="transactionList.length > 0">
+                <p class="p-4 pb-5 text-xl text-black">Ultime transazioni avvenute</p>
                 <ul class="list bg-base-100 rounded-box shadow-md">
                     <!-- TODO mettere traduzioni -->
-                    <li class="p-4 pb-5 text-xl text-black">Ultime transazioni avvenute</li>
                     <li v-for="transaction in transactionList">
                         <TransactionListEntry 
                             :transaction="transaction" 
