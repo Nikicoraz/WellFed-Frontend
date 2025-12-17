@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, watch, type Ref } from "vue";
+    import { ref, nextTick, watch, type Ref } from "vue";
     import VueCookies from "vue-cookies";
     import { useI18n } from "vue-i18n";
     import TransactionListEntry from "./TransactionListEntry.vue";
@@ -39,7 +39,8 @@
         }
 
         if (open) {
-            await fetchTransactions()
+            await fetchTransactions();
+            await nextTick();
             dialog.value.showModal();
         } else {
             dialog.value.close();
@@ -62,8 +63,8 @@
                         <TransactionListEntry 
                             :transaction="transaction" 
                             @show-transaction-details="(transaction) => {
-                                showTransactionDetailsModal = true; 
                                 selectedTransaction = transaction;
+                                showTransactionDetailsModal = true;
                             }"
                         />
                     </li>
