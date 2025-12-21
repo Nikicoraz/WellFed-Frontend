@@ -7,7 +7,7 @@
                 <div class="aspect-square overflow-hidden rounded-xl">
                     <img
                         class="w-full h-full object-cover"
-                        src="../assets/plus.svg"
+                        src="../../assets/plus.svg"
                         :alt="$t('shop.prodotto.nuovo')"
                     />
                 </div>

@@ -15,21 +15,22 @@
 </script>
 
 <script setup lang="ts">
-import { router } from '../extensions/router';
+    import { router } from '../../extensions/router';
 
     const props = defineProps<{
         product: Product
     }>();
-
 </script>
 
 <template>
-    <div class="card card-side bg-base-100 shadow-sm m-4 overflow-y-scroll cursor-pointer" @click="router.push({
-        path: '/shop/' + product.shopID,
-        query: {
-            product: String(product.id)
-        }
-    })">
+    <div class="card card-side bg-base-100 shadow-sm m-4 overflow-y-scroll cursor-pointer" 
+        @click="router.push({
+            path: '/shop/' + product.shopID,
+            query: {
+                product: String(product.id)
+            }
+        })
+    ">
         <figure>
             <img :src="getImageUrl(product.image)" class="h-40 w-60 object-fill">
         </figure>

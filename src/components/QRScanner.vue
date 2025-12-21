@@ -2,7 +2,7 @@
     import { nextTick, ref } from 'vue';
     import { useI18n } from 'vue-i18n';
     import {QrcodeStream, type DetectedBarcode} from 'vue-qrcode-reader';
-    import Alert from './Alert.vue';
+    import Alert from './util/Alert.vue';
     import AlertType from '../types/alert';
     import cookies from 'vue-cookies';
 
@@ -35,13 +35,13 @@
         }).then(e => {
             switch (e.status) {
                 case 200:
-                    alertRef.value!.showError(AlertType.Success, t("shop.transazioni.successo"));
+                    alertRef.value!.showAlert(AlertType.Success, t("shop.transazioni.successo"));
                     break;
                 case 400:
-                    alertRef.value!.showError(AlertType.Error, t("shop.qrcode.invalido"));
+                    alertRef.value!.showAlert(AlertType.Error, t("shop.qrcode.invalido"));
                     break;
                 case 401:
-                    alertRef.value!.showError(AlertType.Error, t("alerts.nonAutorizzato"));
+                    alertRef.value!.showAlert(AlertType.Error, t("alerts.nonAutorizzato"));
                     break;
             }
         })

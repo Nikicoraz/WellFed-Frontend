@@ -22,9 +22,9 @@
     import { ref, watch, type Ref } from 'vue';
     import { useRoute, type RouteLocationNormalizedGeneric } from 'vue-router';
     import NavBar from '../components/NavBar.vue';
-    import ShopSearchResult from '../components/ShopSearchResult.vue';
-    import ProductSearchResult from '../components/ProductSearchResult.vue';
-import QRScanner from '../components/QRScanner.vue';
+    import ShopSearchResult from '../components/search_results/ShopSearchResult.vue';
+    import ProductSearchResult from '../components/search_results/ProductSearchResult.vue';
+    import QRScanner from '../components/QRScanner.vue';
 
     const results: Ref<SearchResults | null> = ref(null);
     const proxy = useRoute();
