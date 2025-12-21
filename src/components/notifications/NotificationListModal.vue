@@ -31,6 +31,8 @@
                 return [];
             }
         });
+
+        notificationList.value.reverse();
     }
 
     watch(() => props.open, async (open) => {
@@ -58,9 +60,8 @@
             <div v-if="notificationList.length > 0">
                 <p class="p-4 pb-5 text-xl text-black">{{ t("cronologiaTransazioni.header") }}</p>
                 <ul class="list bg-base-100 rounded-box shadow-md">
-                    <!-- TODO mettere traduzioni -->
                     <li v-for="notification in notificationList">
-                        <NotificationListEntry 
+                        <NotificationListEntry
                             :notification="notification" 
                             @show-notification-details="(notification) => {
                                 selectedNotification = notification;
@@ -82,5 +83,6 @@
         :open="showNotificationDetailsModal" 
         :notification="selectedNotification"
         @close="showNotificationDetailsModal = false" 
+        @read-status-changed="fetchNotifications()"
     />
 </template>

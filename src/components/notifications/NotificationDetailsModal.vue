@@ -1,16 +1,17 @@
 <script setup lang="ts">
     import { ref, toRaw, watch, type Ref } from "vue";
     import { useI18n } from "vue-i18n";
+    import VueCookies from "vue-cookies";
 
     const {t} = useI18n();
+    const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
+    const cookies = (VueCookies as any);
 
     const props = defineProps(['open', 'notification']);
-    const emit = defineEmits(['close']);
+    const emit = defineEmits(['close', 'readStatusChanged']);
 
     const dialog: Ref<HTMLDialogElement | null> = ref(null);
-
-    const merchantName = ref("");
-    const clientName = ref("");
+    const token = cookies.get("token");
 
     watch(() => props.open, async (open) => {
         if (!dialog.value) {
@@ -18,6 +19,16 @@
         }
 
         if (open) {
+            // Notifica segnata come letta una volta aperta
+            await fetch(`${backendAPI}/notifications/${props.notification.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            emit("readStatusChanged");
+
             dialog.value.showModal();
         } else {
             dialog.value.close();
