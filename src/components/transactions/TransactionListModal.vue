@@ -56,7 +56,7 @@
     <dialog ref="dialog" class="modal">
         <div class="modal-box w-4/5 max-w-3xl">
             <div v-if="transactionList.length > 0">
-                <p class="p-4 pb-5 text-xl text-black">Ultime transazioni avvenute</p>
+                <p class="p-4 pb-5 text-xl text-black">{{ t("cronologiaTransazioni.header") }}</p>
                 <ul class="list bg-base-100 rounded-box shadow-md">
                     <!-- TODO mettere traduzioni -->
                     <li v-for="transaction in transactionList">
@@ -71,7 +71,7 @@
                 </ul>
             </div>
             <div v-else>
-                <p class="text-black">No transaction found</p>
+                <p class="text-black">{{ t("cronologiaTransazioni.nessunaTransazione") }}</p>
             </div>
             <div class="my-4 modal-action">
                 <button class="btn" @click="$emit('close')">{{ `${t('button.chiudi')}` }}</button>

@@ -37,7 +37,7 @@
             </figure>
             <div class="flex justify-between mt-6">
                 <h1 class="text-2xl card-title w-8/12"><p class="truncate">{{ product.name }}</p></h1>
-                <div class="bg-lime-700 text-white border rounded-lg btn"> {{ product.points ?? 0 }} </div>
+                <div class="bg-lime-700 text-white border rounded-lg p-3 aspect-square text-center"> {{ product.points ?? 0 }} </div>
             </div>
 
             <!-- Matita di editing -->

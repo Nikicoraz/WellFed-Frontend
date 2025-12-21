@@ -84,4 +84,32 @@ export default {
             successo: "La transazione è avvenuta con successo"
         }
     },
+    cronologiaTransazioni: {
+        header: "Ultime transazioni avvenute",
+        nessunaTransazione: "Nessuna transazioni trovata",
+        commerciante: "Commerciante",
+        cliente: "Cliente",
+        data: "Data",
+        ora: "Ora",
+        prodotti: {
+            header: "Prodotti coinvolti nella transazione",
+            tabella: {
+                nome: "Nome",
+                quantita: "Quantità",
+                puntiPerUnita: "Punti per unità",
+                puntiTotali: "Punti totali"
+            }
+        },
+        premi: {
+            header: "Prodotti coinvolti nella transazione",
+            tabella: {
+                nome: "Nome",
+                punti: "Punti"
+            }
+        },
+        tipo: {
+            assegnamentoPunti: "Assegnamento Punti",
+            riscossionePremi: "Riscossioni Premi"
+        }
+    }
 };
