@@ -6,6 +6,7 @@
     import NotificationDetailsModal from "./NotificationDetailsModal.vue";
 
     const {t} = useI18n();
+    const cookies = (VueCookies as any);
 
     const props = defineProps({
         open: Boolean
@@ -17,6 +18,7 @@
     const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
 
     const dialog: Ref<HTMLDialogElement | null> = ref(null);
+    const token = cookies.get("token");
 
     async function fetchNotifications() {
         notificationList.value = await fetch(`${backendAPI}/notifications`, {
@@ -33,6 +35,19 @@
         });
 
         notificationList.value.reverse();
+    }
+
+    async function markAllAsRead() {
+        Promise.all(notificationList.value.map(async (notification) => {
+            await fetch(`${backendAPI}/notifications/${notification.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            fetchNotifications();
+        }));
     }
 
     watch(() => props.open, async (open) => {
@@ -56,9 +71,9 @@
 
 <template>
     <dialog ref="dialog" class="modal">
-        <div class="modal-box w-4/5 max-w-3xl">
-            <div v-if="notificationList.length > 0">
-                <p class="p-4 pb-5 text-xl text-black">{{ t("cronologiaTransazioni.header") }}</p>
+        <div class="modal-box w-4/5 max-w-3xl max-h-[80vh] flex flex-col overflow-hidden">
+            <p class="p-4 text-xl text-black sticky top-0">{{ t("cronologiaTransazioni.header") }}</p>
+            <div v-if="notificationList.length > 0" class="flex-grow overflow-y-auto">
                 <ul class="list bg-base-100 rounded-box shadow-md">
                     <li v-for="notification in notificationList">
                         <NotificationListEntry
@@ -71,10 +86,11 @@
                     </li>
                 </ul>
             </div>
-            <div v-else>
+            <div v-else class="flex-1">
                 <p class="text-black">{{ t("cronologiaTransazioni.nessunaTransazione") }}</p>
             </div>
             <div class="my-4 modal-action">
+                <button class="btn" @click="markAllAsRead()">{{ `${t('notifiche.segnaTuttoComeLetto')}` }}</button>
                 <button class="btn" @click="$emit('close')">{{ `${t('button.chiudi')}` }}</button>
             </div>
         </div>
