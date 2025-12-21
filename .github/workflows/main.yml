@@ -1,0 +1,24 @@
+name: NodeJS build check
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    # This is used to load Environment-level secrets, from the specified environment.
+    # Instead, repository secrets are loaded by default.
+    environment: production
+    
+    strategy:
+      matrix:
+        node-version: [22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+    - run: npm i
+    - run: npm run build
