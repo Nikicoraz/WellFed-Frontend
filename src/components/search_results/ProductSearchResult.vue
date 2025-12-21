@@ -1,4 +1,6 @@
 <script lang="ts">
+    import productIcon from "/src/assets/product.svg";
+
     interface Product {
         id: String,
         name: String,
@@ -37,7 +39,7 @@
         <div class="card-body p-0">
             <div class="bg-fed-green p-4 flex justify-between">
                 <h2 class="card-title text-white text-2xl">{{ product.name }}</h2>
-                <img src="../assets/product.svg" alt="" class="h-10">
+                <img :src="productIcon" alt="" class="h-10">
             </div>
             <div class="py-2 px-4">
                 <p>{{ product.description }}</p>

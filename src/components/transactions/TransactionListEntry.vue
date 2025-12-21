@@ -1,12 +1,10 @@
 <script setup lang="ts">
     import { ref, onMounted } from "vue";
-    import { useI18n } from "vue-i18n";
 
     const props = defineProps(['transaction']); // non ho idea di che tipo sia
     const emits = defineEmits(['showTransactionDetails']);
 
     const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
-    const {t} = useI18n();
 
     const issuer = props.transaction.issuerID;
     const receiver = props.transaction.receiverID;

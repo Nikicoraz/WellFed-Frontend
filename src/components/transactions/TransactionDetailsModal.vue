@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, toRaw, nextTick, watch, type Ref } from "vue";
+    import { ref, toRaw, watch, type Ref } from "vue";
     import { useI18n } from "vue-i18n";
     import VueCookies from "vue-cookies";
 
