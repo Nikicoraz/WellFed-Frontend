@@ -4,6 +4,7 @@
     import ProductListMerchant from '../../components/products/ProductListMerchant.vue';
     import ShopInfo from '../../components/ShopInfo.vue';
     import TransactionButtons from '../../components/TransactionButtons.vue';
+    import PrizeListMerchant from '../../components/prizes/PrizeListMerchant.vue';
 
     type ProductListExposed = {
         generateQR: () => void;
@@ -35,5 +36,6 @@
         />
         <ShopInfo :shopId="shopId"/>
         <ProductListMerchant ref="productList" :shopId="shopId" :isCreatingTransaction="isCreatingTransaction"/>
+        <PrizeListMerchant :shopId="shopId"/>
     </div>
 </template>

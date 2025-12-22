@@ -4,7 +4,7 @@
     import EmptyAddCard from "./EmptyAddCard.vue";
     import ProductEditModal from "./ProductEditModal.vue";
     import ProductSelector from "./ProductSelector.vue";
-    import ProductCard from "./ProductCardClient.vue";
+    import ProductCard from "./ProductCard.vue";
     import ProductDetailsModal from "./ProductDetailsModal.vue";
     import ProductInsertModal from "./ProductInsertModal.vue";
     import { useI18n } from "vue-i18n";
