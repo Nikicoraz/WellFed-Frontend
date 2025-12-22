@@ -2,19 +2,20 @@
     import PrizeCard from "./PrizeCard.vue";
     import PrizeDetailsModal from "./PrizeDetailsModal.vue";
     import { onMounted, ref, type Ref } from "vue";
-    import { useRoute } from "vue-router";
     import VueCookies from "vue-cookies";
     import Alert from "../util/Alert.vue";
     import AlertType from "../../types/alert";
     import QRPopup from "../QRPopup.vue";
     import { useI18n } from "vue-i18n";
+    import type Client from "../../types/client";
 
-    const route = useRoute();
     const cookies = (VueCookies as any);
+    const points = ref(0);
     const {t} = useI18n();
 
     const props = defineProps({
-        shopId: String
+        shopId: String,
+        client: Boolean
     });
 
     const prizes: Ref<any[], any[]> = ref([]);
@@ -65,18 +66,26 @@
         prizes.value = await fetch(`${backendAPI}/shops/${props.shopId}/prizes`)
             .then((res) => { return res.json() });
 
-        // Rerouting dalla ricerca
-        const prizeId = (route.query.product as string);
-        if (prizeId) {
-            const prize = await fetch(`${backendAPI}/shops/${props.shopId}/prizs/${prizeId}`).then((res) => { return res.json(); });
-            showDetails(prize);
+        if(props.client) {
+            const client = await fetch(`${backendAPI}/client`, {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + cookies.get("token")
+                }
+            });
+    
+            const clientData: Client = await client.json();
+            points.value = clientData.points[props.shopId ?? ""] ?? 0;
         }
     });
 </script>
 
 <template>
     <div v-if="prizes.length > 0" class="mx-auto">
-        <h1 class="text-3xl font-bold my-8">{{ $t('shop.premi') }}</h1>
+        <div class="flex align-middle gap-4">
+            <h1 class="text-3xl font-bold my-8">{{ $t('shop.premi') }}</h1>
+            <div class="bg-lime-700 text-white rounded-lg p-1 inline text-lg text-center my-auto">{{ $t('shop.punti') + ` ${points}` }}</div>
+        </div>
         <div class="grid grid-cols-4 gap-4">
             <PrizeCard v-for="prize in prizes"
                 :prize="prize"
