@@ -25,6 +25,7 @@
     import WellfedLogo from './util/WellfedLogo.vue';
     import { router } from '../extensions/router';
     import TransactionListButton from "./transactions/TransactionListButton.vue";
+    import NotificationListButton from "./notifications/NotificationListButton.vue";
 
     const {t} = useI18n();
 
@@ -116,11 +117,10 @@
                 </ul>
             </div>
         </div>
-        <div class="navbar-end text-white">
+        <div class="navbar-end text-white gap-4">
             <!-- bubbling up dell'evento -->
-            <TransactionListButton 
-                @show-transaction-list-modal="$emit('showTransactionListModal')" 
-            />
+            <TransactionListButton/>
+            <NotificationListButton/>
             <p>{{ username }}</p>
         </div>
     </div>

@@ -6,7 +6,7 @@
 
 <template>
     <div>
-        <button class="btn btn-circle mx-10" @click="showTransactionListModal = true">
+        <button class="btn btn-circle" @click="showTransactionListModal = true">
             <img class="scale-50" src="../../assets/transaction.svg" alt=""> 
         </button>
         <TransactionListModal 

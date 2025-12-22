@@ -122,7 +122,7 @@
 
 <template>
     <dialog ref="dialog" class="modal">
-        <div v-if="transaction" class="modal-box">
+        <div v-if="props.transaction" class="modal-box">
             <div class="bg-white text-black flex flex-col gap-12">
                 <div class="flex flex-row justify-between">
                     <div class="flex items-center text-3xl">{{ type }}</div>
