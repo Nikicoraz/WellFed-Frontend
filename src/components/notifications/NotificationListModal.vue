@@ -39,6 +39,7 @@
 
     async function markAllAsRead() {
         Promise.all(notificationList.value.map(async (notification) => {
+
             await fetch(`${backendAPI}/notifications/${notification.id}`, {
                 method: "PATCH",
                 headers: {
@@ -48,6 +49,23 @@
 
             fetchNotifications();
         }));
+    }
+
+    async function deleteAllRead() {
+        Promise.all(
+            notificationList.value.filter((notification) => { return notification.viewed; })
+                
+                .map(async (notification) => {
+                    await fetch(`${backendAPI}/notifications/${notification.id}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    });
+
+                    fetchNotifications();
+                })
+        );
     }
 
     watch(() => props.open, async (open) => {
@@ -64,7 +82,6 @@
         }
     });
 
-    // Da fare l'interfaccia ma non so come farla dato il tipo delle api
     const showNotificationDetailsModal = ref(false);
     const selectedNotification = ref(null);
 </script>
@@ -72,33 +89,35 @@
 <template>
     <dialog ref="dialog" class="modal">
         <div class="modal-box w-4/5 max-w-3xl max-h-[80vh] flex flex-col overflow-hidden">
-            <p class="p-4 text-xl text-black sticky top-0">{{ t("cronologiaTransazioni.header") }}</p>
-            <div v-if="notificationList.length > 0" class="flex-grow overflow-y-auto">
-                <ul class="list bg-base-100 rounded-box shadow-md">
-                    <li v-for="notification in notificationList">
-                        <NotificationListEntry
-                            :notification="notification" 
-                            @show-notification-details="(notification) => {
-                                selectedNotification = notification;
-                                showNotificationDetailsModal = true;
-                            }"
-                        />
-                    </li>
-                </ul>
+            <div v-if="notificationList.length > 0">
+                <p class="p-4 text-xl text-black sticky top-0">{{ t("casellaNotifiche.header") }}</p>
+                <div class="flex-grow overflow-y-auto">
+                    <ul class="list bg-base-100 rounded-box shadow-md">
+                        <li v-for="notification in notificationList">
+                            <NotificationListEntry
+                                :notification="notification" 
+                                @show-notification-details="(notification) => {
+                                    selectedNotification = notification;
+                                    showNotificationDetailsModal = true;
+                                }"
+                            />
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div v-else class="flex-1">
-                <p class="text-black">{{ t("cronologiaTransazioni.nessunaTransazione") }}</p>
+                <p class="text-black">{{ t("casellaNotifiche.nessunaNotifica") }}</p>
             </div>
             <div class="my-4 modal-action">
-                <button class="btn" @click="markAllAsRead()">{{ `${t('notifiche.segnaTuttoComeLetto')}` }}</button>
-                <button class="btn" @click="$emit('close')">{{ `${t('button.chiudi')}` }}</button>
+                <button v-if="notificationList.length > 0" class="btn mr-auto bg-red-700 text-white" @click="deleteAllRead()">{{ t('casellaNotifiche.eliminaTutteLette') }}</button>
+                <button v-if="notificationList.length > 0" class="btn bg-blue-600 text-white" @click="markAllAsRead()">{{ t('casellaNotifiche.segnaTuttoComeLetto') }}</button>
+                <button class="btn" @click="$emit('close')">{{ t('button.chiudi') }}</button>
             </div>
         </div>
     </dialog>
     <NotificationDetailsModal 
         :open="showNotificationDetailsModal" 
         :notification="selectedNotification"
-        @close="showNotificationDetailsModal = false" 
-        @read-status-changed="fetchNotifications()"
+        @close="() => { showNotificationDetailsModal = false; fetchNotifications(); }" 
     />
 </template>

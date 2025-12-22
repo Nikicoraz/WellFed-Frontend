@@ -111,5 +111,13 @@ export default {
             assegnamentoPunti: "Assegnamento Punti",
             riscossionePremi: "Riscossioni Premi"
         }
+    },
+    casellaNotifiche: {
+        header: "Casella delle notifiche",
+        nessunaNotifica: "Non è presente alcuna notifica",
+        eliminaTutteLette: "Elimina notifiche lette",
+        segnaTuttoComeLetto: "Segna tutto come letto",
+        redirectNegozio: "Portami al negozio",
+        eliminaNotifica: "Elimina",
     }
 };
