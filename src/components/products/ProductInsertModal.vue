@@ -100,7 +100,7 @@
 </script>
 
 <template>
-    <dialog ref="dialog" class="modal" @close="$emit('close')">
+    <dialog ref="dialog" class="modal z-10" @close="$emit('close')">
         <div class="modal-box min-w-[40dvw]">
             <div class="flex flex-cols my-4">
                 <div class="flex-1 h-full flex flex-col">

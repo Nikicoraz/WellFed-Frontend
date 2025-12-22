@@ -134,8 +134,8 @@
 </script>
 
 <template>
-    <dialog ref="dialog" class="modal z-0" @close="$emit('close')" @keyup.esc="dialog?.close()">
-        <div v-if="product" class="modal-box min-w-[40dvw] z-0" ref="box">
+    <dialog ref="dialog" class="modal z-10" @close="$emit('close')" @keyup.esc="dialog?.close()">
+        <div v-if="product" class="modal-box min-w-[40dvw]" ref="box">
             <div class="flex flex-cols my-4">
                 <div class="flex-1 h-full flex flex-col">
                     <h2 class="text-3xl font-bold">{{ product.name }}</h2>
