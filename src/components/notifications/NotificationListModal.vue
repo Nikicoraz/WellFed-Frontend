@@ -20,6 +20,11 @@
     const dialog: Ref<HTMLDialogElement | null> = ref(null);
     const token = cookies.get("token");
 
+    interface Notification {
+        id: String,
+        viewed: Boolean
+    }
+
     async function fetchNotifications() {
         notificationList.value = await fetch(`${backendAPI}/notifications`, {
             method: "GET",
@@ -38,7 +43,7 @@
     }
 
     async function markAllAsRead() {
-        Promise.all(notificationList.value.map(async (notification) => {
+        Promise.all(notificationList.value.map(async (notification: Notification) => {
 
             await fetch(`${backendAPI}/notifications/${notification.id}`, {
                 method: "PATCH",
@@ -53,9 +58,9 @@
 
     async function deleteAllRead() {
         Promise.all(
-            notificationList.value.filter((notification) => { return notification.viewed; })
+            notificationList.value.filter((notification: Notification) => { return notification.viewed; })
                 
-                .map(async (notification) => {
+                .map(async (notification: Notification) => {
                     await fetch(`${backendAPI}/notifications/${notification.id}`, {
                         method: "DELETE",
                         headers: {
@@ -87,11 +92,11 @@
 </script>
 
 <template>
-    <dialog ref="dialog" class="modal">
+    <dialog ref="dialog" class="modal" @close="$emit('close')">
         <div class="modal-box w-4/5 max-w-3xl max-h-[80vh] flex flex-col overflow-hidden">
             <div v-if="notificationList.length > 0">
                 <p class="p-4 text-xl text-black sticky top-0">{{ t("casellaNotifiche.header") }}</p>
-                <div class="flex-grow overflow-y-auto">
+                <div class="grow overflow-y-auto">
                     <ul class="list bg-base-100 rounded-box shadow-md">
                         <li v-for="notification in notificationList">
                             <NotificationListEntry
@@ -111,7 +116,9 @@
             <div class="my-4 modal-action">
                 <button v-if="notificationList.length > 0" class="btn mr-auto bg-red-700 text-white" @click="deleteAllRead()">{{ t('casellaNotifiche.eliminaTutteLette') }}</button>
                 <button v-if="notificationList.length > 0" class="btn bg-blue-600 text-white" @click="markAllAsRead()">{{ t('casellaNotifiche.segnaTuttoComeLetto') }}</button>
-                <button class="btn" @click="$emit('close')">{{ t('button.chiudi') }}</button>
+                <form method="dialog">
+                    <button class="btn">{{ t('button.chiudi') }}</button>
+                </form>
             </div>
         </div>
     </dialog>

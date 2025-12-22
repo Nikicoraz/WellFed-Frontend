@@ -66,7 +66,7 @@
 </script>
 
 <template>
-    <dialog ref="dialog" class="modal">
+    <dialog ref="dialog" class="modal" @close="$emit('close')">
         <div v-if="props.notification" class="modal-box">
             <div class="bg-white text-black flex flex-col gap-12">
                 <div class="flex flex-col justify-between">
@@ -77,7 +77,9 @@
             </div>
             <div class="my-4 modal-action">
                 <button class="btn mr-auto bg-red-700 text-white" @click="deleteNotification()">{{ t('casellaNotifiche.eliminaNotifica') }}</button>
-                <button class="btn" @click="$emit('close')">{{ t('button.chiudi') }}</button>
+                <form method="dialog">
+                    <button class="btn">{{ t('button.chiudi') }}</button>
+                </form>
             </div>
         </div>
     </dialog>
