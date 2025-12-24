@@ -36,6 +36,6 @@
         />
         <ShopInfo :shopId="shopId"/>
         <ProductListMerchant ref="productList" :shopId="shopId" :isCreatingTransaction="isCreatingTransaction"/>
-        <PrizeListMerchant :shopId="shopId" class="z-0"/>
+        <PrizeListMerchant :shopId="shopId" />
     </div>
 </template>

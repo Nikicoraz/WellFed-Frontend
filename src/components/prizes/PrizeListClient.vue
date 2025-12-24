@@ -14,8 +14,7 @@
     const {t} = useI18n();
 
     const props = defineProps({
-        shopId: String,
-        client: Boolean
+        shopId: String
     });
 
     const prizes: Ref<any[], any[]> = ref([]);
@@ -66,18 +65,17 @@
         prizes.value = await fetch(`${backendAPI}/shops/${props.shopId}/prizes`)
             .then((res) => { return res.json() });
 
-        if(props.client) {
-            const client = await fetch(`${backendAPI}/client`, {
-                method: "GET",
-                headers: {
-                    "Authorization": "Bearer " + cookies.get("token")
-                }
-            });
-    
-            const clientData: Client = await client.json();
-            points.value = clientData.points[props.shopId ?? ""] ?? 0;
-        }
-    });
+        const client = await fetch(`${backendAPI}/client`, {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + cookies.get("token")
+            }
+        });
+
+        const clientData: Client = await client.json();
+        points.value = clientData.points[props.shopId ?? ""] ?? 0;
+    }
+    );
 </script>
 
 <template>

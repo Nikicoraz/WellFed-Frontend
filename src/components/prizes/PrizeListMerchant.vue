@@ -50,7 +50,7 @@
 </script>
 
 <template>
-    <div v-if="shopFound" class="mx-auto">
+    <div v-if="shopFound" class="mx-auto z-0">
         <h1 class="text-3xl font-bold my-8">{{ $t('shop.premi') }}</h1>
         <div class="grid grid-cols-4 gap-4">
             <!-- Pulsante per l'aggiunta di un nuovo prodotto -->

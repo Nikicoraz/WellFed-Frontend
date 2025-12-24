@@ -15,7 +15,7 @@
         <div class="w-3/4 p-8 mx-auto">
             <ShopInfo :shopId="shopId"/>
             <ProductListClient :shopId="shopId"/>
-            <PrizeListClient :shopId="shopId" :client="true" />
+            <PrizeListClient :shopId="shopId" />
         </div>
     </div>
 </template>
