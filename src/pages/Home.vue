@@ -3,6 +3,7 @@
     import { router } from '../extensions/router';
     import NavBar from '../components/NavBar.vue';
     import QRScanner from '../components/QRScanner.vue';
+    import ShopList from '../components/ShopList.vue';
 
     const token = (cookies as any).get("token");
     if(!token) {

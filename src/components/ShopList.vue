@@ -2,7 +2,7 @@
     import { ref, onMounted, type Ref } from "vue";
     import VueCookies from "vue-cookies";
     import { useI18n } from "vue-i18n";
-    import ShopCard from "ShopCard.vue";
+    import ShopCard from "./ShopCard.vue";
 
     const cookies = (VueCookies as any);
     const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
@@ -21,7 +21,7 @@
             const entries = Object.entries(json.points ?? {});
             const resolved = await Promise.all(
                 entries.map(async ([shopId, points]) => {
-                    const shop = await fetch(`${backendAPI}/shop/${shopId}`)
+                    const shop = await fetch(`${backendAPI}/shops/${shopId}`)
                         .then(res => res.json());
 
                     return [shop, points];
@@ -34,15 +34,16 @@
 </script>
 
 <template>
-    <div>
-        <div class="flex">
+    <div class="flex flex-col p-8">
+        <div class="flex flex-cols m-4">
             <!--icona-->
-            <h1>Punti disponibili</h1>
+            <h1 class="text-2xl">Punti disponibili</h1>
         </div>
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-3 gap-4">
             <ShopCard v-for="([shop, points]) in pointsMappings" :key="shop"
                 :shop="shop"
                 :points="points"
+                @redirect="() => {console.log('redirect')}"
             />
         </div>
     </div>
