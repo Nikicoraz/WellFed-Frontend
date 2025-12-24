@@ -20,5 +20,7 @@
     <div class="bg-fed-bg min-h-screen h-full">
         <NavBar />
         <QRScanner />
+        <!-- Chiamata shop list generica perché tanto non abbiamo né i preferiti né la distanza geografica -->
+        <ShopList />
     </div>
 </template>
