@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import ProductCardClient from "./ProductCardClient.vue";
+    import ProductCard from "./ProductCard.vue";
     import ProductDetailsModal from "./ProductDetailsModal.vue";
     import { onMounted, ref, type Ref } from "vue";
     import { useRoute } from "vue-router";
@@ -40,7 +40,7 @@
     <div v-if="products.length > 0" class="mx-auto">
         <h1 class="text-3xl font-bold my-8">{{ $t('shop.prodotti') }}</h1>
         <div class="grid grid-cols-4 gap-4">
-            <ProductCardClient v-for="product in products"
+            <ProductCard v-for="product in products"
                 :product="product"
                 :editable="false"
                 @show-details="showDetails" 

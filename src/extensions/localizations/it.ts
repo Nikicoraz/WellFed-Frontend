@@ -55,6 +55,7 @@ export default {
         negozioNonTrovato: "Il negozio non esiste",
         altImmagineNegozio: "Immagine del negozio",
         prodotti: "Prodotti",
+        premi: "Premi",
         descrizione: "Descrizione",
         origine: "Origine",
         punti: "Punti",
@@ -72,6 +73,15 @@ export default {
             aggiornato: "Il prodotto è stato aggiornato con successo!",
             confermaCancellazione: "Sei sicuro che vuoi cancellare questo prodotto?",
             cancellato: "Il prodotto è stato cancellato con successo"
+        },
+        premio: {
+            nuovo: "Aggiungi un nuovo premio",
+            creato: "Il premio è stato aggiunto al negozio con successo!",
+            aggiornato: "Il premio è stato aggiornato con successo!",
+            confermaCancellazione: "Sei sicuro che vuoi cancellare questo premio?",
+            cancellato: "Il premio è stato cancellato con successo",
+            riscatta: "Riscatta",
+            confermaRiscatto: "Sei sicuro che vuoi riscattare questo premio?"
         },
         qrcode: {
             mostraACliente: "Fai scansionare questo QR code al cliente per assegnargli i punti!",

@@ -23,7 +23,7 @@
 <template>
     <Transition>
         <div v-if="visible">
-            <div class="fixed left-1/2 -translate-x-1/2 bottom-10 alert alert-soft transition-all duration-300" :class="alertType?.toString()">{{ message }}</div>
+            <div class="fixed left-1/2 -translate-x-1/2 bottom-10 alert alert-soft transition-all duration-300 z-30" :class="alertType?.toString()">{{ message }}</div>
         </div>
     </Transition>
 </template>

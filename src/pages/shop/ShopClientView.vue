@@ -4,6 +4,7 @@
     import ProductListClient from '../../components/products/ProductListClient.vue';
     import ShopInfo from '../../components/ShopInfo.vue';
     import NavBar from '../../components/NavBar.vue';
+    import PrizeListClient from '../../components/prizes/PrizeListClient.vue';
 
     const shopId = ref(useRoute().params.shopId as string);
 </script>
@@ -14,6 +15,7 @@
         <div class="w-3/4 p-8 mx-auto">
             <ShopInfo :shopId="shopId"/>
             <ProductListClient :shopId="shopId"/>
+            <PrizeListClient :shopId="shopId" />
         </div>
     </div>
 </template>

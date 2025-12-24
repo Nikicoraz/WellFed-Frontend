@@ -1,6 +1,11 @@
 <script setup lang="ts">
     import { ref } from 'vue';
 
+    const props = defineProps({
+        yesStyling: String,
+        noStyling: String
+    });
+
     const dialog = ref<HTMLDialogElement | null>(null);
     const emits = defineEmits(['onYes', 'onNo']);
     const displayMessage = ref("");
@@ -20,8 +25,8 @@
             <div class="modal-action">
                 <form method="dialog" class="flex justify-between gap-2">
                     <!-- if there is a button in form, it will close the modal -->
-                    <button class="btn yes-btn" @click="$emit('onYes')">{{ $t("shop.conferma") }}</button>
-                    <button class="btn no-btn" @click="$emit('onNo')">{{ $t("shop.annulla") }}</button>
+                    <button class="btn" :class="yesStyling" @click="$emit('onYes')">{{ $t("shop.conferma") }}</button>
+                    <button class="btn" :class="noStyling" @click="$emit('onNo')">{{ $t("shop.annulla") }}</button>
                 </form>
             </div>
         </div>
