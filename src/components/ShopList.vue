@@ -17,7 +17,19 @@
                 "Authorization": "Bearer " + cookies.get("token")
             }
         }).then((res) => { return res.json(); })
-          .then((json) => { return Object.entries(json.points ?? {}); });
+          .then(async (json) => { 
+            const entries = Object.entries(json.points ?? {});
+            const resolved = await Promise.all(
+                entries.map(async ([shopId, points]) => {
+                    const shop = await fetch(`${backendAPI}/shop/${shopId}`)
+                        .then(res => res.json());
+
+                    return [shop, points];
+                })
+            );
+
+            return resolved;
+        });
     });
 </script>
 
@@ -28,8 +40,8 @@
             <h1>Punti disponibili</h1>
         </div>
         <div class="grid grid-cols-4 gap-4">
-            <ShopCard v-for="([shopId, points]) in pointsMappings" :key="shopId"
-                :shopId="shopId"
+            <ShopCard v-for="([shop, points]) in pointsMappings" :key="shop"
+                :shop="shop"
                 :points="points"
             />
         </div>
