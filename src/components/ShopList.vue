@@ -43,7 +43,6 @@
             <ShopCard v-for="([shop, points]) in pointsMappings" :key="shop"
                 :shop="shop"
                 :points="points"
-                @redirect="() => {console.log('redirect')}"
             />
         </div>
     </div>

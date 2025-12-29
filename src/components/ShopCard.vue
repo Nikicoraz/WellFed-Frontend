@@ -1,8 +1,8 @@
 <script setup lang="ts">
     import { ref, type Ref } from "vue";
+    import { router } from '../extensions/router';
 
     const props = defineProps(['shop', 'points']);
-    const emits = defineEmits(['redirect']);
     
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
 </script>
@@ -10,7 +10,7 @@
 <template>
     <div
         v-if="props.shop"
-        @click="$emit('redirect', props.shop)"
+        @click="_ => { router.push(`/shop/${props.shop.id}`)}"
         class="bg-base-100 card card-side h-80 shadow rounded-xl cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-105"
     >
         <figure class="w-1/2">
@@ -23,8 +23,8 @@
             </div>
         </figure>
         <div class="card-body flex flex-col justify-around">
-            <div class="text-2xl m-auto  card-title">{{ props.shop.name }}</div>
-            <div class="text-lime-700 text-3xl m-auto">{{ props.points ?? 0 }}</div>
+            <div class="text-2xl m-auto card-title">{{ props.shop.name }}</div>
+            <div v-if="props.points" class="text-lime-700 text-3xl m-auto">{{ props.points }}</div>
         </div>
     </div>
 </template>
