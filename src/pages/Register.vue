@@ -178,7 +178,7 @@
             <div ref="merchantForm" v-else class="flex flex-col gap-2" @keypress.enter.native="registerMerchant">
                 <input required type="text" class="input validator" :placeholder="$t('register.nomeNegozio')" v-model="username">
                 <input required type="text" class="input validator" :placeholder="$t('register.indirizzoNegozio')" v-model="indirizzo">
-                <input required type="text" class="input validator" placeholder="Partita IVA" v-model="partitaIVA">
+                <input required type="text" class="input validator" placeholder="Partita IVA" v-model="partitaIVA" pattern="(IT)? ?\d{11}" :title="$t('register.formatoPIVA')">
                 <input required type="email" class="input validator" placeholder="Email" v-model="email">
                 <input required type="password" class="input validator" placeholder="Password" v-model="password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-_]).{8,40}$" :title="$t('register.formatoPassword')">
                 <input required type="file" ref="image" class="file-input validator" accept="image/jpeg, image/png, image/webp">
