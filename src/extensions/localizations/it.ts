@@ -14,6 +14,7 @@ export default {
         processando: "L'account sta venendo processato",
         creato: "L'account è stato creato",
         formatoPassword: "Almeno 8 caratteri, una lettera minuscola, una lettera maiuscola, un numero e un carattere speciale",
+        formatoPIVA: "11 numeri con opzionale prefisso IT",
         reqPassword: "La password non rispetta i requisiti minimi di sicurezza, deve essere lunga almeno 8 caratteri e contenere: una lettera minuscola, una lettera maiuscola, un numero e un carattere speciale",
         reqEmail: "L'email inserita non è valida!",
     },
