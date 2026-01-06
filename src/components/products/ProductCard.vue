@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import { ref } from "vue";
+    import SafeImage from "../SafeImage.vue";
 
     const props = defineProps(['product', 'editable']);
     const emit = defineEmits(['showDetails', 'edit']);
@@ -16,7 +17,7 @@
         <div class="card-body h-100">
             <figure>
                 <div class="aspect-square overflow-hidden rounded-xl">
-                    <img
+                    <SafeImage
                         class="w-full h-full object-cover"
                         :src="`${backendUrl}${props.product.image}`"
                         :alt="props.product.name"

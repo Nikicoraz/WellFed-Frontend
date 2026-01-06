@@ -18,6 +18,7 @@
 
 <script setup lang="ts">
     import { router } from '../../extensions/router';
+    import SafeImage from '../SafeImage.vue';
 
     const props = defineProps<{
         product: Product
@@ -34,7 +35,7 @@
         })
     ">
         <figure>
-            <img :src="getImageUrl(product.image)" class="h-40 w-60 object-fill">
+            <SafeImage :src="getImageUrl(product.image)" :alt="product.name.toString()" class="h-40 w-60 object-fill" />
         </figure>
         <div class="card-body p-0">
             <div class="bg-fed-green p-4 flex justify-between">

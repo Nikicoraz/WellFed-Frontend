@@ -14,7 +14,8 @@
 </script>
 
 <script setup lang="ts">
-import { router } from '../../extensions/router';
+    import { router } from '../../extensions/router';
+    import SafeImage from '../SafeImage.vue';
 
     const props = defineProps<{
         shop: Shop
@@ -25,7 +26,7 @@ import { router } from '../../extensions/router';
 <template>
     <div class="card card-side bg-base-100 shadow-sm m-4 cursor-pointer" @click="router.push('/shop/' + shop.id)">
         <figure>
-            <img :src="getImageUrl(shop.image)" class="h-40 w-60 object-fill">
+            <SafeImage :src="getImageUrl(shop.image)" :alt="shop.name.toString()" class="h-40 w-60 object-fill" />
         </figure>
         <div class="card-body p-0">
             <div class="bg-fed-green p-4 flex w-full justify-between">

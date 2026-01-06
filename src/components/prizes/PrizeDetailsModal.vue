@@ -3,6 +3,7 @@
     import type { Ref } from "vue";
     import { useI18n } from "vue-i18n";
     import ConfirmModal from "../util/ConfirmModal.vue";
+    import SafeImage from "../SafeImage.vue";
 
     const {t} = useI18n();
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
@@ -32,7 +33,7 @@
             <div class="flex flex-cols my-4">
                 <div class="flex-1 h-full flex flex-col">
                     <h2 class="text-3xl font-bold">{{ props.prizeDetails.name }}</h2>
-                    <img
+                    <SafeImage
                         class="w-full h-full object-cover rounded-xl"
                         :src="`${backendUrl}${props.prizeDetails.image}`"
                         :alt="props.prizeDetails.name"

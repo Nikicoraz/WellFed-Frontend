@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import { router } from '../extensions/router';
+    import SafeImage from "./SafeImage.vue";
 
     const props = defineProps(['shop', 'points']);
     
@@ -15,7 +16,7 @@
     >
         <figure class="w-1/2">
             <div class="aspect-square overflow-hidden rounded-xl">
-                <img
+                <SafeImage
                     class="w-full h-full object-cover"
                     :src="`${backendUrl}${props.shop.image}`"
                     :alt="props.shop.name"
