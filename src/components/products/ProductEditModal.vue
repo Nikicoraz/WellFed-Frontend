@@ -7,6 +7,7 @@
     import Alert from "../util/Alert.vue";
     import AlertType from "../../types/alert";
     import ConfirmModal from "../util/ConfirmModal.vue";
+    import SafeImage from "../SafeImage.vue";
 
     const props = defineProps({
         shopId: String,
@@ -139,7 +140,7 @@
             <div class="flex flex-cols my-4">
                 <div class="flex-1 h-full flex flex-col">
                     <h2 class="text-3xl font-bold">{{ product.name }}</h2>
-                    <img
+                    <SafeImage
                         class="w-full h-full object-cover rounded-xl"
                         :src="`${backendUrl}${product.image}`"
                         :alt="product.name"

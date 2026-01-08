@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { ref, onMounted } from "vue";
     import type { Ref } from "vue";
+    import SafeImage from "./SafeImage.vue";
 
     const props = defineProps({
         shopId: String
@@ -20,7 +21,7 @@
     <div v-if="shop" class="hero w-full">
         <div class="hero-content size-full justify-around flex flex-row gap-4">
             <div class="flex-1 h-full flex">
-                <img
+                <SafeImage
                     :src="`${backendUrl}${shop.image}`"
                     :alt="$t('shop.altImmagineNegozio')"
                     class="rounded-xl max-h-full object-contain mx-auto"
