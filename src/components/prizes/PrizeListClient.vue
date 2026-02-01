@@ -54,6 +54,9 @@
                 case 401:
                     alert.value!.showAlert(AlertType.Error, t("alerts.nonAutorizzato"));
                     break;
+                case 402:
+                    alert.value!.showAlert(AlertType.Error, t("alerts.mancanoPunti"));
+                    break;
                 default:
                     alert.value!.showAlert(AlertType.Error, res.status + ": " + t("alerts.errore"));
                     break;
