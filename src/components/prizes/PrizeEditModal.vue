@@ -15,7 +15,7 @@
         open: Boolean
     });
 
-    const emit = defineEmits(['close', 'productSaved']);
+    const emit = defineEmits(['close', 'prizeSaved']);
 
     const prize: Ref<any> = ref<any>(null);
     const backendUrl = ref(import.meta.env.VITE_BACKEND_URL);
@@ -75,7 +75,7 @@
                     alert.value!.showAlert(AlertType.Error, e.status + ": " + t("alerts.datiNonValidi"))
                     break;
             }
-        }).then(_ => emit('productSaved'));
+        }).then(_ => emit('prizeSaved'));
     }
 
     function save() {
@@ -125,7 +125,7 @@
                     alert.value!.showAlert(AlertType.Error, e.status + ":" + t("alerts.errore"));
                     break;
             }
-        }).then(_ => { emit('productSaved') });
+        }).then(_ => { emit('prizeSaved') });
     }
 </script>
 
