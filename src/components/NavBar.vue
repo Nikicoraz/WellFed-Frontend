@@ -26,6 +26,7 @@
     import { router } from '../extensions/router';
     import TransactionListButton from "./transactions/TransactionListButton.vue";
     import NotificationListButton from "./notifications/NotificationListButton.vue";
+    import LogoutButton from "./util/LogoutButton.vue";
 
     const {t} = useI18n();
 
@@ -88,6 +89,8 @@
         });
     }
 
+
+
     const emit = defineEmits(['showTransactionListModal']);
 </script>
 
@@ -122,6 +125,7 @@
             <TransactionListButton/>
             <NotificationListButton/>
             <p>{{ username }}</p>
+            <LogoutButton></LogoutButton>
         </div>
     </div>
 </template>

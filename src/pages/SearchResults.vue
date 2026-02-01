@@ -25,6 +25,13 @@
     import ShopSearchResult from '../components/search_results/ShopSearchResult.vue';
     import ProductSearchResult from '../components/search_results/ProductSearchResult.vue';
     import QRScanner from '../components/QRScanner.vue';
+    import cookies from "vue-cookies";
+    import { router } from "../extensions/router";
+
+    const token = (cookies as any).get("token");
+    if(!token) {
+        router.push("/login");
+    }
 
     const results: Ref<SearchResults | null> = ref(null);
     const proxy = useRoute();
