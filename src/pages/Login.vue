@@ -110,7 +110,7 @@
                 <input class="input validator" type="email" required placeholder="Email" v-model="email" />
                 <input class="input validator" type="password" required placeholder="Password" v-model="password" />
                 <input type="submit" @click="login" :value="$t('login.accedi')" class="btn-1">
-                <GoogleLogin :callback="googleLogin" :button-config="{text: 'signin'}" />
+                <GoogleLogin :callback="googleLogin" :button-config="{text: 'signin', width: '100%' }" />
                 <p class="text-center"> {{ $t("login.oppure") }} </p>
                 <input type="submit" @click="router.push('/register')" :value="$t('login.registrati')" class="p-4 border border-black bg-lime-900 text-white rounded-lg hover:bg-lime-950">
             </div>
