@@ -5,9 +5,15 @@
     import { useRoute } from 'vue-router';
     import VueCookies from 'vue-cookies';
     import QRScanner from '../../components/QRScanner.vue';
+    import { router } from "../../extensions/router";
 
     const cookies = (VueCookies as any);
     const backendAPI = import.meta.env.VITE_BACKEND_URL_API;
+
+    const token = (cookies as any).get("token");
+    if(!token) {
+        router.push("/login");
+    }
 
     const currentMerchantID: string | undefined = cookies.get("merchantID");
 

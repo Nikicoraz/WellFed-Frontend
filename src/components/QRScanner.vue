@@ -49,7 +49,7 @@
 </script>
 
 <template>
-    <div class="w-20 h-20 rounded-xl cursor-pointer fixed right-4 bottom-4" @click="showQR">
+    <div class="w-20 h-20 rounded-xl cursor-pointer fixed right-4 bottom-4 z-50" @click="showQR">
         <img src="../assets/scanner.svg" alt="">
     </div>
     <dialog class="modal" ref="dialog" v-if="useCamera" @close="useCamera = false">

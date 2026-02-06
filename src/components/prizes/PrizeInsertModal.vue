@@ -11,7 +11,7 @@
         open: Boolean
     });
 
-    const emit = defineEmits(['close', 'productSaved']);
+    const emit = defineEmits(['close', 'prizeSaved']);
 
     const cookies = (VueCookies as any);
     const {t} = useI18n();
@@ -65,7 +65,7 @@
                     alert.value!.showAlert(AlertType.Error, e.status + ": " + t("alerts.datiNonValidi"))
                     break;
             }
-        }).then(_ => emit('productSaved'));
+        }).then(_ => emit('prizeSaved'));
     }
 
     function save() {

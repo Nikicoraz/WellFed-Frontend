@@ -30,7 +30,8 @@ export default {
         emailInUsoLocale: "L'email associata con l'account Google è già registrata nel sistema. Si prega di autenticarsi con le credenziali locali",
         errore: "Errore",
         nessunProdotto: "Occorre selezionare almeno un prodotto!",
-        nonAutorizzato: "Non sei autorizzato ad eseguire questa operazione"
+        nonAutorizzato: "Non sei autorizzato ad eseguire questa operazione",
+        mancanoPunti: "Non si hanno abbastanza punti per redimere questo premio"
     },
     product: {
         origine: "Origine",

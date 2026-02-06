@@ -5,6 +5,7 @@
     import ShopInfo from '../../components/ShopInfo.vue';
     import TransactionButtons from '../../components/TransactionButtons.vue';
     import PrizeListMerchant from '../../components/prizes/PrizeListMerchant.vue';
+    import LogoutButton from '../../components/util/LogoutButton.vue';
 
     type ProductListExposed = {
         generateQR: () => void;
@@ -27,6 +28,7 @@
 </script>
 
 <template>
+    <LogoutButton class="absolute right-8 top-8 bg-fed-green text-white"></LogoutButton>
     <div class="w-3/4 p-8 mx-auto">
         <TransactionButtons 
             :shopId="shopId" 
