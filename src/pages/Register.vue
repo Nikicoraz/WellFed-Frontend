@@ -30,7 +30,7 @@
     // Non ho idea di che tipo sia 
     const alertRef: Ref<any> = ref(null);
     function triggerErrorAlert(msg: String) {
-        alertRef.value?.showError(AlertType.Error, msg);
+        alertRef.value?.showAlert(AlertType.Error, msg);
     }   
 
     function registerClient(){
