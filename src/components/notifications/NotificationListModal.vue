@@ -96,7 +96,7 @@
         <div class="modal-box w-4/5 max-w-3xl max-h-[80vh] flex flex-col overflow-hidden">
             <div v-if="notificationList.length > 0">
                 <p class="p-4 text-xl text-black sticky top-0">{{ t("casellaNotifiche.header") }}</p>
-                <div class="grow overflow-y-auto">
+                <div class="grow overflow-y-scroll max-h-100">
                     <ul class="list bg-base-100 rounded-box shadow-md">
                         <li v-for="notification in notificationList">
                             <NotificationListEntry
