@@ -73,7 +73,7 @@
         const token: string = response.credential;
 
         // Dopo 1 minuto e 30 secondi considero l'autenticazione fallita e quindi tolgo il messaggio
-        alertRef.value.showAlertWithDuration(AlertType.Info, t("alerts.waitLogin"), 1 * 1000);
+        alertRef.value.showAlertWithDuration(AlertType.Info, t("alerts.waitLogin"), 90 * 1000);
         fetch(backendAPI.concat("/login/SSO"), {
             method: "POST",
             headers: { 
