@@ -31,7 +31,8 @@ export default {
         errore: "Errore",
         nessunProdotto: "Occorre selezionare almeno un prodotto!",
         nonAutorizzato: "Non sei autorizzato ad eseguire questa operazione",
-        mancanoPunti: "Non si hanno abbastanza punti per redimere questo premio"
+        mancanoPunti: "Non si hanno abbastanza punti per redimere questo premio",
+        waitLogin: "Accesso in corso, per favore attendere"
     },
     product: {
         origine: "Origine",

@@ -6,18 +6,27 @@
     const duration = 5000;
     const alertType = ref(AlertType.Info);
     const message = ref("");
+    let lastTimeout: number | undefined = undefined;
 
     function showAlert(type: AlertType, msg: string) {
+        showAlertWithDuration(type, msg, duration);
+    }
+
+    function showAlertWithDuration(type: AlertType, msg: string, duration: number) {
         visible.value = true;
         alertType.value = type;
         message.value = msg;
 
-        setTimeout(() => {
+        if(lastTimeout) {
+            clearTimeout(lastTimeout);
+        }
+
+        lastTimeout = setTimeout(() => {
             visible.value = false;
         }, duration);
     }
 
-    defineExpose({ showAlert });
+    defineExpose({ showAlert, showAlertWithDuration });
 </script>
 
 <template>

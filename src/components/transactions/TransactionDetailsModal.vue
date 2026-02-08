@@ -71,14 +71,20 @@
             type: newTransaction.receiverID.type
         };
 
-        const token = cookies.get("token");
-        clientName.value = await fetch(`${backendAPI}/client`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }).then((res) => { return res.json() })
-        .then((client) => { return client.username });
+        // Se il componente viene utilizzato da un mercante, non ha accesso al metodo /client
+        if (!cookies.get("merchantID")) {
+            const token = cookies.get("token");
+            clientName.value = await fetch(`${backendAPI}/client`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((res) => { return res.json() })
+            .then((client) => { return client.username });
+        }else {
+            clientName.value = issuer.type == "client" ? issuer.id : receiver.id;
+        }
+
 
         const merchantId = issuer.type == 'merchant' ? issuer.id : receiver.id;
 
