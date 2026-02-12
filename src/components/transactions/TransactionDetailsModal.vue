@@ -39,7 +39,7 @@
                 break;
 
             case "Prize Redeem":
-                type.value = t("cronologiaTransazioni.tipo.riscossionePremio");
+                type.value = t("cronologiaTransazioni.tipo.riscossionePremi");
                 break;
 
             default:
@@ -57,7 +57,7 @@
 
         for (let prizeItem of rawItems.prizes) {
             prizes.push({
-                id: prizeItem.prize
+                id: prizeItem
             });
         }
 
