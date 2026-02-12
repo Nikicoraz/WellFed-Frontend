@@ -114,7 +114,7 @@ export default {
             }
         },
         premi: {
-            header: "Prodotti coinvolti nella transazione",
+            header: "Premi coinvolti nella transazione",
             tabella: {
                 nome: "Nome",
                 punti: "Punti"
